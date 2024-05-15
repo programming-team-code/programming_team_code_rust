@@ -1,0 +1,170 @@
+name: CI
+
+on:
+  schedule:
+    - cron: '0 0 * * 6'
+  push:
+    branches:
+      - '*'
+  pull_request:
+
+jobs:
+  rustfmt:
+    strategy:
+      fail-fast: false
+      matrix:
+        toolchain:
+          - 1.70.0-x86_64-unknown-linux-gnu
+          - stable-x86_64-unknown-linux-gnu
+
+    name: Rustfmt (${{ matrix.toolchain }})
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: 'Setup `${{ matrix.toolchain }}`'
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          components: rustfmt
+
+      - name: 'Override `${{ matrix.toolchain }}'
+        run: |
+          rustup override set ${{ matrix.toolchain }}
+
+      - name: cargo-fmt
+        run: |
+          cargo fmt --all -- --check
+
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        toolchain:
+          - 1.70.0-x86_64-pc-windows-msvc
+          - 1.70.0-x86_64-apple-darwin
+          - 1.70.0-x86_64-unknown-linux-gnu
+          - stable-x86_64-pc-windows-msvc
+          - stable-x86_64-apple-darwin
+          - stable-x86_64-unknown-linux-gnu
+        include:
+          - { toolchain: 1.70.0-x86_64-pc-windows-msvc  , os: windows-2019 }
+          - { toolchain: 1.70.0-x86_64-apple-darwin     , os: macos-11     }
+          - { toolchain: 1.70.0-x86_64-unknown-linux-gnu, os: ubuntu-20.04 }
+          - { toolchain: stable-x86_64-pc-windows-msvc  , os: windows-2019 }
+          - { toolchain: stable-x86_64-apple-darwin     , os: macos-11     }
+          - { toolchain: stable-x86_64-unknown-linux-gnu, os: ubuntu-20.04 }
+
+    name: Build (${{ matrix.toolchain }})
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Disable `core.autocrlf`
+        run: git config --global core.autocrlf false
+        if: matrix.os == 'windows-2019'
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: 'Setup `${{ matrix.toolchain }}`'
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          components: clippy
+
+      - name: 'Override `${{ matrix.toolchain }}`'
+        run: |
+          rustup override set ${{ matrix.toolchain }}
+
+      - name: cargo-clippy
+        run: |
+          cargo clippy --workspace --all-targets -- -A renamed-and-removed-lints -D warnings
+
+      - name: cargo-build
+        run: |
+          cargo build --workspace --all-targets
+
+      - name: cargo-test
+        run: |
+          cargo test --workspace --no-fail-fast
+        env:
+          RUST_BACKTRACE: full
+
+  expander_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        toolchain:
+          - 1.70.0-x86_64-unknown-linux-gnu
+          - stable-x86_64-unknown-linux-gnu
+        python-version:
+          - '3.6' # https://packages.ubuntu.com/bionic/python3
+          - '3.8' # https://packages.ubuntu.com/focal/python3
+
+    name: Expand_test (${{ matrix.toolchain }}, ${{ matrix.python-version }})
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: 'Setup `${{ matrix.toolchain }}`'
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          components: rustfmt
+
+      - name: 'Override `${{ matrix.toolchain }}`'
+        run: |
+          rustup override set ${{ matrix.toolchain }}
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: expand.py tests
+        run: bash ./.github/workflows/test-expand.sh
+
+  verify:
+    name: Verify
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup `1.70.0-x86_64-unknown-linux-gnu`
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.70.0-x86_64-unknown-linux-gnu
+
+      - name: 'Override `1.70.0-x86_64-unknown-linux-gnu'
+        run: |
+          rustup override set 1.70.0-x86_64-unknown-linux-gnu
+
+      - name: Setup Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install `oj`
+        run: pip install online-judge-tools
+
+      - name: cargo-build
+        run: |
+          cargo build --release --examples
+
+      - name: Verify
+        run: |
+          NAMES=(
+            unionfind
+          )
+          for name in "${NAMES[@]}"; do
+            oj d "https://judge.yosupo.jp/problem/$name" -ad "/tmp/$name"
+          done
+          for name in "${NAMES[@]}"; do
+            oj t -d "/tmp/$name" -t 10 -c "./target/release/examples/${name//_/-}" --judge-command ~/.cache/online-judge-tools/library-checker-problems/*/"$name"/checker
+          done
