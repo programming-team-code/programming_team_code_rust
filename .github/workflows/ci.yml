@@ -19,7 +19,7 @@ jobs:
     - name: Set up Rust (nightly)
       run: |
         rustup install nightly
-        rustup component add rustfmt
+        rustup component add rustfmt --toolchain nightly
 
     - name: cargo fmt
       run: cargo fmt --all -- --edition2024 --check
