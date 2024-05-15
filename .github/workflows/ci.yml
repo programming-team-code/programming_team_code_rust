@@ -25,7 +25,7 @@ jobs:
         rustup component add rustfmt --toolchain nightly
 
     - name: cargo fmt
-      run: cargo fmt --all -- --edition2024 --check
+      run: cargo fmt --all -- --check
 
     - name: cargo test
       run: cargo test
