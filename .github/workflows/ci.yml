@@ -26,6 +26,6 @@ jobs:
       run: cargo test
 
     - name: use oj-verify
-      with:
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: oj-verify all --tle 5
