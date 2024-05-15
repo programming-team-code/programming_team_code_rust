@@ -10,7 +10,7 @@ impl<T: Ord + Copy> RMQ<T> {
             for j in 0..t[i].len() - (1 << i) {
                 new_row.push(t[i][j].min(t[i][j + (1 << i)]));
             }
-            t.push(new_row.clone());
+            t.push(new_row);
             i += 1;
         }
         Self { t }
