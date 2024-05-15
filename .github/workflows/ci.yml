@@ -19,6 +19,7 @@ jobs:
     - name: Set up Rust (nightly)
       run: |
         rustup install nightly
+        rustup override set nightly
 
     - name: cargo fmt
       run: cargo fmt --all -- --check
