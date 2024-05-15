@@ -7,12 +7,11 @@ impl<T: Ord + Copy> RMQ<T> {
         let mut t = vec![a.clone(); 1];
         let mut i = 0;
         while (2 << i) <= a.len() {
-            let mut new_row = vec![];
-            new_row.reserve(t[i].len() - (1 << i));
+            t.push(Vec::with_capacity(t[i].len() - (1 << i)));
             for j in 0..t[i].len() - (1 << i) {
-                new_row.push(op(t[i][j], t[i][j + (1 << i)]));
+                let x = op(t[i][j], t[i][j + (1 << i)]);
+                t[i + 1].push(x);
             }
-            t.push(new_row);
             i += 1;
         }
         Self { t, op }
