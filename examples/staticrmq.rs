@@ -11,7 +11,7 @@ fn main() {
         queries: [(usize, usize); q],
     }
 
-    let rmq = RMQ::new(&a);
+    let rmq = RMQ::new(&a, std::cmp::min);
     for (le, ri) in queries {
         println!("{}", rmq.query(le..ri));
     }
