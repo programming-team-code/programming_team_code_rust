@@ -166,5 +166,5 @@ jobs:
             oj d "https://judge.yosupo.jp/problem/$name" -ad "/tmp/$name"
           done
           for name in "${NAMES[@]}"; do
-            oj t -d "/tmp/$name" -t 10 -c "./target/release/examples/library-checker-${name//_/-}" --judge-command ~/.cache/online-judge-tools/library-checker-problems/*/"$name"/checker
+            oj t -d "/tmp/$name" -t 10 -c "./target/release/examples/${name//_/-}" --judge-command ~/.cache/online-judge-tools/library-checker-problems/*/"$name"/checker
           done
