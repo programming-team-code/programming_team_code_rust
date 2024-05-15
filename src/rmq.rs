@@ -8,7 +8,7 @@ impl<T: Ord + Copy> RMQ<T> {
         let mut i = 0;
         while (2 << i) <= a.len() {
             t.push(Vec::with_capacity(t[i].len() - (1 << i)));
-            for j in 0..t[i].len() - (1 << i) {
+            for j in 0..t[i + 1].len() {
                 let x = op(t[i][j], t[i][j + (1 << i)]);
                 t[i + 1].push(x);
             }
