@@ -31,4 +31,4 @@ jobs:
     - name: use oj-verify
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: oj-verify run --tle 5 library_checker_tests/
+      run: oj-verify run --tle 5 library_checker_tests/*
