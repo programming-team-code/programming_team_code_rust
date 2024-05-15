@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
 
 use proconio::input;
-use programming_team_code_rust::dsu::Dsu;
+use programming_team_code_rust::dsu::DSU;
 
 fn main() {
     input! {
@@ -9,7 +9,7 @@ fn main() {
         queries: [(u8, usize, usize)],
     }
 
-    let mut dsu = Dsu::new(n);
+    let mut dsu = DSU::new(n);
     for (kind, u, v) in queries {
         match kind {
             0 => {
