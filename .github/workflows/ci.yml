@@ -19,6 +19,7 @@ jobs:
     - name: Set up Rust (nightly)
       run: |
         rustup install nightly
+        rustup override set nightly
         rustup update nightly
         rustup toolchain install nightly
         rustup component add rustfmt --toolchain nightly
