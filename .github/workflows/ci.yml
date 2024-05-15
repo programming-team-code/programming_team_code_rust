@@ -20,7 +20,7 @@ jobs:
       run: rustup install nightly
 
     - name: cargo fmt
-      run: cargo fmt --all -- --check
+      run: cargo fmt --all -- --check --edition2024
 
     - name: cargo test
       run: cargo test
