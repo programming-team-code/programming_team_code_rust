@@ -3,111 +3,26 @@ name: CI
 on: [push, workflow_dispatch]
 
 jobs:
-  rustfmt:
-    strategy:
-      fail-fast: false
-      matrix:
-        toolchain:
-          - stable-x86_64-unknown-linux-gnu
-
-    name: Rustfmt (${{ matrix.toolchain }})
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: 'Setup `${{ matrix.toolchain }}`'
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ matrix.toolchain }}
-          components: rustfmt
-
-      - name: 'Override `${{ matrix.toolchain }}'
-        run: |
-          rustup override set ${{ matrix.toolchain }}
-
-      - name: cargo-fmt
-        run: |
-          cargo fmt --all -- --check
-
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        toolchain:
-          - stable-x86_64-unknown-linux-gnu
-        include:
-          - { toolchain: stable-x86_64-unknown-linux-gnu, os: ubuntu-latest }
-
-    name: Build (${{ matrix.toolchain }})
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: 'Setup `${{ matrix.toolchain }}`'
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ matrix.toolchain }}
-          components: clippy
-
-      - name: 'Override `${{ matrix.toolchain }}`'
-        run: |
-          rustup override set ${{ matrix.toolchain }}
-
-      - name: cargo-clippy
-        run: |
-          cargo clippy --workspace --all-targets -- -A renamed-and-removed-lints -D warnings
-
-      - name: cargo-build
-        run: |
-          cargo build --workspace --all-targets
-
-      - name: cargo-test
-        run: |
-          cargo test --workspace --no-fail-fast
-        env:
-          RUST_BACKTRACE: full
-
   verify:
-    name: Verify
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-      - name: Setup `stable-x86_64-unknown-linux-gnu`
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: stable-x86_64-unknown-linux-gnu
+    - uses: actions/setup-python@v4
 
-      - name: 'Override `stable-x86_64-unknown-linux-gnu'
-        run: |
-          rustup override set stable-x86_64-unknown-linux-gnu
+    - name: install oj-verify
+      run: pip3 install -U online-judge-verify-helper
 
-      - name: Setup Python 3.9
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
+    - name: Set up Rust (nightly)
+      run: rustup install nightly
 
-      - name: Install `oj`
-        run: pip install online-judge-tools
+    - name: cargo fmt
+      run: cargo fmt --all -- --check
 
-      - name: cargo-build
-        run: |
-          cargo build --release --examples
-
-      - name: Verify
-        run: |
-          NAMES=(
-            unionfind
-          )
-          for name in "${NAMES[@]}"; do
-            oj d "https://judge.yosupo.jp/problem/$name" -ad "/tmp/$name"
-          done
-          for name in "${NAMES[@]}"; do
-            oj t -d "/tmp/$name" -t 10 -c "./target/release/examples/${name//_/-}" --judge-command ~/.cache/online-judge-tools/library-checker-problems/*/"$name"/checker
-          done
+    - name: use oj-verify
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: oj-verify all --tle 5
