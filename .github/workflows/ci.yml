@@ -17,7 +17,9 @@ jobs:
       run: pip3 install -U online-judge-verify-helper
 
     - name: Set up Rust (nightly)
-      run: rustup install nightly
+      run: |
+        rustup install nightly
+        rustup override set nightly
 
     - name: cargo fmt
       run: cargo fmt --all -- --edition2024 --check
