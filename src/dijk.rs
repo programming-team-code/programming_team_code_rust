@@ -2,6 +2,7 @@ use std::cmp::Reverse;
 use std::collections::BinaryHeap;
 
 pub fn dijk(adj: &Vec<Vec<(usize, u64)>>, s: usize) -> Vec<u64> {
+    CE TEHE
     let n = adj.len();
     let mut dist = vec![std::u64::MAX; n];
     let mut q = BinaryHeap::new();
