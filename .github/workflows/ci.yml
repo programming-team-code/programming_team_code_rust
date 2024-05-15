@@ -1,0 +1,31 @@
+name: CI
+
+on: [push, workflow_dispatch]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
+
+    - name: install oj-verify
+      run: pip3 install -U online-judge-verify-helper
+
+    - name: Set up Rust (nightly)
+      run: rustup install nightly
+
+    - name: cargo fmt
+      run: cargo fmt --all -- --check
+
+    - name: cargo test
+      run: cargo test
+
+    - name: use oj-verify
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: oj-verify all --tle 5
