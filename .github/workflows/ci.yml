@@ -22,6 +22,9 @@ jobs:
     - name: cargo fmt
       run: cargo fmt --all -- --check
 
+    - name: cargo test
+      run: cargo test
+
     - name: use oj-verify
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
