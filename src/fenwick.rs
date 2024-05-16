@@ -1,11 +1,9 @@
 pub struct Fenwick<T> {
-    n: usize,
     ary: Vec<T>,
 }
 impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
     pub fn new(n: usize) -> Self {
         Fenwick {
-            n,
             ary: vec![T::default(); n],
         }
     }
@@ -22,7 +20,7 @@ impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
     where
         T: std::ops::AddAssign<U>,
     {
-        while idx < self.n {
+        while idx < self.ary.len() {
             self.ary[idx] += val.clone();
             idx |= idx + 1;
         }
