@@ -13,8 +13,7 @@ impl LCA {
         let mut d = vec![0; n];
         let mut tin = vec![0; n];
         let mut p = vec![None; n];
-        //let mut order = Vec::with_capacity(n);
-        let mut order = vec![0; n];
+        let mut order = Vec::with_capacity(n);
         fn dfs(
             u: usize,
             p: &mut Vec<Option<usize>>,
@@ -22,25 +21,20 @@ impl LCA {
             d: &mut Vec<usize>,
             tin: &mut Vec<usize>,
             order: &mut Vec<usize>,
-            timer: &mut usize,
         ) {
-            //eprintln!("{}", timer);
-            tin[u] = *timer;
-            order[*timer] = u;
-            *timer += 1;
-            //order.push(u);
+            tin[u] = order.len();
+            order.push(u);
             for &v in &adj[u] {
                 if p[u] != Some(v) {
                     d[v] = d[u] + 1;
                     p[v] = Some(u);
-                    dfs(v, p, adj, d, tin, order, timer);
+                    dfs(v, p, adj, d, tin, order);
                 }
             }
         }
-        let mut timer = 0;
         for s in 0..n {
             if p[s].is_none() {
-                dfs(s, &mut p, adj, &mut d, &mut tin, &mut order, &mut timer);
+                dfs(s, &mut p, adj, &mut d, &mut tin, &mut order);
             }
         }
         let mut d_with_order = Vec::with_capacity(order.len());
