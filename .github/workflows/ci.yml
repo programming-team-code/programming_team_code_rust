@@ -20,10 +20,13 @@ jobs:
       run: |
         rustup install nightly
         rustup override set nightly
-        rustup component add --toolchain nightly rustfmt
+        rustup component add --toolchain nightly rustfmt clippy
 
     - name: cargo fmt
       run: cargo fmt --all -- --check
+
+    - name: cargo clippy
+      run: cargo clippy --all-targets --all-features -- -D warnings
 
     - name: cargo test
       # RUSTFLAGS="-D warnings" will fail CI on any compile warning
