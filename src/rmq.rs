@@ -2,7 +2,7 @@ pub struct RMQ<T> {
     t: Vec<Vec<T>>,
     op: fn(T, T) -> T,
 }
-impl<T: Ord + Copy> RMQ<T> {
+impl<T: Copy> RMQ<T> {
     pub fn new(a: &Vec<T>, op: fn(T, T) -> T) -> Self {
         let mut t = vec![a.clone(); 1];
         let mut i = 0;
