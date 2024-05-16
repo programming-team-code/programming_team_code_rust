@@ -22,8 +22,7 @@ impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
     where
         T: std::ops::AddAssign<U>,
     {
-        let n = self.n;
-        while idx < n {
+        while idx < self.n {
             self.ary[idx] += val.clone();
             idx |= idx + 1;
         }
