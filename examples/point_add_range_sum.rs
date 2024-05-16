@@ -12,8 +12,8 @@ fn main() {
     }
 
     let mut fenwick = Fenwick::<u64>::new(n);
-    for (i, elem) in a.iter().enumerate() {
-        fenwick.add(i, *elem as u64);
+    for (i, &elem) in a.iter().enumerate() {
+        fenwick.add(i, elem as u64);
     }
 
     for que in queries {
