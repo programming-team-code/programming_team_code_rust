@@ -26,7 +26,8 @@ jobs:
       run: cargo fmt --all -- --check
 
     - name: cargo test
-      run: cargo test
+      # RUSTFLAGS="-D warnings" will fail CI on any compile warning
+      run: RUSTFLAGS="-D warnings" cargo test
 
     - name: use oj-verify
       env:
