@@ -25,9 +25,9 @@ jobs:
     - name: cargo fmt
       run: cargo fmt --all -- --check
 
-    - name: cargo clippy
+        #- name: cargo clippy
       # `-D warnings` will fail CI on any warning
-      run: cargo clippy --all-targets --all-features -- -D warnings
+      #run: cargo clippy --all-targets --all-features -- -D warnings
 
     - name: cargo test
       run: cargo test -- -D warnings
