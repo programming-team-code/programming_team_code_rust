@@ -13,13 +13,18 @@ fn main() {
 
     // TODO: expand the test to validate directed & forests
 
-    let mut adj = vec![vec![]; n];
+    let mut adj = vec![vec![]; n + n];
     for (i, &parent) in p.iter().enumerate() {
         adj[parent].push(i + 1);
+        adj[i + 1].push(parent);
+        adj[n + parent].push(n + i + 1);
     }
 
     let lca = LCA::new(&adj);
     for (u, v) in queries {
-        println!("{}", lca.lca(u, v));
+        let res = lca.lca(u, v);
+        let res_other = lca.lca(n + u, n + v) - n;
+        assert!(res == res_other);
+        println!("{}", res);
     }
 }

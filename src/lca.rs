@@ -13,7 +13,8 @@ impl LCA {
         let mut d = vec![0; n];
         let mut tin = vec![0; n];
         let mut p = vec![None; n];
-        let mut order = Vec::with_capacity(n);
+        //let mut order = Vec::with_capacity(n);
+        let mut order = vec![0; n];
         fn dfs(
             u: usize,
             p: &mut Vec<Option<usize>>,
@@ -21,23 +22,32 @@ impl LCA {
             d: &mut Vec<usize>,
             tin: &mut Vec<usize>,
             order: &mut Vec<usize>,
+            timer: &mut usize,
         ) {
-            tin[u] = order.len();
-            order.push(u);
+            //eprintln!("{}", timer);
+            tin[u] = *timer;
+            order[*timer] = u;
+            *timer += 1;
+            //order.push(u);
             for &v in &adj[u] {
-                if p[v].is_none() {
+                if p[u] != Some(v) {
                     d[v] = d[u] + 1;
                     p[v] = Some(u);
-                    dfs(v, p, adj, d, tin, order);
+                    dfs(v, p, adj, d, tin, order, timer);
                 }
             }
         }
+        let mut timer = 0;
         for s in 0..n {
             if p[s].is_none() {
-                dfs(s, &mut p, &adj, &mut d, &mut tin, &mut order);
+                dfs(s, &mut p, adj, &mut d, &mut tin, &mut order, &mut timer);
             }
         }
-        let d_with_order = order.iter().map(|&u| (d[u], u)).collect();
+        let mut d_with_order = Vec::with_capacity(order.len());
+        for u in order {
+            d_with_order.push((d[u], u));
+        }
+        //let d_with_order = order.into_iter().map(|&u| (d[u], u)).collect();
         let rmq = RMQ::new(&d_with_order, std::cmp::min);
         LCA { tin, p, rmq }
     }
