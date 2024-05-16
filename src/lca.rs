@@ -37,7 +37,7 @@ impl LCA {
                 dfs(s, &mut p, &adj, &mut d, &mut tin, &mut order);
             }
         }
-        let d_with_order = d.iter().zip(order.iter()).map(|(&d, &u)| (d, u)).collect();
+        let d_with_order = order.iter().map(|&u| (d[u], u)).collect();
         let rmq = RMQ::new(&d_with_order, std::cmp::min);
         LCA { tin, p, rmq }
     }
