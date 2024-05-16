@@ -6,11 +6,11 @@ impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
     pub fn new(n: usize) -> Self {
         Fenwick {
             n,
-            ary: vec![Default::default(); n],
+            ary: vec![T::default(); n],
         }
     }
     pub fn accum(&self, mut idx: usize) -> T {
-        let mut sum = Default::default();
+        let mut sum = T::default();
         while idx > 0 {
             sum += self.ary[idx - 1].clone();
             idx &= idx - 1;
@@ -23,10 +23,9 @@ impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
         T: std::ops::AddAssign<U>,
     {
         let n = self.n;
-        idx += 1;
-        while idx <= n {
-            self.ary[idx - 1] += val.clone();
-            idx += idx & idx.wrapping_neg();
+        while idx < n {
+            self.ary[idx] += val.clone();
+            idx |= idx + 1;
         }
     }
     /// Returns data[l] + ... + data[r - 1].
