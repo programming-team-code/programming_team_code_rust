@@ -13,21 +13,24 @@ jobs:
 
     - uses: actions/setup-python@v4
 
-    - name: install oj-verify
-      run: pip3 install -U online-judge-verify-helper
-
     - name: Set up Rust (nightly)
       run: |
         rustup install nightly
         rustup override set nightly
-        rustup component add --toolchain nightly rustfmt
+        rustup component add --toolchain nightly rustfmt clippy
 
     - name: cargo fmt
       run: cargo fmt --all -- --check
 
+    - name: cargo clippy
+      #`-D warnings` causes CI to fail on any warning
+      run: cargo clippy --all-targets --all-features -- -D warnings
+
     - name: cargo test
-      # RUSTFLAGS="-D warnings" will fail CI on any compile warning
       run: RUSTFLAGS="-D warnings" cargo test
+
+    - name: install oj-verify
+      run: pip3 install -U online-judge-verify-helper
 
     - name: use oj-verify
       env:
