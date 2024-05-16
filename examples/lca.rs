@@ -11,8 +11,6 @@ fn main() {
         queries: [(usize, usize); q],
     }
 
-    // TODO: expand the test to validate directed & forests
-
     let mut adj = vec![vec![]; n + n];
     for (i, &parent) in p.iter().enumerate() {
         adj[parent].push(i + 1);
