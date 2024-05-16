@@ -10,6 +10,7 @@ impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
         }
     }
     pub fn accum(&self, mut idx: usize) -> T {
+        let unused = 0;
         let mut sum = T::default();
         while idx > 0 {
             sum += self.ary[idx - 1].clone();

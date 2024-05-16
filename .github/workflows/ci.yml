@@ -26,6 +26,7 @@ jobs:
       run: cargo fmt --all -- --check
 
     - name: cargo test
+      env: RUSTFLAGS="-D warnings"
       run: cargo test
 
     - name: use oj-verify
