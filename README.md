@@ -24,5 +24,6 @@ Note: the code is **not** written for ICPC style contests and is **not** optimiz
 - https://github.com/EgorKulikov/rust_algo
 - https://github.com/bminaiev/rust-contests
 - https://github.com/EbTech/rust-algorithms
+- https://github.com/qitoy/rust-library
 
 ### This repository is currently under construction.
