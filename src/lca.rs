@@ -37,11 +37,7 @@ impl LCA {
                 dfs(s, &mut p, adj, &mut d, &mut tin, &mut order);
             }
         }
-        let mut d_with_order = Vec::with_capacity(order.len());
-        for u in order {
-            d_with_order.push((d[u], u));
-        }
-        //let d_with_order = order.into_iter().map(|&u| (d[u], u)).collect();
+        let d_with_order: Vec<(usize, usize)> = order.iter().map(|&u| (d[u], u)).collect();
         let rmq = RMQ::new(&d_with_order, std::cmp::min);
         LCA { tin, p, rmq }
     }
