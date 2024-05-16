@@ -11,6 +11,13 @@ Therefore the code is written with these three pillars:
 
 Note: the code is **not** written for ICPC style contests and is **not** optimized for code length.
 
+### Rust CF Blogs
+
+- https://codeforces.com/blog/entry/67391
+- https://codeforces.com/blog/entry/103794
+- https://codeforces.com/blog/entry/111573
+- https://codeforces.com/blog/entry/125439
+
 ### Other Rust CP Repos
 
 - https://github.com/rust-lang-ja/ac-library-rs
