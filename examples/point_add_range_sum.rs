@@ -7,7 +7,7 @@ fn main() {
     input! {
         n: usize,
         q: usize,
-        a: [u32; n],
+        a: [usize; n],
         queries: [(usize, usize, usize); q],
     }
 
