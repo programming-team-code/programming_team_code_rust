@@ -11,7 +11,7 @@ fn main() {
         queries: [(usize, usize, usize); q],
     }
 
-    let mut fenwick = Fenwick::new(n, 0u64);
+    let mut fenwick = Fenwick::<u64>::new(n);
     for i in 0..n {
         fenwick.add(i, a[i] as u64);
     }
