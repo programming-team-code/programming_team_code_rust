@@ -22,9 +22,9 @@ jobs:
     - name: cargo fmt
       run: cargo fmt --all -- --check
 
-        #- name: cargo clippy
-      # `-D warnings` will fail CI on any warning
-      #run: cargo clippy --all-targets --all-features -- -D warnings
+    - name: cargo clippy
+      #`-D warnings` causes CI to fail on any warning
+      run: cargo clippy --all-targets --all-features -- -D warnings
 
     - name: cargo test
       run: RUSTFLAGS="-D warnings" cargo test
