@@ -25,6 +25,9 @@ jobs:
     - name: cargo fmt
       run: cargo fmt --all -- --check
 
+    - name: cargo doc
+      run: RUSTDOCFLAGS="-D warnings" cargo doc --all
+
     - name: cargo test
       # RUSTFLAGS="-D warnings" will fail CI on any compile warning
       run: RUSTFLAGS="-D warnings" cargo test
