@@ -11,4 +11,11 @@ Therefore the code is written with these three pillars:
 
 Note: the code is **not** written for ICPC style contests and is **not** optimized for code length.
 
+### Other Rust CP Repos
+
+- https://github.com/rust-lang-ja/ac-library-rs
+- https://github.com/EgorKulikov/rust_algo
+- https://github.com/bminaiev/rust-contests
+- https://github.com/EbTech/rust-algorithms
+
 ### This repository is currently under construction.
