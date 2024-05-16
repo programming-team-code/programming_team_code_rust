@@ -1,5 +1,6 @@
 {
-"examples/shortest_path.rs": "2024-05-15 15:42:24 -0400",
-"examples/staticrmq.rs": "2024-05-15 15:42:24 -0400",
-"examples/unionfind.rs": "2024-05-15 15:42:24 -0400"
+"examples/point_add_range_sum.rs": "2024-05-15 20:01:01 -0400",
+"examples/shortest_path.rs": "2024-05-15 20:01:01 -0400",
+"examples/staticrmq.rs": "2024-05-15 20:01:01 -0400",
+"examples/unionfind.rs": "2024-05-15 20:01:01 -0400"
 }
