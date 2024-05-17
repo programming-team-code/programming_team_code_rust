@@ -25,5 +25,6 @@ Note: the code is **not** written for ICPC style contests and is **not** optimiz
 - https://github.com/bminaiev/rust-contests
 - https://github.com/EbTech/rust-algorithms
 - https://github.com/qitoy/rust-library
+- https://github.com/stuart0035/procon-lib-rs
 
 ### This repository is currently under construction.
