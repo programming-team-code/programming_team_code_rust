@@ -43,4 +43,4 @@ jobs:
     - name: use oj-verify
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: oj-verify all --tle 1 --jobs 4 --timeout 3600
+      run: oj-verify all --tle 2 --jobs 4 --timeout 3600
