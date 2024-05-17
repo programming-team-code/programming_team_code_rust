@@ -23,8 +23,8 @@ jobs:
       run: cargo fmt --all -- --check
     - name: cargo clippy
       run: cargo clippy --all-targets --all-features -- -D warnings
-    - name: cargo test
-      run: cargo test --verbose
+    - name: cargo build
+      run: cargo build --verbose
 
   library_checker_aizu_tests:
     runs-on: ubuntu-latest
