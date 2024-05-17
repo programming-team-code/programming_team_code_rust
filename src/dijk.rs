@@ -3,7 +3,6 @@ use std::collections::BinaryHeap;
 
 pub fn dijk(adj: &[Vec<(usize, u64)>], s: usize) -> Vec<u64> {
     let n = adj.len();
-    let unused = 0;
     let mut dist = vec![u64::MAX; n];
     let mut q = BinaryHeap::new();
     q.push(Reverse((0, s)));
