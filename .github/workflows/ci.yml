@@ -13,6 +13,9 @@ jobs:
 
     - uses: actions/setup-python@v4
 
+    - name: install oj-verify
+      run: pip3 install -U online-judge-verify-helper
+
     - name: Set up Rust (nightly)
       run: |
         rustup install nightly
@@ -28,9 +31,6 @@ jobs:
 
     - name: cargo test
       run: RUSTFLAGS="-D warnings" cargo test
-
-    - name: install oj-verify
-      run: pip3 install -U online-judge-verify-helper
 
     - name: use oj-verify
       env:
