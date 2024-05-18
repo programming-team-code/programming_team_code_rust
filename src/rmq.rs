@@ -3,8 +3,8 @@ pub struct RMQ<T> {
     op: fn(T, T) -> T,
 }
 impl<T: Copy> RMQ<T> {
-    pub fn new(a: &Vec<T>, op: fn(T, T) -> T) -> Self {
-        let mut t = vec![a.clone(); 1];
+    pub fn new(a: &[T], op: fn(T, T) -> T) -> Self {
+        let mut t = vec![a.to_owned(); 1];
         let mut i = 0;
         while (2 << i) <= a.len() {
             t.push(
