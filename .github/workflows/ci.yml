@@ -2,34 +2,55 @@ name: CI
 
 on: [push, workflow_dispatch]
 
-jobs:
-  verify:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+env:
+  CARGO_TERM_COLOR: always
+  # causes CI to fail on any warning
+  RUSTFLAGS: -D warnings
+  RUSTDOCFLAGS: -D warnings
 
+jobs:
+  cargo:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
     - uses: actions/setup-python@v4
-
-    - name: install oj-verify
-      run: pip3 install -U online-judge-verify-helper
-
     - name: Set up Rust (nightly)
       run: |
         rustup install nightly
         rustup override set nightly
-        rustup component add --toolchain nightly rustfmt
-
+        rustup component add --toolchain nightly rustfmt clippy
     - name: cargo fmt
       run: cargo fmt --all -- --check
+    - name: cargo clippy
+      run: cargo clippy --all-targets --all-features -- -D warnings
+    - name: cargo build
+      run: cargo build --verbose
 
-    - name: cargo test
-      # RUSTFLAGS="-D warnings" will fail CI on any compile warning
-      run: RUSTFLAGS="-D warnings" cargo test
-
+  library_checker_aizu_tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+    - name: install oj-verify
+      run: pip3 install -U online-judge-verify-helper
+    - name: Set up Rust (nightly)
+      run: |
+        rustup install nightly
+        rustup override set nightly
+        rustup component add --toolchain nightly rustfmt clippy
     - name: use oj-verify
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: oj-verify all --tle 1
+      # regarging `--tle 2`: the oj-verify tool only allows testing in release mode
+      #
+      # regarding `--jobs 4`: github CI runs with 4 cores
+      # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
+      #
+      # regarding `--timeout `: github CI limits jobs to 6 hours
+      # https://docs.github.com/en/actions/learn-github-actions/usage-limits-billing-and-administration#usage-limits
+      #
+      # since the library is a single crate, on a commit the entire crate is
+      # rebuild, so oj-verify tool thinks everything changed, and then reruns all
+      # tests; thus another reason for setting long timeout.
+      #
+      # since all tests are rerun on every commit anyways, there's no need for
+      # the .verify-helper/timestamps.remote.json file
+      run: oj-verify all --tle 2 --jobs 4 --timeout 21600
