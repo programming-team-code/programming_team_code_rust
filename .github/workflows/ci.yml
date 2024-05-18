@@ -39,4 +39,18 @@ jobs:
         rustup override set nightly
         rustup component add --toolchain nightly rustfmt clippy
     - name: use oj-verify
-      run: oj-verify all --tle 2 --jobs 4 --timeout 3600
+      # regarging `--tle 2`: the oj-verify tool only allows testing in release mode
+      #
+      # regarding `--jobs 4`: github CI runs with 4 cores
+      # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
+      #
+      # regarding `--timeout `: github CI limits jobs to 6 hours
+      # https://docs.github.com/en/actions/learn-github-actions/usage-limits-billing-and-administration#usage-limits
+      #
+      # since the library is a single crate, on a commit the entire crate is
+      # rebuild, so oj-verify tool thinks everything changed, and then reruns all
+      # tests; thus another reason for setting long timeout.
+      #
+      # since all tests are rerun on every commit anyways, there's no need for
+      # the .verify-helper/timestamps.remote.json file
+      run: oj-verify all --tle 2 --jobs 4 --timeout 21600
