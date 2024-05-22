@@ -17,11 +17,11 @@ fn main() {
         }
 
         // undirected tree
-        adj[p].push(i);
-        adj[i].push(p);
+        adj[p].push(v);
+        adj[v].push(p);
 
         // directed tree
-        adj[n + p].push(n + i);
+        adj[n + p].push(n + v);
     }
 
     let lca = LCA::new(&adj);
