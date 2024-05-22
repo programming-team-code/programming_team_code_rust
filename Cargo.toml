@@ -32,28 +32,28 @@ path = "examples/data_structures/rmq.rs"
 
 [[example]]
 name = "dijk_aizu"
-path = "examples/data_structures/dijk_aizu.rs"
+path = "examples/graphs/dijk_aizu.rs"
 
 [[example]]
 name = "dijk_yosupo"
-path = "examples/data_structures/dijk_yosupo.rs"
+path = "examples/graphs/dijk_yosupo.rs"
 
 [[example]]
 name = "lca_aizu"
-path = "examples/data_structures/lca_aizu.rs"
+path = "examples/graphs/lca_aizu.rs"
 
 [[example]]
 name = "lca_yosupo"
-path = "examples/data_structures/lca_yosupo.rs"
+path = "examples/graphs/lca_yosupo.rs"
 
 [[example]]
 name = "binom"
-path = "examples/math/binom.rs"
+path = "examples/numbers/binom.rs"
 
 [[example]]
 name = "primes_factorize"
-path = "examples/math/primes_factorize.rs"
+path = "examples/numbers/primes_factorize.rs"
 
 [[example]]
 name = "primes_is_prime"
-path = "examples/math/primes_is_prime.rs"
+path = "examples/numbers/primes_is_prime.rs"
