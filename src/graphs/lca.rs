@@ -24,6 +24,7 @@ pub struct LCA {
     p: Vec<Option<usize>>,
     rmq: RMQ<(usize, usize)>,
 }
+
 impl LCA {
     /// Create a new LCA struct
     ///

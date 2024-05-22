@@ -15,6 +15,7 @@
 pub struct DSU {
     e: Vec<i32>,
 }
+
 impl DSU {
     /// Create a new DSU with n elements
     ///

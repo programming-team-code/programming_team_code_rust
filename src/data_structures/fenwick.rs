@@ -11,6 +11,7 @@
 pub struct Fenwick<T> {
     ary: Vec<T>,
 }
+
 impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
     /// Creates a new Fenwick Tree with size n
     ///

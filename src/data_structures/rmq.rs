@@ -11,6 +11,7 @@ pub struct RMQ<T> {
     t: Vec<Vec<T>>,
     op: fn(T, T) -> T,
 }
+
 impl<T: Copy> RMQ<T> {
     /// Create a new RMQ instance
     ///
