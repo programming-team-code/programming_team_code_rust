@@ -42,7 +42,10 @@ jobs:
       run: |
         git submodule init
         git submodule update
-        python verification-helper/setup.py install --user
+        cd verification-helper
+        pip install .
+        pip list
+        #python verification-helper/setup.py install --user
     - name: use oj-verify
       # regarging `--tle 2`: the oj-verify tool only allows testing in release mode
       #
