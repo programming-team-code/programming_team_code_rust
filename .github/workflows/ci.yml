@@ -42,6 +42,7 @@ jobs:
         git submodule update
         cd verification-helper
         pip install .
+        cd ..
         git submodule deinit --all
     - name: run tests
       # regarging `--tle 2`: the oj-verify tool only allows testing in release mode
