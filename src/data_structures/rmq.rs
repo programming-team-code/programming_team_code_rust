@@ -1,8 +1,22 @@
+/// Range Minimum Query
+///
+/// Solves the problem of an operation op(a, b) that is associative and idempotent on a range
 pub struct RMQ<T> {
     t: Vec<Vec<T>>,
     op: fn(T, T) -> T,
 }
 impl<T: Copy> RMQ<T> {
+    /// Create a new RMQ instance
+    ///
+    /// # Example
+    /// ```
+    /// let a = [1, 2, 3, 4, 5];
+    /// let rmq = RMQ::new(&a, std::cmp::min);
+    /// ```
+    ///
+    /// # Complexity (n = a.len())
+    /// - Time: O(op * n log n)
+    /// - Space: O(T * n log n)
     pub fn new(a: &[T], op: fn(T, T) -> T) -> Self {
         let mut t = vec![a.to_owned(); 1];
         let mut i = 0;
@@ -17,6 +31,15 @@ impl<T: Copy> RMQ<T> {
         Self { t, op }
     }
 
+    /// # Example
+    /// ```
+    /// assert_eq!(rmq.query(0..5), 1);
+    /// assert_eq!(rmq.query(1..4), 2);
+    /// ```
+    ///
+    /// # Complexity
+    /// - Time: O(op)
+    /// - Space: O(op)
     pub fn query(&self, range: std::ops::Range<usize>) -> T {
         let lg = range.len().ilog2() as usize;
         (self.op)(self.t[lg][range.start], self.t[lg][range.end - (1 << lg)])
