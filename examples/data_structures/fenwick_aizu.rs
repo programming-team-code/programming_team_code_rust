@@ -8,24 +8,22 @@ fn main() {
         n: usize,
         q: usize,
     }
-
     let mut fenwick = Fenwick::<usize>::new(n);
     for _ in 0..q {
-        input! {
-            t: u8,
+        input! { t: u8,
         }
         match t {
             0 => {
                 input! {
-                i: usize,
-                x: usize,
+                    i: usize,
+                    x: usize,
                 }
                 fenwick.add(i - 1, x);
             }
             1 => {
                 input! {
-                le: usize,
-                ri: usize,
+                    le: usize,
+                    ri: usize,
                 }
                 println!("{}", fenwick.sum(le - 1..ri));
             }
