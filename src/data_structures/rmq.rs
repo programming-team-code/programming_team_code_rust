@@ -19,8 +19,8 @@ impl<T: Copy> RMQ<T> {
     /// Create a new RMQ instance
     ///
     /// # Complexity (n = a.len())
-    /// - Time: O(op * n log n)
-    /// - Space: O(T * n log n)
+    /// - Time: O(n log n)
+    /// - Space: O(n log n)
     pub fn new(a: &[T], op: fn(T, T) -> T) -> Self {
         let mut t = vec![a.to_owned(); 1];
         let mut i = 0;
@@ -38,8 +38,8 @@ impl<T: Copy> RMQ<T> {
     /// Query the range [range.start, range.end)
     ///
     /// # Complexity
-    /// - Time: O(op)
-    /// - Space: O(op)
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn query(&self, range: std::ops::Range<usize>) -> T {
         let lg = range.len().ilog2() as usize;
         (self.op)(self.t[lg][range.start], self.t[lg][range.end - (1 << lg)])
