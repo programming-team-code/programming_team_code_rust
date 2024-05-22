@@ -18,7 +18,7 @@ fn main() {
 
     let dist = dijk(&adj, s);
     for d in dist {
-        if d == std::u64::MAX {
+        if d == u64::MAX {
             println!("INF");
         } else {
             println!("{}", d);
