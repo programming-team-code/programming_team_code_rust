@@ -42,7 +42,7 @@ jobs:
       run: |
         git submodule init
         git submodule update
-        python verification-helper/setup.py install
+        python verification-helper/setup.py install --prefix=.
     - name: use oj-verify
       # regarging `--tle 2`: the oj-verify tool only allows testing in release mode
       #
@@ -58,4 +58,4 @@ jobs:
       #
       # since all tests are rerun on every commit anyways, there's no need for
       # the .verify-helper/timestamps.remote.json file
-      run: oj-verify all --tle 2 --jobs 4 --timeout 21600
+      run: ./bin/oj-verify all --tle 2 --jobs 4 --timeout 21600
