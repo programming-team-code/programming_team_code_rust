@@ -6,6 +6,6 @@
 
 # Documentation Guidelines
 - use the `///` syntax for documentation
-- for structs, enums, traits, and standalone functions, explain what the code does and provide an example testing every method
+- for structs, enums, traits, and standalone functions, provide an example testing every method
 - for member functions explain what the function does and provide the time and space complexity
 
