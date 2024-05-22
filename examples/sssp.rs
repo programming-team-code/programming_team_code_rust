@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=GRL_1_A
 
 use proconio::input;
-use programming_team_code_rust::dijk::dijk;
+use programming_team_code_rust::graphs::dijk::dijk;
 
 fn main() {
     input! {

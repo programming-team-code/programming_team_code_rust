@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/library/6/NTL/all/NTL_1_C
 
 use proconio::input;
-use programming_team_code_rust::primes::Primes;
+use programming_team_code_rust::numbers::primes::Primes;
 
 fn main() {
     input! {

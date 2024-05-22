@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=GRL_5_C
 
 use proconio::input;
-use programming_team_code_rust::lca::LCA;
+use programming_team_code_rust::graphs::lca::LCA;
 
 fn main() {
     input! {

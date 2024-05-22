@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_1_A
 
 use proconio::input;
-use programming_team_code_rust::dsu::DSU;
+use programming_team_code_rust::data_structures::dsu::DSU;
 
 fn main() {
     input! {

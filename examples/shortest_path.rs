@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/shortest_path
 
 use proconio::input;
-use programming_team_code_rust::dijk::dijk;
+use programming_team_code_rust::graphs::dijk::dijk;
 
 fn main() {
     input! {

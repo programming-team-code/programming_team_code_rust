@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/lca
 
 use proconio::input;
-use programming_team_code_rust::lca::LCA;
+use programming_team_code_rust::graphs::lca::LCA;
 
 fn main() {
     input! {

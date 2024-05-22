@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/point_add_range_sum
 
 use proconio::input;
-use programming_team_code_rust::fenwick::Fenwick;
+use programming_team_code_rust::data_structures::fenwick::Fenwick;
 
 fn main() {
     input! {

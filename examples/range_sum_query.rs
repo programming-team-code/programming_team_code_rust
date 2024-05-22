@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B
 
 use proconio::input;
-use programming_team_code_rust::fenwick::Fenwick;
+use programming_team_code_rust::data_structures::fenwick::Fenwick;
 
 fn main() {
     input! {

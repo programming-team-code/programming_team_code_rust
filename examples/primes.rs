@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C
 
 use proconio::input;
-use programming_team_code_rust::primes::Primes;
+use programming_team_code_rust::numbers::primes::Primes;
 
 fn main() {
     let primes = Primes::new(100_000_001);
