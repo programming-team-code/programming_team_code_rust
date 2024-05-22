@@ -62,6 +62,8 @@ jobs:
       # the .verify-helper/timestamps.remote.json file
       run: |
         oj-verify run examples/point_add_range_sum.rs --tle 10 --jobs 4 --timeout 21600
-        ls
+    # https://doc.rust-lang.org/rustc/instrument-coverage.html
+    - name: code coverage
+      run: |
         cargo profdata -- merge -sparse default_*.profraw -o json5format.profdata
-        cargo cov -- report --use-color --ignore-filename-regex='/.cargo/registry' --instr-profile=json5format.profdata target/debug/examples/*
+        cargo cov -- report --use-color --ignore-filename-regex='/.cargo/registry' --instr-profile=json5format.profdata $(find target/debug/examples -type f -executable)
