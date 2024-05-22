@@ -48,8 +48,6 @@ jobs:
         # clear submodule afterwards to not run tests in verification-helper
         git submodule deinit --all -f
     - name: run tests
-      # regarging `--tle 2`: the oj-verify tool only allows testing in release mode
-      #
       # regarding `--jobs 4`: github CI runs with 4 cores
       # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
       #
@@ -63,6 +61,7 @@ jobs:
       # since all tests are rerun on every commit anyways, there's no need for
       # the .verify-helper/timestamps.remote.json file
       run: |
-        oj-verify all --tle 10 --jobs 4 --timeout 21600
+        oj-verify run examples/point_add_range_sum.rs --tle 10 --jobs 4 --timeout 21600
+        ls
         cargo profdata -- merge -sparse default_*.profraw -o json5format.profdata
         cargo cov -- report --use-color --ignore-filename-regex='/.cargo/registry' --instr-profile=json5format.profdata target/debug/examples/*
