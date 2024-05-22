@@ -27,7 +27,7 @@ fn main() {
                 le: usize,
                 ri: usize,
                 }
-                println!("{}", fenwick.sum(le - 1, ri));
+                println!("{}", fenwick.sum(le - 1..ri));
             }
             _ => unreachable!(),
         }
