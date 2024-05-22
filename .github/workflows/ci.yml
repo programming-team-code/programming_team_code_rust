@@ -4,8 +4,8 @@ on: [push, workflow_dispatch]
 
 env:
   CARGO_TERM_COLOR: always
-  # causes CI to fail on any warning
-  RUSTFLAGS: -D warnings
+  # `-D warnings` causes CI to fail on any warning
+  RUSTFLAGS: -D warnings -C instrument-coverage -C link-dead-code
   RUSTDOCFLAGS: -D warnings
 
 jobs:
@@ -36,6 +36,8 @@ jobs:
         rustup install nightly
         rustup override set nightly
         rustup component add --toolchain nightly rustfmt clippy
+        cargo install cargo-binutils
+        rustup component add llvm-tools-preview
     - name: install oj-verify submodule
       run: |
         git submodule init
@@ -46,8 +48,6 @@ jobs:
         # clear submodule afterwards to not run tests in verification-helper
         git submodule deinit --all -f
     - name: run tests
-      # regarging `--tle 2`: the oj-verify tool only allows testing in release mode
-      #
       # regarding `--jobs 4`: github CI runs with 4 cores
       # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
       #
@@ -61,3 +61,9 @@ jobs:
       # since all tests are rerun on every commit anyways, there's no need for
       # the .verify-helper/timestamps.remote.json file
       run: oj-verify all --tle 10 --jobs 4 --timeout 21600
+    # https://doc.rust-lang.org/rustc/instrument-coverage.html
+    - name: code coverage
+      run: |
+        cargo profdata -- merge -sparse default_*.profraw -o json5format.profdata
+        cargo cov -- report --use-color --ignore-filename-regex='/.cargo/registry' --instr-profile=json5format.profdata $(find target/debug/examples -type f -executable)
+        cargo cov -- export --ignore-filename-regex='/.cargo/registry' --instr-profile=json5format.profdata $(find target/debug/examples -type f -executable) | python -c "import sys, json; l=json.load(sys.stdin)['data'][0]['totals']['lines']; assert(l['count'] == l['covered'])"
