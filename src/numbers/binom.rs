@@ -1,11 +1,13 @@
-//! # Example
-//! ```
-//! use programming_team_code_rust::numbers::binom::Binom;
-//!
-//! let mut binom = Binom::new(1_000_000_007);
-//! assert_eq!(binom.comb(5, 2), 10);
-//! assert_eq!(binom.comb(10, 3), 120);
-//! ```
+//! # Binomial Coefficient
+
+/// # Example
+/// ```
+/// use programming_team_code_rust::numbers::binom::Binom;
+///
+/// let mut binom = Binom::new(1_000_000_007);
+/// assert_eq!(binom.comb(5, 2), 10);
+/// assert_eq!(binom.comb(10, 3), 120);
+/// ```
 pub struct Binom {
     inv: Vec<u64>,
     fact: Vec<u64>,
