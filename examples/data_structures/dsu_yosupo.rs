@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
 
 use proconio::input;
-use programming_team_code_rust::dsu::DSU;
+use programming_team_code_rust::data_structures::dsu::DSU;
 
 fn main() {
     input! {

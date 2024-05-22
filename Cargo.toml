@@ -9,3 +9,51 @@ edition = "2024"
 
 [dependencies]
 proconio = "0.4.5"
+
+[[example]]
+name = "dsu_aizu"
+path = "examples/data_structures/dsu_aizu.rs"
+
+[[example]]
+name = "dsu_yosupo"
+path = "examples/data_structures/dsu_yosupo.rs"
+
+[[example]]
+name = "fenwick_aizu"
+path = "examples/data_structures/fenwick_aizu.rs"
+
+[[example]]
+name = "fenwick_yosupo"
+path = "examples/data_structures/fenwick_yosupo.rs"
+
+[[example]]
+name = "rmq"
+path = "examples/data_structures/rmq.rs"
+
+[[example]]
+name = "dijk_aizu"
+path = "examples/graphs/dijk_aizu.rs"
+
+[[example]]
+name = "dijk_yosupo"
+path = "examples/graphs/dijk_yosupo.rs"
+
+[[example]]
+name = "lca_aizu"
+path = "examples/graphs/lca_aizu.rs"
+
+[[example]]
+name = "lca_yosupo"
+path = "examples/graphs/lca_yosupo.rs"
+
+[[example]]
+name = "binom"
+path = "examples/numbers/binom.rs"
+
+[[example]]
+name = "primes_factorize"
+path = "examples/numbers/primes_factorize.rs"
+
+[[example]]
+name = "primes_is_prime"
+path = "examples/numbers/primes_is_prime.rs"
