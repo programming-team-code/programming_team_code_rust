@@ -1,4 +1,4 @@
-use crate::rmq::RMQ;
+use crate::data_structures::rmq::RMQ;
 
 pub struct LCA {
     tin: Vec<usize>,
