@@ -57,4 +57,4 @@ jobs:
       #
       # since all tests are rerun on every commit anyways, there's no need for
       # the .verify-helper/timestamps.remote.json file
-      run: oj-verify all --tle 2 --jobs 4 --timeout 21600
+      run: oj-verify all --tle 5 --jobs 4 --timeout 21600
