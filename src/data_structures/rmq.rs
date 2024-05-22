@@ -1,12 +1,8 @@
-/// Range Minimum Query
-///
-/// Solves the problem of an operation op(a, b) that is associative and idempotent on a range
-///
 /// # Example
 /// ```
 /// use programming_team_code_rust::data_structures::rmq::RMQ;
 ///
-/// let a = [1, 2, 3, 4, 5];
+/// let a = [1, 3, 2, 4, 5];
 /// let rmq = RMQ::new(&a, std::cmp::min);
 /// assert_eq!(rmq.query(0..5), 1);
 /// assert_eq!(rmq.query(1..4), 2);

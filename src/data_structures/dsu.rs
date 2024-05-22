@@ -1,5 +1,3 @@
-/// Disjoint Set Union
-///
 /// # Example
 /// ```
 /// use crate::programming_team_code_rust::data_structures::dsu::DSU;

@@ -1,17 +1,11 @@
-/// Fenwick Tree
-///
-/// Solves point add and range sum query
-///
 /// # Example
 /// ```
 /// use crate::programming_team_code_rust::data_structures::fenwick::Fenwick;
 ///
-/// let mut fenwick = Fenwick::new(10);
-/// fenwick.add(0, 1);
-/// fenwick.add(1, 2);
-/// fenwick.add(2, 3);
-/// assert_eq!(fenwick.sum(0..3), 6);
-/// assert_eq!(fenwick.sum(0..2), 3);
+/// let mut fenwick = Fenwick::new(5);
+/// fenwick.add(1, 3);
+/// fenwick.add(2, 2);
+/// fenwick.add(3, 1);
 /// assert_eq!(fenwick.sum(1..3), 5);
 /// ```
 pub struct Fenwick<T> {
