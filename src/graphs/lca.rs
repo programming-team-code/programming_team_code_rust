@@ -1,24 +1,23 @@
+//! # Example
+//! ```
+//! use programming_team_code_rust::graphs::lca::LCA;
+//!
+//! let adj = vec![
+//!    vec![1, 2],
+//!    vec![0, 3, 4],
+//!    vec![0, 5],
+//!    vec![1],
+//!    vec![1],
+//!    vec![2],
+//! ];
+//!
+//! let lca = LCA::new(&adj);
+//! assert_eq!(lca.lca(0, 1), 0);
+//! assert_eq!(lca.lca(0, 2), 0);
+//! assert_eq!(lca.lca(0, 5), 0);
+//! assert_eq!(lca.lca(3, 4), 1);
+//! ```
 use crate::data_structures::rmq::RMQ;
-
-/// # Example
-/// ```
-/// use programming_team_code_rust::graphs::lca::LCA;
-///
-/// let adj = vec![
-///    vec![1, 2],
-///    vec![0, 3, 4],
-///    vec![0, 5],
-///    vec![1],
-///    vec![1],
-///    vec![2],
-/// ];
-///
-/// let lca = LCA::new(&adj);
-/// assert_eq!(lca.lca(0, 1), 0);
-/// assert_eq!(lca.lca(0, 2), 0);
-/// assert_eq!(lca.lca(0, 5), 0);
-/// assert_eq!(lca.lca(3, 4), 1);
-/// ```
 pub struct LCA {
     tin: Vec<usize>,
     p: Vec<Option<usize>>,

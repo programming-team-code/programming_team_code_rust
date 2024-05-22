@@ -1,12 +1,12 @@
-/// # Example
-/// ```
-/// use programming_team_code_rust::numbers::primes::Primes;
-///
-/// let primes = Primes::new(100);
-/// assert_eq!(primes.is_prime(2), true);
-/// assert_eq!(primes.is_prime(4), false);
-/// assert_eq!(primes.factorize(12), vec![2, 2, 3]);
-/// ```
+//! # Example
+//! ```
+//! use programming_team_code_rust::numbers::primes::Primes;
+//!
+//! let primes = Primes::new(100);
+//! assert_eq!(primes.is_prime(2), true);
+//! assert_eq!(primes.is_prime(4), false);
+//! assert_eq!(primes.factorize(12), vec![2, 2, 3]);
+//! ```
 pub struct Primes {
     min_fact: Vec<usize>,
 }

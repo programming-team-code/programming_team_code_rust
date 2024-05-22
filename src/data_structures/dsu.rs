@@ -1,17 +1,17 @@
-/// # Example
-/// ```
-/// use programming_team_code_rust::data_structures::dsu::DSU;
-///
-/// let mut dsu = DSU::new(10);
-/// assert_eq!(dsu.same(1, 2), false);
-/// dsu.unite(1, 3);
-/// dsu.unite(2, 4);
-/// assert_eq!(dsu.same(1, 4), false);
-/// dsu.unite(2, 3);
-/// assert_eq!(dsu.same(1, 4), true);
-/// assert_eq!(dsu.leader(3), 2);
-/// assert_eq!(dsu.leader(5), 5);
-/// ```
+//! # Example
+//! ```
+//! use programming_team_code_rust::data_structures::dsu::DSU;
+//!
+//! let mut dsu = DSU::new(10);
+//! assert_eq!(dsu.same(1, 2), false);
+//! dsu.unite(1, 3);
+//! dsu.unite(2, 4);
+//! assert_eq!(dsu.same(1, 4), false);
+//! dsu.unite(2, 3);
+//! assert_eq!(dsu.same(1, 4), true);
+//! assert_eq!(dsu.leader(3), 2);
+//! assert_eq!(dsu.leader(5), 5);
+//! ```
 pub struct DSU {
     e: Vec<i32>,
 }
