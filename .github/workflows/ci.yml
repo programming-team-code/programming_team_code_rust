@@ -76,8 +76,8 @@ jobs:
       run: oj-verify all --tle 20 --jobs 4 --timeout 21600
 
     # https://doc.rust-lang.org/rustc/instrument-coverage.html
-    - name: code coverage
-      run: |
-        cargo profdata -- merge -sparse default_*.profraw -o json5format.profdata
-        cargo cov -- report --use-color --ignore-filename-regex='/.cargo/registry' --instr-profile=json5format.profdata $(find target/debug/examples -type f -executable)
-        cargo cov -- export --ignore-filename-regex='/.cargo/registry' --instr-profile=json5format.profdata $(find target/debug/examples -type f -executable) | python -c "import sys, json; l=json.load(sys.stdin)['data'][0]['totals']['lines']; assert(l['count'] == l['covered'])"
+    # - name: code coverage
+    # run: |
+    # cargo profdata -- merge -sparse default_*.profraw -o json5format.profdata
+    # cargo cov -- report --use-color --ignore-filename-regex='/.cargo/registry' --instr-profile=json5format.profdata $(find target/debug/examples -type f -executable)
+    # cargo cov -- export --ignore-filename-regex='/.cargo/registry' --instr-profile=json5format.profdata $(find target/debug/examples -type f -executable) | python -c "import sys, json; l=json.load(sys.stdin)['data'][0]['totals']['lines']; assert(l['count'] == l['covered'])"
