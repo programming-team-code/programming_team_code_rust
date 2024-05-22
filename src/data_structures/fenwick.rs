@@ -1,6 +1,6 @@
 /// # Example
 /// ```
-/// use crate::programming_team_code_rust::data_structures::fenwick::Fenwick;
+/// use programming_team_code_rust::data_structures::fenwick::Fenwick;
 ///
 /// let mut fenwick = Fenwick::new(5);
 /// fenwick.add(1, 3);
