@@ -1,16 +1,3 @@
-# Mission
-To provide a collection of algorithms and data structures useful for competitive programming in Rust.
-
-# Focus
-This library is written to be optimized for online contests \[Codeforces, AtCoder, etc.\]
-
-Therefore the code is written with these three pillars:
-- **Correctness**: The code should be correct and should pass all test cases.
-- **Efficiency**: The code should be efficient and should run within the time limits.
-- **Readability**: The code should be readable and should be easy to understand and modify.
-
-Note: the code is **not** written for ICPC style contests and is **not** optimized for code length.
-
 ## Rust CF Blogs
 
 - https://codeforces.com/blog/entry/67391
@@ -26,14 +13,3 @@ Note: the code is **not** written for ICPC style contests and is **not** optimiz
 - https://github.com/EbTech/rust-algorithms
 - https://github.com/qitoy/rust-library
 - https://github.com/stuart0035/procon-lib-rs
-
-## Contributing
-
-We're open to all feedback. You can submit an issue or email us at
-```
-lrvideckis@gmail.com
-```
-```
-custer.cameron@gmail.com
-```
-
