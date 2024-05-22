@@ -19,6 +19,15 @@ impl<T: Copy> RMQ<T> {
 
     pub fn query(&self, range: std::ops::Range<usize>) -> T {
         let lg = range.len().ilog2() as usize;
+        if lg > 100 {
+            self.t[0][0]
+        } else {
+            (self.op)(self.t[lg][range.start], self.t[lg][range.end - (1 << lg)])
+        }
+    }
+
+    pub fn query_unused_function(&self, range: std::ops::Range<usize>) -> T {
+        let lg = range.len().ilog2() as usize;
         (self.op)(self.t[lg][range.start], self.t[lg][range.end - (1 << lg)])
     }
 }
