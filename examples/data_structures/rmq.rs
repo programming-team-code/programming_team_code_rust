@@ -7,12 +7,15 @@ fn main() {
     input! {
         n: usize,
         q: usize,
-        a: [u32; n],
-        queries: [(usize, usize); q],
+        a: [usize; n],
     }
 
     let rmq = RMQ::new(&a, std::cmp::min);
-    for (le, ri) in queries {
+    for _ in 0..q {
+        input! {
+            le: usize,
+            ri: usize,
+        }
         println!("{}", rmq.query(le..ri));
     }
 }

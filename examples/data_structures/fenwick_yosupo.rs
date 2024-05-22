@@ -7,20 +7,36 @@ fn main() {
     input! {
         n: usize,
         q: usize,
-        a: [usize; n],
-        queries: [(usize, usize, usize); q],
     }
 
     let mut fenwick = Fenwick::<u64>::new(n);
-    for (i, &elem) in a.iter().enumerate() {
-        fenwick.add(i, elem as u64);
+    for i in 0..n {
+        input! {
+            x: u64,
+        }
+        fenwick.add(i, x);
     }
 
-    for que in queries {
-        if que.0 == 0 {
-            fenwick.add(que.1, que.2 as u64);
-        } else {
-            println!("{}", fenwick.sum(que.1..que.2));
+    for _ in 0..q {
+        input! {
+            t: u8,
+        }
+        match t {
+            0 => {
+                input! {
+                    p: usize,
+                    x: u64,
+                }
+                fenwick.add(p, x);
+            }
+            1 => {
+                input! {
+                    le: usize,
+                    ri: usize,
+                }
+                println!("{}", fenwick.sum(le..ri));
+            }
+            _ => unreachable!(),
         }
     }
 }
