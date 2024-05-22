@@ -7,22 +7,32 @@ fn main() {
     input! {
         n: usize,
         q: usize,
-        p: [usize; n - 1],
-        queries: [(usize, usize); q],
     }
 
+    // forest with an undirected tree and a rooted directed tree
     let mut adj = vec![vec![]; n + n];
-    for (i, &parent) in p.iter().enumerate() {
-        adj[parent].push(i + 1);
-        adj[i + 1].push(parent);
-        adj[n + parent].push(n + i + 1);
+    for v in 1..n {
+        input! {
+            p: usize,
+        }
+
+        // undirected tree
+        adj[p].push(i);
+        adj[i].push(p);
+
+        // directed tree
+        adj[n + p].push(n + i);
     }
 
     let lca = LCA::new(&adj);
-    for (u, v) in queries {
-        let res = lca.lca(u, v);
-        let res_other = lca.lca(n + u, n + v) - n;
-        assert!(res == res_other);
-        println!("{}", res);
+    for _ in 0..q {
+        input! {
+            u: usize,
+            v: usize,
+        }
+        let res_undir = lca.lca(u, v);
+        let res_dir = lca.lca(n + u, n + v) - n;
+        assert!(res_undir == res_dir);
+        println!("{}", res_undir);
     }
 }

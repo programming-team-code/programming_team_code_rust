@@ -5,17 +5,21 @@ use programming_team_code_rust::numbers::primes::Primes;
 
 fn main() {
     input! {
-        a: [usize],
+        n: usize,
     }
 
     let primes = Primes::new(1001);
     let mut lcm_exps = vec![0; 1001];
 
-    for &elem in &a {
+    for _ in 0..n {
+        input! {
+            x: usize,
+        }
+
         let mut exps = vec![0; 1001];
         let mut prev_factor = 0;
 
-        for factor in primes.factorize(elem) {
+        for factor in primes.factorize(x) {
             assert!(prev_factor <= factor);
             exps[factor] += 1;
             lcm_exps[factor] = lcm_exps[factor].max(exps[factor]);
