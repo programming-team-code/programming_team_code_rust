@@ -1,9 +1,3 @@
-pub mod dijk;
-pub mod dsu;
-pub mod fenwick;
-pub mod rmq;
-
-pub use dijk::dijk;
-pub use dsu::DSU;
-pub use fenwick::Fenwick;
-pub use rmq::RMQ;
+pub mod data_structures;
+pub mod graphs;
+pub mod numbers;

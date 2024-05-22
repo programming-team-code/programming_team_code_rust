@@ -2,37 +2,70 @@ name: CI
 
 on: [push, workflow_dispatch]
 
-jobs:
-  verify:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+env:
+  CARGO_TERM_COLOR: always
+  # `-D warnings` causes CI to fail on any warning
+  RUSTFLAGS: -D warnings -C instrument-coverage -C link-dead-code
+  RUSTDOCFLAGS: -D warnings
 
+jobs:
+  cargo:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
     - uses: actions/setup-python@v4
-
-    - name: install oj-verify
-      run: pip3 install -U online-judge-verify-helper
-
     - name: Set up Rust (nightly)
       run: |
         rustup install nightly
         rustup override set nightly
-        rustup component add --toolchain nightly rustfmt
-
+        rustup component add --toolchain nightly rustfmt clippy
     - name: cargo fmt
       run: cargo fmt --all -- --check
-
+    - name: cargo clippy
+      run: cargo clippy --all-targets --all-features -- -D warnings
+    - name: cargo build
+      run: cargo build --verbose
     - name: cargo doc
       run: RUSTDOCFLAGS="-D warnings -D missing_docs" cargo doc --all
 
-    - name: cargo test
-      # RUSTFLAGS="-D warnings" will fail CI on any compile warning
-      run: RUSTFLAGS="-D warnings" cargo test
-
-    - name: use oj-verify
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: oj-verify all --tle 5
+  library_checker_aizu_tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+    - name: Set up Rust (nightly)
+      run: |
+        rustup install nightly
+        rustup override set nightly
+        rustup component add --toolchain nightly rustfmt clippy
+        cargo install cargo-binutils
+        rustup component add llvm-tools-preview
+    - name: install oj-verify submodule
+      run: |
+        git submodule init
+        git submodule update
+        cd verification-helper
+        pip install .
+        cd ..
+        # clear submodule afterwards to not run tests in verification-helper
+        git submodule deinit --all -f
+    - name: run tests
+      # regarding `--jobs 4`: github CI runs with 4 cores
+      # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
+      #
+      # regarding `--timeout `: github CI limits jobs to 6 hours
+      # https://docs.github.com/en/actions/learn-github-actions/usage-limits-billing-and-administration#usage-limits
+      #
+      # since the library is a single crate, on a commit the entire crate is
+      # rebuild, so oj-verify tool thinks everything changed, and then reruns all
+      # tests; thus another reason for setting long timeout.
+      #
+      # since all tests are rerun on every commit anyways, there's no need for
+      # the .verify-helper/timestamps.remote.json file
+      run: oj-verify all --tle 20 --jobs 4 --timeout 21600
+    # https://doc.rust-lang.org/rustc/instrument-coverage.html
+    # - name: code coverage
+    # run: |
+    # cargo profdata -- merge -sparse default_*.profraw -o json5format.profdata
+    # cargo cov -- report --use-color --ignore-filename-regex='/.cargo/registry' --instr-profile=json5format.profdata $(find target/debug/examples -type f -executable)
+    # cargo cov -- export --ignore-filename-regex='/.cargo/registry' --instr-profile=json5format.profdata $(find target/debug/examples -type f -executable) | python -c "import sys, json; l=json.load(sys.stdin)['data'][0]['totals']['lines']; assert(l['count'] == l['covered'])"

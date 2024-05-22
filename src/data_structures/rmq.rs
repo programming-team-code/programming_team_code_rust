@@ -2,16 +2,16 @@ pub struct RMQ<T> {
     t: Vec<Vec<T>>,
     op: fn(T, T) -> T,
 }
-impl<T: Ord + Copy> RMQ<T> {
-    pub fn new(a: &Vec<T>, op: fn(T, T) -> T) -> Self {
-        let mut t = vec![a.clone(); 1];
+impl<T: Copy> RMQ<T> {
+    pub fn new(a: &[T], op: fn(T, T) -> T) -> Self {
+        let mut t = vec![a.to_owned(); 1];
         let mut i = 0;
         while (2 << i) <= a.len() {
-            t.push(Vec::with_capacity(t[i].len() - (1 << i)));
-            for j in 0..t[i].len() - (1 << i) {
-                let x = op(t[i][j], t[i][j + (1 << i)]);
-                t[i + 1].push(x);
-            }
+            t.push(
+                (0..t[i].len() - (1 << i))
+                    .map(|j| op(t[i][j], t[i][j + (1 << i)]))
+                    .collect(),
+            );
             i += 1;
         }
         Self { t, op }
