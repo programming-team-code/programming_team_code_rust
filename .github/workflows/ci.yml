@@ -31,13 +31,17 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v4
-    - name: install oj-verify
-      run: pip3 install -U online-judge-verify-helper
     - name: Set up Rust (nightly)
       run: |
         rustup install nightly
         rustup override set nightly
         rustup component add --toolchain nightly rustfmt clippy
+    - name: Set up oj-verify submodule
+      run: |
+        git submodule init
+        git submodule update
+        cd verification-helper/
+        python setup.py install
     - name: use oj-verify
       # regarging `--tle 2`: the oj-verify tool only allows testing in release mode
       #
