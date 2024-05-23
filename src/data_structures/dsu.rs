@@ -15,7 +15,7 @@
 /// assert_eq!(dsu.leader(5), 5);
 /// ```
 pub struct DSU {
-    e: Vec<i32>,
+    e: Vec<isize>,
 }
 
 impl DSU {
@@ -39,7 +39,7 @@ impl DSU {
         } else {
             let p = self.e[x] as usize;
             let r = self.leader(p);
-            self.e[x] = r as i32;
+            self.e[x] = r as isize;
             r
         }
     }
@@ -70,7 +70,7 @@ impl DSU {
             std::mem::swap(&mut x, &mut y);
         }
         self.e[x] += self.e[y];
-        self.e[y] = x as i32;
+        self.e[y] = x as isize;
         true
     }
 }

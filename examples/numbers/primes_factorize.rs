@@ -28,8 +28,8 @@ fn main() {
     }
 
     let mut lcm = 1;
-    for i in 2i32..1001 {
-        lcm *= i.pow(lcm_exps[i as usize]);
+    for (i, &lcm_exp) in lcm_exps.iter().enumerate().skip(2) {
+        lcm *= i.pow(lcm_exp);
     }
 
     println!("{}", lcm);
