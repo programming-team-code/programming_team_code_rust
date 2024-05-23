@@ -8,8 +8,8 @@ struct Node {
     cnt_words: usize,
 }
 
-impl Node {
-    fn new() -> Self {
+impl Default for Node {
+    fn default() -> Self {
         Node {
             next: [None; ALPHABET_SIZE],
             cnt_words: 0,
@@ -36,7 +36,7 @@ pub struct Trie {
 impl Default for Trie {
     fn default() -> Self {
         Trie {
-            t: vec![Node::new()],
+            t: vec![Node::default()],
         }
     }
 }
@@ -52,8 +52,8 @@ impl Trie {
         for ch in s.chars() {
             let idx = (ch as u8 - FIRST_CHAR as u8) as usize;
             if self.t[v].next[idx].is_none() {
-                self.t.push(Node::new());
-                self.t[v].next[idx] = Some(self.t.len() - 1);
+                self.t[v].next[idx] = Some(self.t.len());
+                self.t.push(Node::default());
             }
             v = self.t[v].next[idx].unwrap();
         }
