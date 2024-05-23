@@ -17,10 +17,14 @@ fn main() {
 
         match t {
             0 => {
-                trie.update(x, 1);
+                if trie.count(x) == 0 {
+                    trie.update(x, 1);
+                }
             }
             1 => {
-                trie.update(x, -1);
+                if trie.count(x) == 1 {
+                    trie.update(x, -1);
+                }
             }
             2 => {
                 println!("{}", trie.min_xor(x));
