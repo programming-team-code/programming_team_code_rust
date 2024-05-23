@@ -36,7 +36,7 @@ impl LCA {
     /// # Complexity (n = adj.len())
     /// - Time: O(n log n)
     /// - Space: O(n log n)
-    pub fn new(adj: &Vec<Vec<usize>>) -> Self {
+    pub fn new(adj: &[Vec<usize>]) -> Self {
         let n = adj.len();
         let mut d = vec![0; n];
         let mut tin = vec![0; n];
@@ -44,10 +44,10 @@ impl LCA {
         let mut order = Vec::with_capacity(n);
         fn dfs(
             u: usize,
-            p: &mut Vec<Option<usize>>,
-            adj: &Vec<Vec<usize>>,
-            d: &mut Vec<usize>,
-            tin: &mut Vec<usize>,
+            p: &mut [Option<usize>],
+            adj: &[Vec<usize>],
+            d: &mut [usize],
+            tin: &mut [usize],
             order: &mut Vec<usize>,
         ) {
             tin[u] = order.len();
