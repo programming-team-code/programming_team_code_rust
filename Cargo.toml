@@ -31,6 +31,10 @@ name = "rmq"
 path = "examples/data_structures/rmq.rs"
 
 [[example]]
+name = "trie"
+path = "examples/data_structures/trie.rs"
+
+[[example]]
 name = "dijk_aizu"
 path = "examples/graphs/dijk_aizu.rs"
 
