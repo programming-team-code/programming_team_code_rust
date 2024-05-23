@@ -21,7 +21,7 @@ impl Default for Node {
 /// ```
 /// use programming_team_code_rust::data_structures::trie::Trie;
 ///
-/// let mut trie;
+/// let mut trie: Trie;
 /// trie.insert("HELLO");
 /// trie.insert("HELLO");
 /// trie.insert("WORLD");
