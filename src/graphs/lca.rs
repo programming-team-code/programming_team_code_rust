@@ -1,6 +1,7 @@
 //! # Lowest Common Ancestor
 
 use crate::data_structures::rmq::RMQ;
+use crate::graphs::dfs_order::dfs_order;
 
 /// # Example
 /// ```
@@ -23,46 +24,31 @@ use crate::data_structures::rmq::RMQ;
 /// ```
 pub struct LCA {
     tin: Vec<usize>,
-    p: Vec<Option<usize>>,
+    p: Vec<usize>,
     rmq: RMQ<(usize, usize)>,
 }
 
 impl LCA {
     /// Create a new LCA struct
     ///
-    /// `adj` can be undirected tree, directed tree (rooted at node 0), or a forest of undirected
-    /// trees
+    /// `adj` can be undirected tree or a directed tree (rooted at node 0)
     ///
     /// # Complexity (n = adj.len())
     /// - Time: O(n log n)
     /// - Space: O(n log n)
-    pub fn new(adj: &Vec<Vec<usize>>) -> Self {
+    pub fn new(adj: &[Vec<usize>]) -> Self {
         let n = adj.len();
-        let mut d = vec![0; n];
         let mut tin = vec![0; n];
-        let mut p = vec![None; n];
-        let mut order = Vec::with_capacity(n);
-        fn dfs(
-            u: usize,
-            p: &mut Vec<Option<usize>>,
-            adj: &Vec<Vec<usize>>,
-            d: &mut Vec<usize>,
-            tin: &mut Vec<usize>,
-            order: &mut Vec<usize>,
-        ) {
-            tin[u] = order.len();
-            order.push(u);
+        let mut p = vec![0; n];
+        let mut d = vec![0; n];
+        let order = dfs_order(adj);
+        for (i, &u) in order.iter().enumerate() {
+            tin[u] = i;
             for &v in &adj[u] {
-                if p[u] != Some(v) {
+                if v != p[u] {
+                    p[v] = u;
                     d[v] = d[u] + 1;
-                    p[v] = Some(u);
-                    dfs(v, p, adj, d, tin, order);
                 }
-            }
-        }
-        for s in 0..n {
-            if p[s].is_none() {
-                dfs(s, &mut p, adj, &mut d, &mut tin, &mut order);
             }
         }
         let d_with_order: Vec<(usize, usize)> = order.iter().map(|&u| (d[u], u)).collect();
@@ -83,6 +69,6 @@ impl LCA {
         if le > ri {
             std::mem::swap(&mut le, &mut ri);
         }
-        self.p[self.rmq.query(le + 1..ri + 1).1].unwrap()
+        self.p[self.rmq.query(le + 1..ri + 1).1]
     }
 }
