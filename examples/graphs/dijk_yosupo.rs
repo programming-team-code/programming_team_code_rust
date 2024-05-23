@@ -18,11 +18,11 @@ fn main() {
     }
 
     fn dfs(
-        adj: &Vec<Vec<(usize, u64)>>,
-        dist: &Vec<u64>,
+        adj: &[Vec<(usize, u64)>],
+        dist: &[u64],
         u: usize,
         path: &mut Vec<usize>,
-        seen: &mut Vec<bool>,
+        seen: &mut [bool],
         t: usize,
     ) {
         if seen[u] {
