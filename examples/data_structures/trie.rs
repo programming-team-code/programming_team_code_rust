@@ -17,10 +17,12 @@ fn main() {
 
         match command.as_str() {
             "insert" => {
-                trie.insert(&key);
+                let slice = key.chars().collect::<Vec<_>>();
+                trie.insert(&slice);
             }
             "find" => {
-                if trie.find(&key) > 0 {
+                let slice = key.chars().collect::<Vec<_>>();
+                if trie.find(&slice) > 0 {
                     println!("yes");
                 } else {
                     println!("no");
