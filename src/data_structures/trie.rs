@@ -21,7 +21,7 @@ impl Node {
 /// ```
 /// use programming_team_code_rust::data_structures::trie::Trie;
 ///
-/// let mut trie = Trie::new();
+/// let mut trie;
 /// trie.insert("HELLO");
 /// trie.insert("HELLO");
 /// trie.insert("WORLD");
@@ -33,18 +33,15 @@ pub struct Trie {
     t: Vec<Node>,
 }
 
-impl Trie {
-    /// Create a new Trie
-    ///
-    /// # Complexity
-    /// - Time: O(1)
-    /// - Space: O(1)
-    pub fn new() -> Self {
+impl Default for Trie {
+    fn default() -> Self {
         Trie {
             t: vec![Node::new()],
         }
     }
+}
 
+impl Trie {
     /// Insert a string into the Trie
     ///
     /// # Complexity

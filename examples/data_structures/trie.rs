@@ -8,7 +8,7 @@ fn main() {
         n: usize,
     }
 
-    let mut trie = Trie::new();
+    let mut trie;
     for _ in 0..n {
         input! {
             command: String,
