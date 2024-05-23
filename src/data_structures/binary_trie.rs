@@ -1,5 +1,6 @@
 //! # Binary Trie which can be used as a multiset of integers
 
+use std::cmp::PartialEq;
 use std::mem::size_of;
 use std::ops::{BitAnd, BitOrAssign, Shl, Shr};
 
@@ -49,8 +50,8 @@ where
         + Shl<Output = T>
         + BitAnd<Output = T>
         + BitOrAssign
+        + PartialEq
         + From<u8>
-        + Into<usize>
         + Copy
         + Default,
 {
@@ -62,13 +63,14 @@ where
     pub fn update(&mut self, num: T, delta: isize) {
         let mut v = 0;
         for i in (0..self.mx_bit).rev() {
-            let bit = ((num >> T::from(i as u8)) & T::from(1)).into();
-            if self.t[v].next[bit].is_none() {
-                self.t[v].next[bit] = Some(self.t.len());
+            let bit = (num >> T::from(i as u8)) & T::from(1);
+            let idx = if bit == T::default() { 0 } else { 1 };
+            if self.t[v].next[idx].is_none() {
+                self.t[v].next[idx] = Some(self.t.len());
                 self.t.push(Node::default());
             }
             self.t[v].sub_sz += delta;
-            v = self.t[v].next[bit].unwrap();
+            v = self.t[v].next[idx].unwrap();
         }
         self.t[v].sub_sz += delta;
     }
@@ -81,11 +83,12 @@ where
     pub fn count(&self, num: T) -> isize {
         let mut v = 0;
         for i in (0..self.mx_bit).rev() {
-            let bit = ((num >> T::from(i as u8)) & T::from(1)).into();
-            if self.t[v].next[bit].is_none() {
+            let bit = (num >> T::from(i as u8)) & T::from(1);
+            let idx = if bit == T::default() { 0 } else { 1 };
+            if self.t[v].next[idx].is_none() {
                 return 0;
             }
-            v = self.t[v].next[bit].unwrap();
+            v = self.t[v].next[idx].unwrap();
         }
         self.t[v].sub_sz
     }
@@ -103,12 +106,13 @@ where
         let mut v = 0;
         let mut ans = T::default();
         for i in (0..self.mx_bit).rev() {
-            let bit = ((num >> T::from(i as u8)) & T::from(1)).into();
-            if self.t[v].next[bit].is_some() && self.t[self.t[v].next[bit].unwrap()].sub_sz > 0 {
-                v = self.t[v].next[bit].unwrap();
+            let bit = (num >> T::from(i as u8)) & T::from(1);
+            let idx = if bit == T::default() { 0 } else { 1 };
+            if self.t[v].next[idx].is_some() && self.t[self.t[v].next[idx].unwrap()].sub_sz > 0 {
+                v = self.t[v].next[idx].unwrap();
             } else {
                 ans |= T::from(1) << T::from(i as u8);
-                v = self.t[v].next[bit ^ 1].unwrap();
+                v = self.t[v].next[idx ^ 1].unwrap();
             }
         }
         ans
