@@ -32,6 +32,7 @@ impl LCA {
     /// Create a new LCA struct
     ///
     /// `adj` can be undirected tree or a directed tree (rooted at node 0)
+    /// `adj` can also be an undirected forest
     ///
     /// # Complexity (n = adj.len())
     /// - Time: O(n log n)

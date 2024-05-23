@@ -1,14 +1,20 @@
 pub fn dfs_order(adj: &[Vec<usize>]) -> Vec<usize> {
     let n = adj.len();
-    let mut order = Vec::with_capacity(n);
-    fn dfs(u: usize, p: usize, adj: &[Vec<usize>], order: &mut Vec<usize>) {
+    fn dfs(u: usize, adj: &[Vec<usize>], seen: &mut [bool], order: &mut Vec<usize>) {
         order.push(u);
+        seen[u] = true;
         for &v in &adj[u] {
-            if v != p {
-                dfs(v, u, adj, order);
+            if !seen[v] {
+                dfs(v, adj, seen, order);
             }
         }
     }
-    dfs(0, 0, adj, &mut order);
+    let mut seen = vec![false; n];
+    let mut order = Vec::with_capacity(n);
+    for s in 0..n {
+        if !seen[s] {
+            dfs(s, adj, &mut seen, &mut order);
+        }
+    }
     order
 }
