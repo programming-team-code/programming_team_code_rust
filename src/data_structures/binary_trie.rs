@@ -1,9 +1,5 @@
 //! # Binary Trie which can be used as a multiset of integers
 
-use std::mem::size_of;
-
-const MX_BIT: usize = size_of::<usize>() * 8;
-
 #[derive(Default)]
 struct Node {
     next: [Option<usize>; 2],
@@ -48,7 +44,7 @@ impl BinaryTrie {
     /// - Space: O(log(max_num))
     pub fn update(&mut self, num: usize, delta: isize) {
         let mut v = 0;
-        for i in (0..MX_BIT).rev() {
+        for i in (0..usize::BITS).rev() {
             let bit = (num >> i) & 1;
             if self.t[v].next[bit].is_none() {
                 self.t[v].next[bit] = Some(self.t.len());
@@ -67,7 +63,7 @@ impl BinaryTrie {
     /// - Space: O(1)
     pub fn count(&self, num: usize) -> isize {
         let mut v = 0;
-        for i in (0..MX_BIT).rev() {
+        for i in (0..usize::BITS).rev() {
             let bit = (num >> i) & 1;
             if self.t[v].next[bit].is_none() {
                 return 0;
@@ -94,7 +90,7 @@ impl BinaryTrie {
         assert!(self.t.len() > 1);
         let mut v = 0;
         let mut ans = 0;
-        for i in (0..MX_BIT).rev() {
+        for i in (0..usize::BITS).rev() {
             let bit = (num >> i) & 1;
             if self.t[v].next[bit].is_some() && self.t[self.t[v].next[bit].unwrap()].sub_sz > 0 {
                 v = self.t[v].next[bit].unwrap();
