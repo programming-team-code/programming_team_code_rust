@@ -4,28 +4,11 @@ use proconio::input;
 use programming_team_code_rust::data_structures::binary_trie::BinaryTrie;
 
 fn main() {
-    // test the compilation of the various useful types of binary tries
-    {
-        let _ = BinaryTrie::<u8>::default();
-    }
-    {
-        let _ = BinaryTrie::<u16>::default();
-    }
-    {
-        let _ = BinaryTrie::<u32>::default();
-    }
-    {
-        let _ = BinaryTrie::<u64>::default();
-    }
-    {
-        let _ = BinaryTrie::<u128>::default();
-    }
-
     input! {
         q: usize,
     }
 
-    let mut trie = BinaryTrie::<usize>::default();
+    let mut trie = BinaryTrie::default();
     for _ in 0..q {
         input! {
             t: u8,

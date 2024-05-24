@@ -1,8 +1,8 @@
 //! # Binary Trie which can be used as a multiset of integers
 
-use std::cmp::PartialEq;
 use std::mem::size_of;
-use std::ops::{BitAnd, BitOrAssign, Shl, Shr};
+
+const MX_BIT: usize = size_of::<usize>() * 8;
 
 #[derive(Default)]
 struct Node {
@@ -14,7 +14,7 @@ struct Node {
 /// ```
 /// use programming_team_code_rust::data_structures::binary_trie::BinaryTrie;
 ///
-/// let mut trie = BinaryTrie::<usize>::default();
+/// let mut trie = BinaryTrie::default();
 /// trie.update(1, 1);
 /// trie.update(2, 1);
 /// trie.update(3, 1);
@@ -28,49 +28,34 @@ struct Node {
 /// assert_eq!(trie.min_xor(3), 0);
 /// assert_eq!(trie.min_xor(4), 5);
 /// ```
-pub struct BinaryTrie<T> {
+pub struct BinaryTrie {
     t: Vec<Node>,
-    mx_bit: usize,
-    _marker: std::marker::PhantomData<T>,
 }
 
-impl<T> Default for BinaryTrie<T> {
+impl Default for BinaryTrie {
     fn default() -> Self {
         BinaryTrie {
             t: vec![Node::default()],
-            mx_bit: size_of::<T>() * 8,
-            _marker: std::marker::PhantomData,
         }
     }
 }
 
-impl<T> BinaryTrie<T>
-where
-    T: Shr<Output = T>
-        + Shl<Output = T>
-        + BitAnd<Output = T>
-        + BitOrAssign
-        + PartialEq
-        + From<u8>
-        + Copy
-        + Default,
-{
+impl BinaryTrie {
     /// Change the number of occurrences of `num` by `delta`
     ///
     /// # Complexity
     /// - Time: O(log(max_num))
     /// - Space: O(log(max_num))
-    pub fn update(&mut self, num: T, delta: isize) {
+    pub fn update(&mut self, num: usize, delta: isize) {
         let mut v = 0;
-        for i in (0..self.mx_bit).rev() {
-            let bit = (num >> T::from(i as u8)) & T::from(1);
-            let idx = if bit == T::default() { 0 } else { 1 };
-            if self.t[v].next[idx].is_none() {
-                self.t[v].next[idx] = Some(self.t.len());
+        for i in (0..MX_BIT).rev() {
+            let bit = (num >> i) & 1;
+            if self.t[v].next[bit].is_none() {
+                self.t[v].next[bit] = Some(self.t.len());
                 self.t.push(Node::default());
             }
             self.t[v].sub_sz += delta;
-            v = self.t[v].next[idx].unwrap();
+            v = self.t[v].next[bit].unwrap();
         }
         self.t[v].sub_sz += delta;
     }
@@ -80,15 +65,14 @@ where
     /// # Complexity
     /// - Time: O(log(max_num))
     /// - Space: O(1)
-    pub fn count(&self, num: T) -> isize {
+    pub fn count(&self, num: usize) -> isize {
         let mut v = 0;
-        for i in (0..self.mx_bit).rev() {
-            let bit = (num >> T::from(i as u8)) & T::from(1);
-            let idx = if bit == T::default() { 0 } else { 1 };
-            if self.t[v].next[idx].is_none() {
+        for i in (0..MX_BIT).rev() {
+            let bit = (num >> i) & 1;
+            if self.t[v].next[bit].is_none() {
                 return 0;
             }
-            v = self.t[v].next[idx].unwrap();
+            v = self.t[v].next[bit].unwrap();
         }
         self.t[v].sub_sz
     }
@@ -96,23 +80,27 @@ where
     /// Find the minimum xor of `num` and any number in the trie
     ///
     /// # Panics
-    /// - if the trie is empty
+    /// ```panic
+    /// use programming_team_code_rust::data_structures::binary_trie::BinaryTrie;
+    ///
+    /// let trie = BinaryTrie::default();
+    /// trie.min_xor(0);
+    /// ```
     ///
     /// # Complexity
     /// - Time: O(log(max_num))
     /// - Space: O(1)
-    pub fn min_xor(&self, num: T) -> T {
+    pub fn min_xor(&self, num: usize) -> usize {
         assert!(self.t.len() > 1);
         let mut v = 0;
-        let mut ans = T::default();
-        for i in (0..self.mx_bit).rev() {
-            let bit = (num >> T::from(i as u8)) & T::from(1);
-            let idx = if bit == T::default() { 0 } else { 1 };
-            if self.t[v].next[idx].is_some() && self.t[self.t[v].next[idx].unwrap()].sub_sz > 0 {
-                v = self.t[v].next[idx].unwrap();
+        let mut ans = 0;
+        for i in (0..MX_BIT).rev() {
+            let bit = (num >> i) & 1;
+            if self.t[v].next[bit].is_some() && self.t[self.t[v].next[bit].unwrap()].sub_sz > 0 {
+                v = self.t[v].next[bit].unwrap();
             } else {
-                ans |= T::from(1) << T::from(i as u8);
-                v = self.t[v].next[idx ^ 1].unwrap();
+                ans |= 1 << i;
+                v = self.t[v].next[bit ^ 1].unwrap();
             }
         }
         ans
