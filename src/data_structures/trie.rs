@@ -3,18 +3,10 @@
 const ALPHABET_SIZE: usize = 26;
 const FIRST_CHAR: char = 'A';
 
+#[derive(Default)]
 struct Node {
     next: [Option<usize>; ALPHABET_SIZE],
     cnt_words: usize,
-}
-
-impl Default for Node {
-    fn default() -> Self {
-        Node {
-            next: [None; ALPHABET_SIZE],
-            cnt_words: 0,
-        }
-    }
 }
 
 /// # Example
