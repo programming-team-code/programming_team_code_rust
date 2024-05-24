@@ -1,3 +1,5 @@
 /target
 Cargo.lock
 .verify-helper/
+*.profraw
+ptc_rust.profdata
