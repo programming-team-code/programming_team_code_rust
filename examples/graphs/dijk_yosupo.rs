@@ -51,7 +51,7 @@ fn main() {
 
     path.reverse();
 
-    println!("{} {}", dist[t], path.len());
+    println!("{} {}", dist[t], path.len() - 1);
     for it in 0..path.len() - 1 {
         println!("{} {}", path[it], path[it + 1]);
     }
