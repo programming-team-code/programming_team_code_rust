@@ -11,6 +11,10 @@ edition = "2024"
 proconio = "0.4.5"
 
 [[example]]
+name = "binary_trie"
+path = "examples/data_structures/binary_trie.rs"
+
+[[example]]
 name = "dsu_aizu"
 path = "examples/data_structures/dsu_aizu.rs"
 
