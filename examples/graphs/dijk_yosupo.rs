@@ -17,38 +17,42 @@ fn main() {
         adj[u].push((v, w));
     }
 
-    fn dfs(
-        adj: &[Vec<(usize, u64)>],
-        dist: &[u64],
-        u: usize,
-        path: &mut Vec<usize>,
-        seen: &mut [bool],
-        t: usize,
-    ) {
-        if seen[u] {
-            return;
-        }
-        seen[u] = true;
-        path.push(u);
-        if u == t {
-            println!("{} {}", dist[u], path.len() - 1);
-            for i in 0..path.len() - 1 {
-                println!("{} {}", path[i], path[i + 1]);
-            }
-            std::process::exit(0);
-        }
-        for &(v, w) in &adj[u] {
-            if dist[u] + w == dist[v] {
-                dfs(adj, dist, v, path, seen, t);
-            }
-        }
-        path.pop();
+    let dist = dijk(&adj, s);
+
+    if dist[t] == u64::MAX {
+        println!("{}", -1);
+        return;
     }
 
-    let dist = dijk(&adj, s);
-    let mut path = vec![];
+    let mut par = vec![0; n];
+    par[s] = s;
     let mut seen = vec![false; n];
-    dfs(&adj, &dist, s, &mut path, &mut seen, t);
+    seen[s] = true;
+    let mut q = std::collections::VecDeque::new();
+    q.push_back(s);
+    while let Some(u) = q.pop_front() {
+        for &(v, w) in &adj[u] {
+            if seen[v] || dist[u] + w != dist[v] {
+                continue;
+            }
+            par[v] = u;
+            seen[v] = true;
+            q.push_back(v);
+        }
+    }
 
-    println!("{}", -1);
+    let mut path = vec![];
+    let mut u = t;
+    while u != s {
+        path.push(u);
+        u = par[u];
+    }
+    path.push(s);
+
+    path.reverse();
+
+    println!("{} {}", dist[t], path.len() - 1);
+    for it in 0..path.len() - 1 {
+        println!("{} {}", path[it], path[it + 1]);
+    }
 }
