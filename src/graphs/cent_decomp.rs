@@ -38,6 +38,8 @@ fn dfs(
     }
 }
 
+/// A trait containing the DFS method which is called on each centroid of the tree with the
+/// back-edges outside of this centroid removed from `adj`
 pub trait CentDecompDfs {
     fn dfs(&mut self, adj: &[Vec<usize>], cent: usize);
 }
