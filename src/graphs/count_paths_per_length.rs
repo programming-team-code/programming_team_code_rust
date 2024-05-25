@@ -14,77 +14,60 @@ fn conv(a: &[u64], b: &[u64]) -> Vec<u64> {
     c
 }
 
-fn dfs_order(adj: &[Vec<usize>], u: usize, p: usize) -> Vec<usize> {
-    fn dfs(u: usize, p: usize, adj: &[Vec<usize>], order: &mut Vec<usize>) {
-        order.push(u);
-        for &v in &adj[u] {
-            if v != p {
-                dfs(v, u, adj, order);
-            }
-        }
-    }
-    let mut order = Vec::new();
-    dfs(u, p, adj, &mut order);
-    order
+struct CountPathsPerLength {
+    num_paths: Vec<u64>,
 }
 
-struct TreeFreqDist {
-    seen: Vec<bool>,
-    depth: Vec<usize>,
-    with_dist: Vec<u64>,
-}
-
-impl TreeFreqDist {
+impl CountPathsPerLength {
     fn new(n: usize) -> Self {
         Self {
-            seen: vec![false; n],
-            depth: vec![0; n],
-            with_dist: vec![0; n],
+            num_paths: vec![0; n],
         }
     }
 }
 
-impl CentDecompDfs for TreeFreqDist {
+impl CentDecompDfs for CountPathsPerLength {
     fn dfs(&mut self, adj: &[Vec<usize>], cent: usize) {
-        let mut ch_and_order = adj[cent]
-            .iter()
-            .map(|&ch| (ch, dfs_order(adj, ch, cent)))
-            .collect::<Vec<_>>();
+        let mut child_depths = vec![vec![]];
+        for &child in adj[cent].iter() {
+            let mut my_child_depths = vec![0];
 
-        ch_and_order.sort_by_key(|(_, order)| order.len());
+            use std::collections::VecDeque;
 
-        let mut acc = vec![1];
+            let mut q = VecDeque::new();
+            q.push_back((child, cent));
 
-        self.seen[cent] = true;
-        for (ch, order) in ch_and_order {
-            self.depth[ch] = 1;
-            for &u in order.iter() {
-                self.seen[u] = true;
-                for &v in adj[u].iter() {
-                    if !self.seen[v] {
-                        self.depth[v] = self.depth[u] + 1;
+            while !q.is_empty() {
+                my_child_depths.push(q.len() as u64);
+
+                let mut new_q = VecDeque::new();
+                while let Some((u, p)) = q.pop_front() {
+                    for &v in adj[u].iter() {
+                        if v != p {
+                            new_q.push_back((v, u));
+                        }
                     }
                 }
+
+                q = new_q;
             }
 
-            let mut cur = vec![0; order.len() + 1];
-            for &u in order.iter() {
-                cur[self.depth[u]] += 1;
-            }
-
-            let span = conv(&acc, &cur);
-            for (d, cnt) in span.iter().enumerate() {
-                self.with_dist[d] += cnt;
-            }
-
-            acc.resize(acc.len().max(cur.len()), 0);
-            for d in 0..cur.len() {
-                acc[d] += cur[d];
-            }
+            child_depths.push(my_child_depths);
         }
 
-        for u in dfs_order(adj, cent, cent) {
-            self.seen[u] = false;
+        child_depths.sort_by_key(|v| v.len());
+
+        let mut acc = vec![1];
+        for depth_arr in child_depths {
+            let res = conv(&acc, &depth_arr);
+            for (d, &cnt) in res.iter().enumerate() {
+                self.num_paths[d] += cnt;
+            }
+
+            acc.resize(acc.len().max(depth_arr.len()), 0);
+            for (d, &cnt) in depth_arr.iter().enumerate() {
+                acc[d] += cnt;
+            }
         }
     }
 }
@@ -110,7 +93,7 @@ impl CentDecompDfs for TreeFreqDist {
 /// - Space: O(n)
 pub fn count_paths_per_length(adj: &[Vec<usize>]) -> Vec<u64> {
     let n = adj.len();
-    let mut tree_freq_dist = TreeFreqDist::new(n);
-    cent_decomp(adj.to_vec(), &mut tree_freq_dist);
-    tree_freq_dist.with_dist
+    let mut obj = CountPathsPerLength::new(n);
+    cent_decomp(adj.to_vec(), &mut obj);
+    obj.num_paths
 }
