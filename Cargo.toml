@@ -31,8 +31,16 @@ name = "fenwick_yosupo"
 path = "examples/data_structures/fenwick_yosupo.rs"
 
 [[example]]
+name = "lazy_seg_tree"
+path = "examples/data_structures/lazy_seg_tree.rs"
+
+[[example]]
 name = "rmq"
 path = "examples/data_structures/rmq.rs"
+
+[[example]]
+name = "seg_tree_build_on_array"
+path = "examples/data_structures/seg_tree_build_on_array.rs"
 
 [[example]]
 name = "trie"
