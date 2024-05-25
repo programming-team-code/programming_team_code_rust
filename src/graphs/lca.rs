@@ -2,7 +2,7 @@
 
 use crate::data_structures::rmq::RMQ;
 
-pub fn dfs_order(adj: &[Vec<usize>]) -> Vec<usize> {
+fn dfs_order(adj: &[Vec<usize>]) -> Vec<usize> {
     let n = adj.len();
     fn dfs(u: usize, adj: &[Vec<usize>], seen: &mut [bool], order: &mut Vec<usize>) {
         order.push(u);
