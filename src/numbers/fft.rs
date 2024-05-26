@@ -1,4 +1,4 @@
-//! Fast Fourier Transform (FFT) implementation ripped from: https://github.com/bminaiev/rust-contests/blob/main/algo_lib/src/math/fft.rs
+//! Fast Fourier Transform (FFT) implementation ripped from: <https://github.com/bminaiev/rust-contests/blob/main/algo_lib/src/math/fft.rs>
 use std::ops::{Add, Mul, MulAssign, Sub};
 
 #[derive(Copy, Clone)]
