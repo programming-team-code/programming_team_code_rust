@@ -47,6 +47,10 @@ name = "trie"
 path = "examples/data_structures/trie.rs"
 
 [[example]]
+name = "count_paths_per_length"
+path = "examples/graphs/count_paths_per_length.rs"
+
+[[example]]
 name = "dijk_aizu"
 path = "examples/graphs/dijk_aizu.rs"
 
