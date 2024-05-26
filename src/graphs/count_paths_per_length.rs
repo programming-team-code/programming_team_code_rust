@@ -1,17 +1,14 @@
 //! # Count the number of paths of each length in a tree
 use crate::graphs::cent_decomp::{cent_decomp, CentDecompDfs};
+use crate::numbers::fft::fft_multiply;
 
-// TODO: update this to use FFT
 fn conv(a: &[u64], b: &[u64]) -> Vec<u64> {
-    let len_a = a.len();
-    let len_b = b.len();
-    let mut c = vec![0; len_a + len_b - 1];
-    for i in 0..len_a {
-        for j in 0..len_b {
-            c[i + j] += a[i] * b[j];
-        }
-    }
-    c
+    let a = a.iter().map(|&x| x as f64).collect::<Vec<_>>();
+    let b = b.iter().map(|&x| x as f64).collect::<Vec<_>>();
+    let res_len = a.len() + b.len() - 1;
+    let mut res = fft_multiply(a, b);
+    res.resize(res_len, 0.0);
+    res.iter().map(|&x| x.round() as u64).collect()
 }
 
 struct CountPathsPerLength {
