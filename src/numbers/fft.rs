@@ -57,7 +57,7 @@ impl Sub for Complex {
     }
 }
 
-fn fft(a: &mut Vec<Complex>, invert: bool) {
+fn fft(a: &mut [Complex], invert: bool) {
     let n = a.len();
     assert!(n.is_power_of_two());
     let shift = usize::BITS - n.trailing_zeros();
@@ -89,10 +89,10 @@ fn fft(a: &mut Vec<Complex>, invert: bool) {
         }
     }
     if invert {
-        for i in 0..n {
+        for elem in a.iter_mut().take(n) {
             let n = n as f64;
-            a[i].imag /= n;
-            a[i].real /= n;
+            elem.imag /= n;
+            elem.real /= n;
         }
     }
 }
