@@ -11,7 +11,7 @@ fn main() {
     let man = manacher(&s.chars().collect::<Vec<_>>())
         .iter()
         .enumerate()
-        .map(|(i, &x)| i - 2 * x + 1)
+        .map(|(i, &x)| i + 1 - 2 * x)
         .collect::<Vec<_>>();
 
     println!(
