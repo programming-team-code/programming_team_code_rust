@@ -1,7 +1,7 @@
 //! # Lowest Common Ancestor
 
 use crate::data_structures::rmq::RMQ;
-use crate::graphs::dfs_order::dfs_order;
+use crate::graphs::dfs_order::get_dfs_preorder;
 
 /// # Example
 /// ```
@@ -42,7 +42,7 @@ impl LCA {
         let mut tin = vec![0; n];
         let mut p = vec![0; n];
         let mut d = vec![0; n];
-        let order = dfs_order(adj);
+        let order = get_dfs_preorder(adj);
         for (i, &u) in order.iter().enumerate() {
             tin[u] = i;
             for &v in &adj[u] {
