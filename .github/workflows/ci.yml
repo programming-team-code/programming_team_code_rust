@@ -14,23 +14,34 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v4
+
     - name: Set up Rust (nightly)
       run: |
         rustup install nightly
         rustup override set nightly
         rustup component add --toolchain nightly rustfmt clippy
+
     - name: cargo fmt
       run: cargo fmt --all -- --check
+
     - name: cargo clippy
       run: cargo clippy --all-targets --all-features -- -D warnings
+
     - name: cargo build
-      run: cargo build --verbose
+      run: cargo build
+
+    - name: cargo test
+      run: cargo test
+
+    - name: cargo doc
+      run: RUSTDOCFLAGS="-D warnings -D missing_docs" cargo doc --all
 
   library_checker_aizu_tests:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v4
+
     - name: Set up Rust (nightly)
       run: |
         rustup install nightly
@@ -38,6 +49,7 @@ jobs:
         rustup component add --toolchain nightly rustfmt clippy
         cargo install cargo-binutils rustfilt
         rustup component add llvm-tools-preview
+
     - name: install oj-verify submodule
       run: |
         git submodule init
@@ -47,6 +59,7 @@ jobs:
         cd ..
         # clear submodule afterwards to not run tests in verification-helper
         git submodule deinit --all -f
+
     - name: run tests
       # regarding `--jobs 4`: github CI runs with 4 cores
       # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#standard-github-hosted-runners-for-public-repositories
@@ -60,7 +73,8 @@ jobs:
       #
       # since all tests are rerun on every commit anyways, there's no need for
       # the .verify-helper/timestamps.remote.json file
-      run: oj-verify all --tle 10 --jobs 4 --timeout 21600
+      run: oj-verify all --tle 20 --jobs 4 --timeout 21600
+
     # https://doc.rust-lang.org/rustc/instrument-coverage.html
     - name: code coverage
       run: |

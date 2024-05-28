@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/binomial_coefficient_prime_mod
 
 use proconio::input;
-use programming_team_code_rust::binom::Binom;
+use programming_team_code_rust::numbers::binom::Binom;
 
 fn main() {
     input! {

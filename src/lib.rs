@@ -1,7 +1,5 @@
-pub mod binom;
-pub mod dijk;
-pub mod dsu;
-pub mod fenwick;
-pub mod lca;
-pub mod primes;
-pub mod rmq;
+//! # Algorithms and Data Structures
+pub mod data_structures;
+pub mod graphs;
+pub mod numbers;
+pub mod strings;
