@@ -50,7 +50,7 @@ pub fn get_sccs(adj: &[Vec<usize>]) -> (usize, Vec<usize>) {
         }
         rv_adj
     };
-    let order = get_dfs_postorder(&adj);
+    let order = get_dfs_postorder(adj);
     let mut num_sccs = 0;
     let mut scc_id = vec![0; n];
     let mut seen = vec![false; n];
