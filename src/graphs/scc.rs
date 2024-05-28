@@ -14,8 +14,8 @@ fn dfs(u: usize, adj: &[Vec<usize>], seen: &mut [bool], scc_id: &mut [usize], nu
 
 /// # Guarantees
 /// - 0..num_sccs is a topological order of the SCCs
-/// - 0 <= scc_id[u] < num_sccs
-/// - for each edge u -> v: scc_id[u] <= scc_id[v]
+/// - 0 <= scc_id\[u\] < num_sccs
+/// - for each edge u -> v: scc_id\[u\] <= scc_id\[v\]
 ///
 /// # Example
 /// ```
