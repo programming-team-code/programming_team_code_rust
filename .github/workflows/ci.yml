@@ -79,5 +79,5 @@ jobs:
     - name: code coverage
       run: |
         cargo profdata -- merge -sparse default_*.profraw -o ptc_rust.profdata
-        cargo cov -- report -Xdemangler=rustfilt --use-color --ignore-filename-regex='/.cargo/registry' --instr-profile=ptc_rust.profdata $(find target/debug/examples -type f -executable)
-        cargo cov -- export --ignore-filename-regex='/.cargo/registry' --instr-profile=ptc_rust.profdata $(find target/debug/examples -type f -executable) | python -c "import sys, json; l=json.load(sys.stdin)['data'][0]['totals']['lines']; assert(l['count'] == l['covered'])"
+        cargo cov -- show -Xdemangler=rustfilt --use-color --ignore-filename-regex='/.cargo/registry' --instr-profile=ptc_rust.profdata $(find target/debug/examples/ -type f -executable | sed 's/^/--object /')
+        cargo cov -- export -Xdemangler=rustfilt --ignore-filename-regex='/.cargo/registry' --instr-profile=ptc_rust.profdata $(find target/debug/examples/ -type f -executable | sed 's/^/--object /') --summary-only | ./check_code_cov.py
