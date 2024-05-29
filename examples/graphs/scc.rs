@@ -11,11 +11,16 @@ fn main() {
     }
 
     let mut adj = vec![vec![]; n];
-    for (u, v) in edges {
+    for &(u, v) in edges.iter() {
         adj[u].push(v);
     }
 
     let (num_sccs, scc_id) = get_sccs(&adj);
+
+    for (u, v) in edges {
+        assert!(scc_id[u] <= scc_id[v]);
+    }
+
     println!("{}", num_sccs);
 
     let mut sccs = vec![vec![]; num_sccs];
