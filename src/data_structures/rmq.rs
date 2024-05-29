@@ -43,4 +43,9 @@ impl<T: Copy> RMQ<T> {
         let lg = range.len().ilog2() as usize;
         (self.op)(self.t[lg][range.start], self.t[lg][range.end - (1 << lg)])
     }
+
+    pub fn some_unused_fn(&self, range: std::ops::Range<usize>) -> T {
+        let lg = range.len().ilog2() as usize;
+        (self.op)(self.t[lg][range.start], self.t[lg][range.end - (1 << lg)])
+    }
 }
