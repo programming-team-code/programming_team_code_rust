@@ -20,14 +20,13 @@ fn main() {
                 }
                 fenwick.add(i - 1, x);
             }
-            1 => {
+            _ => {
                 input! {
                     le: usize,
                     ri: usize,
                 }
                 println!("{}", fenwick.sum(le - 1..ri));
             }
-            _ => unreachable!(),
         }
     }
 }
