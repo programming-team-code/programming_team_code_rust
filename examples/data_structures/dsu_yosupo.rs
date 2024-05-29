@@ -17,7 +17,7 @@ fn main() {
             }
             _ => {
                 assert_eq!(t, 1);
-                println!("{}", u8::from(dsu.same(u, v))),
+                println!("{}", u8::from(dsu.same(u, v)));
             }
         }
     }
