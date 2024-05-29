@@ -29,7 +29,6 @@ fn main() {
             2 => {
                 println!("{}", trie.min_xor(x));
             }
-            _ => unreachable!(),
         }
     }
 }
