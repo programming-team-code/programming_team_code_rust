@@ -4,9 +4,8 @@ on: [push, workflow_dispatch]
 
 env:
   CARGO_TERM_COLOR: always
-  # `-D warnings` causes CI to fail on any warning
   RUSTFLAGS: -D warnings -C instrument-coverage -C link-dead-code
-  RUSTDOCFLAGS: -D warnings
+  RUSTDOCFLAGS: -D warnings -D missing_docs
 
 jobs:
   cargo:
@@ -34,7 +33,7 @@ jobs:
       run: cargo test
 
     - name: cargo doc
-      run: RUSTDOCFLAGS="-D warnings -D missing_docs" cargo doc --all
+      run: cargo doc --all
 
   library_checker_aizu_tests:
     runs-on: ubuntu-latest
