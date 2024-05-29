@@ -6,8 +6,7 @@ use crate::graphs::scc::get_sccs;
 /// ```
 /// use programming_team_code_rust::graphs::two_sat::TwoSat;
 ///
-/// let mut ts = TwoSat::new(2);
-/// ts.add_var();
+/// let mut ts = TwoSat::new(3);
 /// ts.add_clause(0, false, 1, true);
 /// ts.add_clause(1, false, 2, true);
 /// ts.add_clause(2, false, 0, true);
