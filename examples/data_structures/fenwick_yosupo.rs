@@ -29,14 +29,14 @@ fn main() {
                 }
                 fenwick.add(p, x);
             }
-            1 => {
+            _ => {
+                assert_eq!(t, 1);
                 input! {
                     le: usize,
                     ri: usize,
                 }
                 println!("{}", fenwick.sum(le..ri));
             }
-            _ => unreachable!(),
         }
     }
 }

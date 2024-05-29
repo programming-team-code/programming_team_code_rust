@@ -24,14 +24,14 @@ fn main() {
                 }
                 seg_tree.update(p, p + 1, x);
             }
-            1 => {
+            _ => {
+                assert_eq!(t, 1);
                 input! {
                     le: usize,
                     ri: usize
                 }
                 println!("{}", seg_tree.query(le, ri));
             }
-            _ => unreachable!(),
         }
     }
 }

@@ -20,14 +20,14 @@ fn main() {
                 }
                 fenwick.add(i - 1, x);
             }
-            1 => {
+            _ => {
+                assert_eq!(t, 1);
                 input! {
                     le: usize,
                     ri: usize,
                 }
                 println!("{}", fenwick.sum(le - 1..ri));
             }
-            _ => unreachable!(),
         }
     }
 }

@@ -15,8 +15,10 @@ fn main() {
             0 => {
                 dsu.unite(u, v);
             }
-            1 => println!("{}", u8::from(dsu.same(u, v))),
-            _ => unreachable!(),
+            _ => {
+                assert_eq!(t, 1);
+                println!("{}", u8::from(dsu.same(u, v))),
+            }
         }
     }
 }
