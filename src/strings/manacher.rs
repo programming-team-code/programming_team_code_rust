@@ -17,13 +17,16 @@
 /// assert_eq!(manacher(&"baaba".chars().collect::<Vec<_>>()), vec![0, 1, 1, 0, 2, 3, 2, 4, 4]);
 /// ```
 ///
+/// # Panics
+/// ```panic
+/// use programming_team_code_rust::strings::manacher::manacher;
+/// manacher(&"".chars().collect::<Vec<_>>());
+/// ```
+///
 /// # Complexity (n = s.len())
 /// - Time: O(n)
 /// - Space: O(n)
 pub fn manacher<T: std::cmp::PartialEq>(s: &[T]) -> Vec<usize> {
-    if s.is_empty() {
-        return vec![];
-    }
     let n = s.len();
     let mut p = 0;
     let mut man = vec![0; 2 * n - 1];
