@@ -9,7 +9,7 @@ fn main() {
         _cnf: String,
         n: usize,
         m: usize,
-        clauses: [(i32, i32, usize); m],
+        clauses: [(isize, isize, usize); m],
     }
 
     let mut ts = TwoSat::new(n);
@@ -17,12 +17,7 @@ fn main() {
     for (x, y, _) in clauses {
         let f = x > 0;
         let g = y > 0;
-        ts.add_clause(
-            x.unsigned_abs() as usize - 1,
-            f,
-            y.unsigned_abs() as usize - 1,
-            g,
-        );
+        ts.add_clause(x.unsigned_abs() - 1, f, y.unsigned_abs() - 1, g);
     }
 
     let ans = ts.solve();
@@ -31,7 +26,14 @@ fn main() {
         println!("s SATISFIABLE");
         print!("v");
         for i in 1..=n {
-            print!(" {}", if ans[i - 1] { i as i32 } else { -(i as i32) });
+            print!(
+                " {}",
+                if ans[i - 1] {
+                    i as isize
+                } else {
+                    -(i as isize)
+                }
+            );
         }
         println!(" 0");
     } else {
