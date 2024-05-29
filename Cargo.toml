@@ -71,6 +71,10 @@ name = "scc"
 path = "examples/graphs/scc.rs"
 
 [[example]]
+name = "two_sat"
+path = "examples/graphs/two_sat.rs"
+
+[[example]]
 name = "binom"
 path = "examples/numbers/binom.rs"
 
