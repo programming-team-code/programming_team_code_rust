@@ -26,10 +26,7 @@ fn main() {
                     trie.update(x, -1);
                 }
             }
-            _ => {
-                assert_eq!(t, 2);
-                println!("{}", trie.min_xor(x));
-            }
+            _ => println!("{}", trie.min_xor(x)),
         }
     }
 }

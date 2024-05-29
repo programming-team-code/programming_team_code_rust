@@ -15,10 +15,7 @@ fn main() {
             0 => {
                 dsu.unite(u, v);
             }
-            _ => {
-                assert_eq!(kind, 1);
-                println!("{}", u8::from(dsu.same(u, v)));
-            }
+            _ => println!("{}", u8::from(dsu.same(u, v))),
         }
     }
 }

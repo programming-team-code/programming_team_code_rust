@@ -30,7 +30,6 @@ fn main() {
                 fenwick.add(p, x);
             }
             _ => {
-                assert_eq!(t, 1);
                 input! {
                     le: usize,
                     ri: usize,

@@ -25,7 +25,6 @@ fn main() {
                 seg_tree.update(p, p + 1, x);
             }
             _ => {
-                assert_eq!(t, 1);
                 input! {
                     le: usize,
                     ri: usize

@@ -12,7 +12,8 @@ fn main() {
         clauses: [(isize, isize, usize); m],
     }
 
-    let mut ts = TwoSat::new(n);
+    let mut ts = TwoSat::new(n - 1);
+    ts.add_var();
 
     for (x, y, _) in clauses {
         let f = x > 0;

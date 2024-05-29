@@ -21,7 +21,6 @@ fn main() {
                 trie.insert(&slice);
             }
             _ => {
-                assert_eq!(command.as_str(), "find");
                 let slice = key.chars().collect::<Vec<_>>();
                 if trie.find(&slice) > 0 {
                     println!("yes");

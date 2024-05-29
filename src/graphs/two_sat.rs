@@ -6,7 +6,8 @@ use crate::graphs::scc::get_sccs;
 /// ```
 /// use programming_team_code_rust::graphs::two_sat::TwoSat;
 ///
-/// let mut ts = TwoSat::new(3);
+/// let mut ts = TwoSat::new(2);
+/// ts.add_var();
 /// ts.add_clause(0, false, 1, true);
 /// ts.add_clause(1, false, 2, true);
 /// ts.add_clause(2, false, 0, true);
@@ -26,6 +27,16 @@ impl TwoSat {
         Self {
             adj: vec![vec![]; 2 * n],
         }
+    }
+
+    /// Add a new variable
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
+    pub fn add_var(&mut self) {
+        self.adj.push(vec![]);
+        self.adj.push(vec![]);
     }
 
     /// Add a clause to the 2-SAT instance
