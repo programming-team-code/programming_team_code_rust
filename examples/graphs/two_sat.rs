@@ -17,7 +17,12 @@ fn main() {
     for (x, y, _) in clauses {
         let f = x > 0;
         let g = y > 0;
-        ts.add_clause(x.abs() as usize - 1, f, y.abs() as usize - 1, g);
+        ts.add_clause(
+            x.unsigned_abs() as usize - 1,
+            f,
+            y.unsigned_abs() as usize - 1,
+            g,
+        );
     }
 
     let ans = ts.solve();
