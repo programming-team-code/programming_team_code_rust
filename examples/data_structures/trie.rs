@@ -20,7 +20,7 @@ fn main() {
                 let slice = key.chars().collect::<Vec<_>>();
                 trie.insert(&slice);
             }
-            "find" => {
+            _ => {
                 let slice = key.chars().collect::<Vec<_>>();
                 if trie.find(&slice) > 0 {
                     println!("yes");
@@ -28,7 +28,6 @@ fn main() {
                     println!("no");
                 }
             }
-            _ => unreachable!(),
         }
     }
 }

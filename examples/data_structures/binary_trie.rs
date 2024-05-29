@@ -26,10 +26,7 @@ fn main() {
                     trie.update(x, -1);
                 }
             }
-            2 => {
-                println!("{}", trie.min_xor(x));
-            }
-            _ => unreachable!(),
+            _ => println!("{}", trie.min_xor(x)),
         }
     }
 }
