@@ -29,16 +29,6 @@ impl TwoSat {
         }
     }
 
-    /// Add a new variable
-    ///
-    /// # Complexity
-    /// - Time: O(1)
-    /// - Space: O(1)
-    pub fn add_var(&mut self) {
-        self.adj.push(vec![]);
-        self.adj.push(vec![]);
-    }
-
     /// Add a clause to the 2-SAT instance
     ///
     /// # Complexity
