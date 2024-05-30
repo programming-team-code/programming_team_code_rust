@@ -7,7 +7,7 @@ fn main() {
     let primes = Primes::new(100_000_001);
 
     for i in 0..=1 {
-        assert_eq!(primes.is_prime(i), false);
+        assert!(!primes.is_prime(i));
     }
 
     input! {
