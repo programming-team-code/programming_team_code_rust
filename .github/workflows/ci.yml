@@ -76,7 +76,13 @@ jobs:
 
     # https://doc.rust-lang.org/rustc/instrument-coverage.html
     - name: code coverage
-      run: |
-        cargo profdata -- merge -sparse default_*.profraw -o ptc_rust.profdata
-        cargo cov -- show -Xdemangler=rustfilt --use-color --ignore-filename-regex='/.cargo/registry' --instr-profile=ptc_rust.profdata $(find target/debug/examples/ -type f -executable | sed 's/^/--object /')
-        cargo cov -- export -Xdemangler=rustfilt --ignore-filename-regex='/.cargo/registry' --instr-profile=ptc_rust.profdata $(find target/debug/examples/ -type f -executable | sed 's/^/--object /') --summary-only | python .github/workflows/check_code_cov.py
+      run: ./.github/workflows/code_cov.sh
+
+  shellcheck_shfmt:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install dependencies
+      run: sudo apt install shfmt shellcheck
+    - name: shellcheck and shfmt
+      run: ./.github/workflows/shellcheck_shfmt.sh
