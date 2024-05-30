@@ -76,9 +76,8 @@ impl SegTree {
         }
     }
 
-    fn push(&mut self, tr: &Range<usize>, v: usize) {
+    fn push(&mut self, tr: &Range<usize>, tm: usize, v: usize) {
         if self.lazy[v] > 0 {
-            let tm = split(tr);
             self.apply(self.lazy[v], &(tr.start..tm), 2 * v);
             self.apply(self.lazy[v], &(tm..tr.end), 2 * v + 1);
             self.lazy[v] = 0;
@@ -103,7 +102,7 @@ impl SegTree {
             return self.apply(delta, tr, v);
         }
         let tm = split(tr);
-        self.push(tr, v);
+        self.push(tr, tm, v);
         self.update_impl(qr, delta, &(tr.start..tm), 2 * v);
         self.update_impl(qr, delta, &(tm..tr.end), 2 * v + 1);
         self.tree[v] = op(self.tree[2 * v], self.tree[2 * v + 1]);
@@ -126,7 +125,7 @@ impl SegTree {
             return self.tree[v];
         }
         let tm = split(tr);
-        self.push(tr, v);
+        self.push(tr, tm, v);
         op(
             self.query_impl(qr, &(tr.start..tm), 2 * v),
             self.query_impl(qr, &(tm..tr.end), 2 * v + 1),
