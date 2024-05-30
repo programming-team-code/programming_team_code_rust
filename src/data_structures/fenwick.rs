@@ -21,7 +21,7 @@ impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
     /// - Time: O(n)
     /// - Space: O(n)
     pub fn new(n: usize) -> Self {
-        Fenwick {
+        Self {
             ary: vec![T::default(); n],
         }
     }
