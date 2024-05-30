@@ -1,5 +1,5 @@
 #!/bin/bash
-# RUSTFLAGS="-C instrument-coverage -C link-dead-code" oj-verify run --tle 20 --jobs 4 examples/data_structures/rmq.rs
+# RUSTFLAGS="-C instrument-coverage -C link-dead-code -Z coverage-options=branch" oj-verify run --tle 20 --jobs 4 examples/data_structures/rmq.rs
 
 set -eo pipefail
 
