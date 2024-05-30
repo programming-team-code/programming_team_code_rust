@@ -26,6 +26,20 @@ impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
         }
     }
 
+    pub fn build_on_array(a: &[T]) -> Self {
+        let mut ary = a.to_vec();
+        for i in 0..a.len() {
+            let j = i | (i + 1);
+            if j < a.len() {
+                let tmp = ary[i].clone();
+                ary[j] += tmp;
+            }
+        }
+        Fenwick {
+            ary,
+        }
+    }
+
     fn accum(&self, mut idx: usize) -> T {
         let mut sum = T::default();
         while idx > 0 {
