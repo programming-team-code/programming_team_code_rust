@@ -7,15 +7,10 @@ fn main() {
     input! {
         n: usize,
         q: usize,
+        a: [u64; n],
     }
 
-    let mut fenwick = Fenwick::<u64>::new(n);
-    for i in 0..n {
-        input! {
-            x: u64,
-        }
-        fenwick.add(i, x);
-    }
+    let mut fenwick = Fenwick::<u64>::build_on_array(&a);
 
     for _ in 0..q {
         input! {
