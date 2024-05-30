@@ -26,6 +26,11 @@ impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
         }
     }
 
+    /// Creates a Fenwick Tree on a given array
+    ///
+    /// # Complexity
+    /// - Time: O(n)
+    /// - Space: O(n)
     pub fn build_on_array(a: &[T]) -> Self {
         let mut ary = a.to_vec();
         for i in 0..a.len() {
