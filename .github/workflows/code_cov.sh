@@ -8,6 +8,6 @@ cov_flags=(-Xdemangler=rustfilt --ignore-filename-regex='/.cargo/registry' --ins
 
 cargo profdata -- merge -sparse default_*.profraw -o ptc_rust.profdata
 # shellcheck disable=SC2068 # double quotes cause command to fail, not sure why
-cargo cov -- show ${cov_flags[@]} --use-color
+cargo cov -- show ${cov_flags[@]} --use-color --show-branches=count
 # shellcheck disable=SC2068
 cargo cov -- export ${cov_flags[@]} --summary-only | python .github/workflows/check_code_cov.py
