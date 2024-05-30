@@ -102,8 +102,8 @@ impl SegTree {
         if qr.start <= tr.start && tr.end <= qr.end {
             return self.apply(delta, tr, v);
         }
-        let tm = split(tr);
         self.push(tr, v);
+        let tm = split(tr);
         self.update_impl(qr, delta, &(tr.start..tm), 2 * v);
         self.update_impl(qr, delta, &(tm..tr.end), 2 * v + 1);
         self.tree[v] = op(self.tree[2 * v], self.tree[2 * v + 1]);
@@ -125,8 +125,8 @@ impl SegTree {
         if qr.start <= tr.start && tr.end <= qr.end {
             return self.tree[v];
         }
-        let tm = split(tr);
         self.push(tr, v);
+        let tm = split(tr);
         op(
             self.query_impl(qr, &(tr.start..tm), 2 * v),
             self.query_impl(qr, &(tm..tr.end), 2 * v + 1),
