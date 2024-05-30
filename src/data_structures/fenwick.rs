@@ -35,9 +35,7 @@ impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
                 ary[j] += tmp;
             }
         }
-        Fenwick {
-            ary,
-        }
+        Fenwick { ary }
     }
 
     fn accum(&self, mut idx: usize) -> T {
