@@ -22,14 +22,14 @@ fn main() {
                     p: usize,
                     x: u64
                 }
-                seg_tree.update(p, p + 1, x);
+                seg_tree.update(p..p + 1, x);
             }
             _ => {
                 input! {
                     le: usize,
                     ri: usize
                 }
-                println!("{}", seg_tree.query(le, ri));
+                println!("{}", seg_tree.query(le..ri));
             }
         }
     }
