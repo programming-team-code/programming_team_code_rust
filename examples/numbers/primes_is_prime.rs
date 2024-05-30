@@ -6,6 +6,10 @@ use programming_team_code_rust::numbers::primes::Primes;
 fn main() {
     let primes = Primes::new(100_000_001);
 
+    for i in 0..=1 {
+        assert!(!primes.is_prime(i));
+    }
+
     input! {
         n: usize,
     }
