@@ -6,7 +6,7 @@ use std::ops::Range;
 pub struct HLD {
     p: Vec<usize>,
     siz: Vec<usize>,
-    tin: Vec<usize>,
+    pub tin: Vec<usize>,
     head: Vec<usize>,
     vals_edges: bool,
 }
@@ -27,9 +27,12 @@ impl HLD {
             for i in 0..adj[u].len() {
                 let v = adj[u][i];
                 siz[u] += siz[v];
+                /*
+                 * TODO: put back after observing TLE
                 if siz[v] > siz[adj[u][0]] {
                     adj[u].swap(0, i);
                 }
+                */
             }
         }
         let mut tin = vec![0; n];
@@ -59,6 +62,22 @@ impl HLD {
             }
             v = self.p[self.head[v]];
         }
+    }
+
+    pub fn path(&self, mut u: usize, mut v: usize, f: fn(Range<usize>, bool) -> ()) -> () {
+        let mut u_anc = false;
+        loop {
+            if self.tin[u] > self.tin[v] {
+                std::mem::swap(&mut u, &mut v);
+                u_anc = !u_anc;
+            }
+            if self.head[u] == self.head[v] {
+                break;
+            }
+            f(self.tin[self.head[v]]..self.tin[v] + 1, u_anc);
+            v = self.p[self.head[v]];
+        }
+        f(self.tin[u] + self.vals_edges as usize..self.tin[v] + 1, u_anc);
     }
 
     pub fn sub_tree(&self, u: usize) -> Range<usize> {

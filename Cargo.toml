@@ -97,3 +97,7 @@ path = "examples/graphs/hld_lca_yosupo.rs"
 [[example]]
 name = "hld_lca_aizu"
 path = "examples/graphs/hld_lca_aizu.rs"
+
+[[example]]
+name = "hld_subtree_sum_yosupo"
+path = "examples/graphs/hld_subtree_sum_yosupo.rs"
