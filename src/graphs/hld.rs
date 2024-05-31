@@ -1,7 +1,7 @@
 //! # Heavy Light Decomposition
 
-use std::ops::Range;
 use crate::graphs::dfs_order::get_dfs_preorder;
+use std::ops::Range;
 
 pub struct HLD {
     p: Vec<usize>,
@@ -40,7 +40,13 @@ impl HLD {
                 head[v] = if v == adj[u][0] { head[u] } else { v };
             }
         }
-        HLD { p, siz, tin, head, vals_edges }
+        HLD {
+            p,
+            siz,
+            tin,
+            head,
+            vals_edges,
+        }
     }
 
     pub fn lca(&self, mut u: usize, mut v: usize) -> usize {
