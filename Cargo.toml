@@ -89,3 +89,7 @@ path = "examples/numbers/primes_is_prime.rs"
 [[example]]
 name = "manacher"
 path = "examples/strings/manacher.rs"
+
+[[example]]
+name = "hld"
+path = "examples/graphs/hld_lca_yosupo.rs"

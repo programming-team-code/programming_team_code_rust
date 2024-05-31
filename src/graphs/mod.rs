@@ -6,3 +6,4 @@ pub mod dijk;
 pub mod lca;
 pub mod scc;
 pub mod two_sat;
+pub mod hld;
