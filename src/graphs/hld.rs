@@ -35,7 +35,7 @@ impl HLD {
         for (i, &u) in get_dfs_preorder(adj).iter().enumerate() {
             tin[u] = i;
             for &v in &adj[u] {
-                head[v] = if v == adj[u][0] {head[u]} else {v};
+                head[v] = if v == adj[u][0] { head[u] } else { v };
             }
         }
         HLD { p, siz, tin, head }
