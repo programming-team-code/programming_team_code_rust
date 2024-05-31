@@ -59,12 +59,12 @@ name = "dijk_yosupo"
 path = "examples/graphs/dijk_yosupo.rs"
 
 [[example]]
-name = "lca_aizu"
-path = "examples/graphs/lca_aizu.rs"
+name = "lca_rmq_aizu"
+path = "examples/graphs/lca_rmq_aizu.rs"
 
 [[example]]
-name = "lca_yosupo"
-path = "examples/graphs/lca_yosupo.rs"
+name = "lca_rmq_yosupo"
+path = "examples/graphs/lca_rmq_yosupo.rs"
 
 [[example]]
 name = "scc"
