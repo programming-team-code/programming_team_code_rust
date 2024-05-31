@@ -91,5 +91,9 @@ name = "manacher"
 path = "examples/strings/manacher.rs"
 
 [[example]]
-name = "hld"
+name = "hld_lca_yosupo"
 path = "examples/graphs/hld_lca_yosupo.rs"
+
+[[example]]
+name = "hld_lca_aizu"
+path = "examples/graphs/hld_lca_aizu.rs"
