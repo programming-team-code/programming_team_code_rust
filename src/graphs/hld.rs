@@ -1,5 +1,6 @@
 //! # Heavy Light Decomposition
 
+use std::ops::Range;
 use crate::graphs::dfs_order::get_dfs_preorder;
 
 pub struct HLD {
@@ -7,6 +8,7 @@ pub struct HLD {
     siz: Vec<usize>,
     tin: Vec<usize>,
     head: Vec<usize>,
+    vals_edges: bool,
 }
 
 impl HLD {
@@ -38,7 +40,7 @@ impl HLD {
                 head[v] = if v == adj[u][0] { head[u] } else { v };
             }
         }
-        HLD { p, siz, tin, head }
+        HLD { p, siz, tin, head, vals_edges }
     }
 
     pub fn lca(&self, mut u: usize, mut v: usize) -> usize {
@@ -51,5 +53,13 @@ impl HLD {
             }
             v = self.p[self.head[v]];
         }
+    }
+
+    pub fn sub_tree(&self, u: usize) -> Range<usize> {
+        self.tin[u] + self.vals_edges as usize..self.tin[u] + self.siz[u]
+    }
+
+    pub fn in_sub(&self, u: usize, v: usize) -> bool {
+        u == v || self.sub_tree(u).contains(&v)
     }
 }
