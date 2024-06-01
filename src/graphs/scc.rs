@@ -2,16 +2,6 @@
 
 use crate::graphs::dfs_order::get_dfs_postorder;
 
-fn dfs(u: usize, adj: &[Vec<usize>], seen: &mut [bool], scc_id: &mut [usize], num_sccs: usize) {
-    scc_id[u] = num_sccs;
-    seen[u] = true;
-    for &v in &adj[u] {
-        if !seen[v] {
-            dfs(v, adj, seen, scc_id, num_sccs);
-        }
-    }
-}
-
 /// # Guarantees
 /// - 0..num_sccs is a topological order of the SCCs
 /// - 0 <= scc_id\[u\] < num_sccs
@@ -50,6 +40,15 @@ pub fn get_sccs(adj: &[Vec<usize>]) -> (usize, Vec<usize>) {
         }
         rv_adj
     };
+    fn dfs(u: usize, adj: &[Vec<usize>], seen: &mut [bool], scc_id: &mut [usize], num_sccs: usize) {
+        scc_id[u] = num_sccs;
+        seen[u] = true;
+        for &v in &adj[u] {
+            if !seen[v] {
+                dfs(v, adj, seen, scc_id, num_sccs);
+            }
+        }
+    }
     let order = get_dfs_postorder(adj);
     let mut num_sccs = 0;
     let mut scc_id = vec![0; n];
