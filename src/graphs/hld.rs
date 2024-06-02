@@ -1,6 +1,6 @@
 //! # Heavy Light Decomposition
 
-use crate::graphs::dfs_order::get_dfs_preorder;
+use crate::graphs::dfs_order::{get_dfs_postorder, get_dfs_preorder};
 use std::ops::Range;
 
 pub struct HLD {
@@ -16,7 +16,7 @@ impl HLD {
         let n = adj.len();
         let mut p = vec![0; n];
         let mut siz = vec![1; n];
-        for &u in get_dfs_preorder(adj).iter().rev() {
+        for &u in get_dfs_postorder(adj).iter() {
             if let Some(i) = adj[u].iter().position(|&v| p[v] != u) {
                 p[u] = adj[u][i];
                 adj[u].swap_remove(i);
