@@ -84,8 +84,7 @@ impl<T: Clone> SegTree<T> {
                 le += 1;
             }
             if ri % 2 == 1 {
-                ri -= 1;
-                vr = (self.op)(self.tree[ri].clone(), vr);
+                vr = (self.op)(self.tree[ri - 1].clone(), vr);
             }
             le /= 2;
             ri /= 2;
