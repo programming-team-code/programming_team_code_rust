@@ -64,7 +64,12 @@ impl HLD {
         }
     }
 
-    pub fn path(&self, mut u: usize, mut v: usize, f: fn(Range<usize>, bool) -> ()) -> () {
+    pub fn path(
+        &self,
+        mut u: usize,
+        mut v: usize,
+        mut f: impl FnMut(Range<usize>, bool) -> (),
+    ) -> () {
         let mut u_anc = false;
         loop {
             if self.tin[u] > self.tin[v] {
@@ -77,7 +82,10 @@ impl HLD {
             f(self.tin[self.head[v]]..self.tin[v] + 1, u_anc);
             v = self.p[self.head[v]];
         }
-        f(self.tin[u] + self.vals_edges as usize..self.tin[v] + 1, u_anc);
+        f(
+            self.tin[u] + self.vals_edges as usize..self.tin[v] + 1,
+            u_anc,
+        );
     }
 
     pub fn sub_tree(&self, u: usize) -> Range<usize> {

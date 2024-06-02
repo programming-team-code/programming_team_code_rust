@@ -1,4 +1,4 @@
-// verification-helper: PROBLEM https://judge.yosupo.jp/problem/vertex_add_subtree_sum
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/vertex_add_path_sum
 
 use proconio::input;
 use programming_team_code_rust::data_structures::fenwick::Fenwick;
@@ -9,15 +9,13 @@ fn main() {
         n: usize,
         q: usize,
         a: [usize; n],
+        edges: [(usize, usize); n - 1],
     }
 
     let mut adj = vec![vec![]; n];
-    for c in 1..n {
-        input! {
-            p: usize,
-        }
-        adj[c].push(p);
-        adj[p].push(c);
+    for &(u, v) in edges.iter() {
+        adj[u].push(v);
+        adj[v].push(u);
     }
 
     let hld = HLD::new(&mut adj, false);
@@ -43,8 +41,11 @@ fn main() {
             _ => {
                 input! {
                     u: usize,
+                    v: usize,
                 }
-                println!("{}", fenwick.sum(hld.sub_tree(u)));
+                let mut sum: usize = 0;
+                hld.path(u, v, |range, _| sum += fenwick.sum(range));
+                println!("{}", sum);
             }
         }
     }
