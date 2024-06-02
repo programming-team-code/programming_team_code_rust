@@ -4,14 +4,15 @@
 /// ```
 /// use programming_team_code_rust::data_structures::seg_tree::SegTree;
 ///
-/// let mut st = SegTree::<usize>::new(3, |x, y| x + y, 0);
+/// let md = 6;
+/// let mut st = SegTree::<usize>::new(3, move |x, y| (x + y) % md, 0);
 /// st.set(1, 2);
 /// st.set(2, 3);
 /// assert_eq!(st.query(0..3), 5);
 /// ```
 pub struct SegTree<T> {
     n: usize,
-    op: fn(T, T) -> T,
+    op: Box<dyn Fn(T, T) -> T>,
     unit: T,
     tree: Vec<T>,
 }
@@ -22,10 +23,10 @@ impl<T: Clone> SegTree<T> {
     /// # Complexity
     /// - Time: O(n)
     /// - Space: O(n)
-    pub fn new(n: usize, op: fn(T, T) -> T, unit: T) -> Self {
+    pub fn new(n: usize, op: impl Fn(T, T) -> T + 'static, unit: T) -> Self {
         Self {
             n,
-            op,
+            op: Box::new(op),
             unit: unit.clone(),
             tree: vec![unit.clone(); 2 * n],
         }
@@ -36,7 +37,7 @@ impl<T: Clone> SegTree<T> {
     /// # Complexity
     /// - Time: O(n)
     /// - Space: O(n)
-    pub fn build_on_array(a: &[T], op: fn(T, T) -> T, unit: T) -> Self {
+    pub fn build_on_array(a: &[T], op: impl Fn(T, T) -> T + 'static, unit: T) -> Self {
         let n = a.len();
         let mut tree = vec![unit.clone(); n];
         tree.extend(a.to_vec());
@@ -45,7 +46,7 @@ impl<T: Clone> SegTree<T> {
         }
         Self {
             n,
-            op,
+            op: Box::new(op),
             unit: unit.clone(),
             tree,
         }

@@ -21,10 +21,9 @@ fn main() {
         })
         .collect::<Vec<(usize, usize)>>();
 
-    //TODO use md in below closure
     let mut seg_tree = SegTree::<(usize, usize)>::build_on_array(
         &a,
-        |x, y| (x.0 * y.0 % 998244353, (y.0 * x.1 + y.1) % 998244353),
+        move |x, y| (x.0 * y.0 % md, (y.0 * x.1 + y.1) % md),
         (1, 0),
     );
 
