@@ -52,8 +52,6 @@ impl LCA {
                 }
             }
         }
-        //let d_with_order: Vec<(usize, usize)> = order.iter().map(|&u| (d[u], u)).collect();
-        //let rmq = RMQ::new(&d_with_order, std::cmp::min);
         let rmq = RMQ::new(
             &order,
             move |u, v| if (d[u], u) < (d[v], v) { u } else { v },
