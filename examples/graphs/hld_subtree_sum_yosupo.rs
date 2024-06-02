@@ -25,8 +25,8 @@ fn main() {
 
     let hld_edges = HLD::new(&mut adj, true);
 
-    for i in 0..n {
-        fenwick.add(hld_nodes.tin[i], a[i]);
+    for (i, &elem) in a.iter().enumerate() {
+        fenwick.add(hld_nodes.tin[i], elem);
     }
 
     for _ in 0..q {
