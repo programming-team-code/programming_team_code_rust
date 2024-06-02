@@ -4,7 +4,7 @@ use crate::graphs::dfs_order::get_dfs_preorder;
 use std::ops::Range;
 
 pub struct HLD {
-    p: Vec<usize>,
+    pub p: Vec<usize>,
     siz: Vec<usize>,
     pub tin: Vec<usize>,
     head: Vec<usize>,
