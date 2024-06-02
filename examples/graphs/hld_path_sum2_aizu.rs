@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=GRL_5_E
 
 use proconio::input;
-use programming_team_code_rust::data_structures::seg_tree::SegTree;
+use programming_team_code_rust::data_structures::lazy_seg_tree::LazySegTree;
 use programming_team_code_rust::graphs::hld::HLD;
 
 fn main() {
@@ -20,7 +20,7 @@ fn main() {
         .collect::<Vec<Vec<usize>>>();
 
     let hld = HLD::new(&mut adj, true);
-    let mut st = SegTree::new(n);
+    let mut st = LazySegTree::new(n);
 
     input! {
         q: usize,
