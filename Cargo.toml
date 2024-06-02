@@ -93,3 +93,11 @@ path = "examples/strings/manacher.rs"
 [[example]]
 name = "seg_tree"
 path = "examples/data_structures/seg_tree.rs"
+
+[[example]]
+name = "seg_tree_yosupo"
+path = "examples/data_structures/seg_tree_yosupo.rs"
+
+[[example]]
+name = "seg_tree_aizu"
+path = "examples/data_structures/seg_tree_aizu.rs"
