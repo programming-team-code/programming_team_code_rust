@@ -25,7 +25,7 @@ use crate::graphs::dfs_order::get_dfs_preorder;
 pub struct LCA {
     tin: Vec<usize>,
     p: Vec<usize>,
-    rmq: RMQ<(usize, usize)>,
+    rmq: RMQ<usize>,
 }
 
 impl LCA {
@@ -52,8 +52,12 @@ impl LCA {
                 }
             }
         }
-        let d_with_order: Vec<(usize, usize)> = order.iter().map(|&u| (d[u], u)).collect();
-        let rmq = RMQ::new(&d_with_order, std::cmp::min);
+        //let d_with_order: Vec<(usize, usize)> = order.iter().map(|&u| (d[u], u)).collect();
+        //let rmq = RMQ::new(&d_with_order, std::cmp::min);
+        let rmq = RMQ::new(
+            &order,
+            move |u, v| if (d[u], u) < (d[v], v) { u } else { v },
+        );
         LCA { tin, p, rmq }
     }
 
@@ -70,6 +74,6 @@ impl LCA {
         if le > ri {
             std::mem::swap(&mut le, &mut ri);
         }
-        self.p[self.rmq.query(le + 1..ri + 1).1]
+        self.p[self.rmq.query(le + 1..ri + 1)]
     }
 }

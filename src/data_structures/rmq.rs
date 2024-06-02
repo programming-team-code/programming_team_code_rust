@@ -4,14 +4,16 @@
 /// ```
 /// use programming_team_code_rust::data_structures::rmq::RMQ;
 ///
+/// let ary = [0, 1, 2, 3, 4, 5, 6];
 /// let a = [1, 3, 2, 4, 5];
-/// let rmq = RMQ::new(&a, std::cmp::min);
+/// let rmq = RMQ::new(&a, move |x, y| if ary[x] < ary[y] { x } else { y });
+/// let rmq2 = RMQ::new(&a, std::cmp::min);
 /// assert_eq!(rmq.query(0..5), 1);
 /// assert_eq!(rmq.query(1..4), 2);
 /// ```
 pub struct RMQ<T> {
     t: Vec<Vec<T>>,
-    op: fn(T, T) -> T,
+    op: Box<dyn Fn(T, T) -> T>,
 }
 
 impl<T: Copy> RMQ<T> {
@@ -20,7 +22,7 @@ impl<T: Copy> RMQ<T> {
     /// # Complexity (n = a.len())
     /// - Time: O(n log n)
     /// - Space: O(n log n)
-    pub fn new(a: &[T], op: fn(T, T) -> T) -> Self {
+    pub fn new(a: &[T], op: impl Fn(T, T) -> T + 'static) -> Self {
         let mut t = vec![a.to_owned(); 1];
         let mut i = 0;
         while (2 << i) <= a.len() {
@@ -31,7 +33,10 @@ impl<T: Copy> RMQ<T> {
             );
             i += 1;
         }
-        Self { t, op }
+        Self {
+            t,
+            op: Box::new(op),
+        }
     }
 
     /// Query the range [range.start, range.end)
