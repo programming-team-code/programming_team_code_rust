@@ -80,8 +80,4 @@ impl HLD {
     pub fn sub_tree(&self, u: usize) -> Range<usize> {
         self.tin[u] + self.vals_edges as usize..self.tin[u] + self.siz[u]
     }
-
-    pub fn in_sub(&self, u: usize, v: usize) -> bool {
-        u == v || self.sub_tree(u).contains(&v)
-    }
 }
