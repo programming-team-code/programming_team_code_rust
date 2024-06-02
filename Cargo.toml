@@ -39,8 +39,8 @@ name = "rmq"
 path = "examples/data_structures/rmq.rs"
 
 [[example]]
-name = "seg_tree_build_on_array"
-path = "examples/data_structures/seg_tree_build_on_array.rs"
+name = "lazy_seg_tree_build_on_array"
+path = "examples/data_structures/lazy_seg_tree_build_on_array.rs"
 
 [[example]]
 name = "trie"
@@ -113,3 +113,7 @@ path = "examples/graphs/hld_path_sum1_aizu.rs"
 [[example]]
 name = "hld_path_sum2_aizu"
 path = "examples/graphs/hld_path_sum2_aizu.rs"
+
+[[example]]
+name = "seg_tree_aizu"
+path = "examples/data_structures/seg_tree_aizu.rs"
