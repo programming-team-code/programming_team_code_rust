@@ -17,7 +17,7 @@ fn op(vl: u64, vr: u64) -> u64 {
 
 /// # Example
 /// ```
-/// use programming_team_code_rust::data_structures::seg_tree::LazySegTree;
+/// use programming_team_code_rust::data_structures::lazy_seg_tree::LazySegTree;
 ///
 /// let mut seg_tree = LazySegTree::new(10);
 /// seg_tree.update(0..5, 1);
