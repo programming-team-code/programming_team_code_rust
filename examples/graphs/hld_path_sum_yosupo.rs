@@ -21,8 +21,8 @@ fn main() {
     let hld = HLD::new(&mut adj, false);
     let mut fenwick = Fenwick::<usize>::new(n);
 
-    for i in 0..n {
-        fenwick.add(hld.tin[i], a[i]);
+    for (i, &elem) in a.iter().enumerate() {
+        fenwick.add(hld.tin[i], elem);
     }
 
     for _ in 0..q {
