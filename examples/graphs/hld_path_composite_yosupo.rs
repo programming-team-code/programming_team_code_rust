@@ -33,13 +33,19 @@ fn main() {
     }
 
     let hld = HLD::new(&mut adj, false);
+
+    let mut input_a = vec![(0, 0); n];
+    for i in 0..n {
+        input_a[hld.tin[i]] = a[i];
+    }
+
     let mut st_forwards = SegTree::<(usize, usize)>::build_on_array(
-        &a,
+        &input_a,
         move |x, y| (x.0 * y.0 % md, (y.0 * x.1 + y.1) % md),
         (1, 0),
     );
     let mut st_backwards = SegTree::<(usize, usize)>::build_on_array(
-        &a,
+        &input_a,
         move |x, y| (x.0 * y.0 % md, (x.0 * y.1 + x.1) % md),
         (1, 0),
     );
