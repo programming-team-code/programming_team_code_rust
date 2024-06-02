@@ -84,4 +84,14 @@ impl HLD {
     pub fn in_sub(&self, u: usize, v: usize) -> bool {
         u == v || self.sub_tree(u).contains(&v)
     }
+
+    pub fn dist_edges(&self, u: usize, v: usize) -> usize {
+        0
+    }
+
+    pub fn kth_par(&self, u: usize, k: usize) -> usize {
+    }
+
+    pub fn kth_on_path(&self, u: usize, v: usize, k: usize) -> usize {
+    }
 }
