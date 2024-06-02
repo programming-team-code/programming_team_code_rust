@@ -1,5 +1,14 @@
 //! # Segment Tree
 
+/// # Example
+/// ```
+/// use programming_team_code_rust::data_structures::seg_tree::SegTree;
+///
+/// let mut st = SegTree::<usize>::new(3, |x, y| x + y, 0);
+/// st.set(1, 2);
+/// st.set(2, 3);
+/// assert_eq!(st.query(0..3), 5);
+/// ```
 pub struct SegTree<T> {
     n: usize,
     op: fn(T, T) -> T,
@@ -42,8 +51,13 @@ impl<T: Clone> SegTree<T> {
         }
     }
 
-    pub fn set(&mut self, pos: usize, val: T) {
-        let mut i = pos + self.n;
+    /// Sets the value at `idx` to `val`
+    ///
+    /// # Complexity
+    /// - Time: O(log n)
+    /// - Space: O(1)
+    pub fn set(&mut self, idx: usize, val: T) {
+        let mut i = idx + self.n;
         self.tree[i] = val;
         while i >= 2 {
             i /= 2;
@@ -51,6 +65,11 @@ impl<T: Clone> SegTree<T> {
         }
     }
 
+    /// Query the op of the range [range.start, range.end)
+    ///
+    /// # Complexity
+    /// - Time: O(log n)
+    /// - Space: O(1)
     pub fn query(&self, range: std::ops::Range<usize>) -> T {
         let (mut vl, mut vr, mut le, mut ri) = (
             self.unit.clone(),
