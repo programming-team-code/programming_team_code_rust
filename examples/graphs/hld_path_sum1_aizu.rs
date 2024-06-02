@@ -9,13 +9,15 @@ fn main() {
         n: usize,
     }
 
-    let mut adj = (0..n).map(|_| {
-        input! {
-            k: usize,
-            childs: [usize; k],
-        }
-        childs
-    }).collect::<Vec<Vec<usize>>>();
+    let mut adj = (0..n)
+        .map(|_| {
+            input! {
+                k: usize,
+                childs: [usize; k],
+            }
+            childs
+        })
+        .collect::<Vec<Vec<usize>>>();
 
     let hld = HLD::new(&mut adj, true);
     let mut fenwick = Fenwick::<usize>::new(n);
