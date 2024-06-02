@@ -19,7 +19,7 @@ fn main() {
                     i: usize,
                     x: usize,
                 }
-                st.update(i - 1, st.query(i - 1..i) + x);
+                st.set(i - 1, st.query(i - 1..i) + x);
             }
             _ => {
                 input! {

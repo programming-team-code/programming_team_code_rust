@@ -14,14 +14,19 @@ fn main() {
     let a = (0..n)
         .map(|_| {
             input! {
-                u: usize,
-                v: usize
+                c: usize,
+                d: usize
             }
-            (u, v)
+            (c, d)
         })
         .collect::<Vec<(usize, usize)>>();
 
-    let mut seg_tree = SegTree::<(usize, usize)>::new(n, (1, 0), |x, y| x);
+    //TODO use md in below closure
+    let mut seg_tree = SegTree::<(usize, usize)>::build_on_array(
+        &a,
+        |x, y| (x.0 * y.0 % 998244353, (y.0 * x.1 + y.1) % 998244353),
+        (1, 0),
+    );
 
     for _ in 0..q {
         input! {
@@ -35,7 +40,7 @@ fn main() {
                     c: usize,
                     d: usize
                 }
-                seg_tree.update(idx, (c, d));
+                seg_tree.set(idx, (c, d));
             }
             _ => {
                 input! {

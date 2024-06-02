@@ -22,7 +22,27 @@ impl<T: Clone> SegTree<T> {
         }
     }
 
-    pub fn update(&mut self, pos: usize, val: T) {
+    /// Creates a segment tree on a given array
+    ///
+    /// # Complexity
+    /// - Time: O(n)
+    /// - Space: O(n)
+    pub fn build_on_array(a: &[T], op: fn(T, T) -> T, unit: T) -> Self {
+        let n = a.len();
+        let mut tree = vec![unit.clone(); n];
+        tree.extend(a.to_vec());
+        for i in (1..n).rev() {
+            tree[i] = op(tree[2 * i].clone(), tree[2 * i + 1].clone());
+        }
+        Self {
+            n,
+            op,
+            unit: unit.clone(),
+            tree,
+        }
+    }
+
+    pub fn set(&mut self, pos: usize, val: T) {
         let mut i = pos + self.n;
         self.tree[i] = val;
         while i >= 2 {
