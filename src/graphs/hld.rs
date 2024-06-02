@@ -6,8 +6,9 @@ use std::ops::Range;
 /// # Example
 /// ```
 /// use programming_team_code_rust::graphs::hld::HLD;
+/// use programming_team_code_rust::data_structures::fenwick::Fenwick;
 ///
-/// let adj = vec![
+/// let mut adj = vec![
 ///    vec![1, 2],
 ///    vec![0, 3, 4],
 ///    vec![0, 5],
@@ -15,12 +16,14 @@ use std::ops::Range;
 ///    vec![1],
 ///    vec![2],
 /// ];
+/// let mut fenwick = Fenwick::<usize>::build_on_array(&[3, 2, 4, 5, 1, 2]);
 ///
-/// let hld = HLD::new(&mut adj);
-/// assert_eq!(hld.hld(0, 1), 0);
-/// assert_eq!(hld.hld(0, 2), 0);
-/// assert_eq!(hld.hld(0, 5), 0);
-/// assert_eq!(hld.hld(3, 4), 1);
+/// let hld = HLD::new(&mut adj, false);
+/// assert_eq!(hld.lca(3, 4), 1);
+/// assert_eq!(fenwick.sum(hld.sub_tree(0)), 17);
+/// let mut sum = 0;
+/// hld.path(3, 4, |range, _| sum += fenwick.sum(range));
+/// assert_eq!(sum, 11);
 /// ```
 pub struct HLD {
     /// parent
