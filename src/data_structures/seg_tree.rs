@@ -12,8 +12,8 @@
 /// ```
 pub struct SegTree<T> {
     n: usize,
-    op: Box<dyn Fn(T, T) -> T>,
-    unit: T,
+    pub op: Box<dyn Fn(T, T) -> T>,
+    pub unit: T,
     tree: Vec<T>,
 }
 

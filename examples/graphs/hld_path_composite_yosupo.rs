@@ -5,18 +5,22 @@ use programming_team_code_rust::data_structures::seg_tree::SegTree;
 use programming_team_code_rust::graphs::hld::HLD;
 
 fn main() {
+    let md = 998244353;
+
     input! {
         n: usize,
         q: usize,
     }
 
-    let a = (0..n).map(|_| {
-        input! {
-            a: usize,
-            b: usize
-        }
-        (a,b)
-    }).collect::<(usize, usize)>();
+    let a = (0..n)
+        .map(|_| {
+            input! {
+                c: usize,
+                d: usize
+            }
+            (c, d)
+        })
+        .collect::<Vec<(usize, usize)>>();
 
     input! {
         edges: [(usize, usize); n - 1],
@@ -29,11 +33,16 @@ fn main() {
     }
 
     let hld = HLD::new(&mut adj, false);
-    let mut fenwick = Fenwick::<usize>::new(n);
-
-    for i in 0..n {
-        fenwick.add(hld.tin[i], a[i]);
-    }
+    let mut st_forwards = SegTree::<(usize, usize)>::build_on_array(
+        &a,
+        move |x, y| (x.0 * y.0 % md, (y.0 * x.1 + y.1) % md),
+        (1, 0),
+    );
+    let mut st_backwards = SegTree::<(usize, usize)>::build_on_array(
+        &a,
+        move |x, y| (x.0 * y.0 % md, (x.0 * y.1 + x.1) % md),
+        (1, 0),
+    );
 
     for _ in 0..q {
         input! {
@@ -44,18 +53,28 @@ fn main() {
             0 => {
                 input! {
                     u: usize,
-                    delta: usize,
+                    c: usize,
+                    d: usize
                 }
-                fenwick.add(hld.tin[u], delta);
+                st_forwards.set(hld.tin[u], (c, d));
+                st_backwards.set(hld.tin[u], (c, d));
             }
             _ => {
                 input! {
                     u: usize,
                     v: usize,
+                    x: usize
                 }
-                let mut sum = 0;
-                hld.path(u, v, |range, _| sum += fenwick.sum(range));
-                println!("{}", sum);
+                let (mut u_anc_val, mut v_anc_val) = (st_forwards.unit, st_backwards.unit);
+                hld.path(u, v, |range, u_anc| {
+                    if u_anc {
+                        u_anc_val = (st_forwards.op)(u_anc_val, st_backwards.query(range));
+                    } else {
+                        v_anc_val = (st_forwards.op)(st_forwards.query(range), v_anc_val);
+                    }
+                });
+                let res = (st_forwards.op)(u_anc_val, v_anc_val);
+                println!("{}", (res.0 * x + res.1) % md);
             }
         }
     }

@@ -121,3 +121,7 @@ path = "examples/graphs/hld_path_sum1_aizu.rs"
 [[example]]
 name = "hld_path_sum2_aizu"
 path = "examples/graphs/hld_path_sum2_aizu.rs"
+
+[[example]]
+name = "hld_path_composite_yosupo"
+path = "examples/graphs/hld_path_composite_yosupo.rs"
