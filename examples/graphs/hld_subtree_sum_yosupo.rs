@@ -48,7 +48,10 @@ fn main() {
                 }
                 let nodes_subtree = hld_nodes.sub_tree(u);
                 let edges_subtree = hld_edges.sub_tree(u);
-                assert!(nodes_subtree.start + 1 == edges_subtree.start && nodes_subtree.end == edges_subtree.end);
+                assert!(
+                    nodes_subtree.start + 1 == edges_subtree.start
+                        && nodes_subtree.end == edges_subtree.end
+                );
                 println!("{}", fenwick.sum(nodes_subtree));
             }
         }
