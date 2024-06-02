@@ -35,8 +35,8 @@ fn main() {
     let hld = HLD::new(&mut adj, false);
 
     let mut input_a = vec![(0, 0); n];
-    for i in 0..n {
-        input_a[hld.tin[i]] = a[i];
+    for (i, &elem) in a.iter().enumerate() {
+        input_a[hld.tin[i]] = elem;
     }
 
     let mut st_forwards = SegTree::<(usize, usize)>::build_on_array(
