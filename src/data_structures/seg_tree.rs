@@ -2,9 +2,9 @@
 
 pub struct SegTree<T> {
     n: usize,
+    op: fn(T, T) -> T,
     unit: T,
     tree: Vec<T>,
-    op: fn(T, T) -> T,
 }
 
 impl<T: Clone> SegTree<T> {
@@ -13,12 +13,12 @@ impl<T: Clone> SegTree<T> {
     /// # Complexity
     /// - Time: O(n)
     /// - Space: O(n)
-    pub fn new(n: usize, unit: T, op: fn(T, T) -> T) -> Self {
+    pub fn new(n: usize, op: fn(T, T) -> T, unit: T) -> Self {
         Self {
             n,
+            op,
             unit: unit.clone(),
             tree: vec![unit.clone(); 2 * n],
-            op,
         }
     }
 
@@ -32,23 +32,24 @@ impl<T: Clone> SegTree<T> {
     }
 
     pub fn query(&self, range: std::ops::Range<usize>) -> T {
-        let (mut ra, mut rb, mut le, mut ri) = (
+        let (mut vl, mut vr, mut le, mut ri) = (
             self.unit.clone(),
             self.unit.clone(),
             range.start + self.n,
             range.end + self.n,
         );
         while le < ri {
-            if ri % 2 == 1 {
-                ra = (self.op)(ra, self.tree[ri].clone());
-                ri += 1;
-            }
             if le % 2 == 1 {
-                rb = (self.op)(self.tree[le - 1].clone(), rb);
+                vl = (self.op)(vl, self.tree[le].clone());
+                le += 1;
+            }
+            if ri % 2 == 1 {
+                ri -= 1;
+                vr = (self.op)(self.tree[ri].clone(), vr);
             }
             le /= 2;
             ri /= 2;
         }
-        (self.op)(ra, rb)
+        (self.op)(vl, vr)
     }
 }

@@ -8,7 +8,7 @@ fn main() {
         n: usize,
         q: usize,
     }
-    let mut st = SegTree::<usize>::new(n, 0, |x, y| x+y);
+    let mut st = SegTree::<usize>::new(n, |x, y| x + y, 0);
     for _ in 0..q {
         input! {
             t: u8,
