@@ -15,15 +15,12 @@ impl HLD {
     pub fn new(adj: &mut [Vec<usize>], vals_edges: bool) -> Self {
         let n = adj.len();
         let mut p = vec![0; n];
-        let order = get_dfs_preorder(adj);
-        for &u in &order {
-            adj[u].retain(|&v| v != p[u]);
-            for &v in &adj[u] {
-                p[v] = u;
-            }
-        }
         let mut siz = vec![1; n];
-        for &u in order.iter().rev() {
+        for &u in get_dfs_preorder(adj).iter().rev() {
+            if let Some(i) = adj[u].iter().position(|&v| p[v] != u) {
+                p[u] = adj[u][i];
+                adj[u].swap_remove(i);
+            }
             for i in 0..adj[u].len() {
                 let v = adj[u][i];
                 siz[u] += siz[v];
