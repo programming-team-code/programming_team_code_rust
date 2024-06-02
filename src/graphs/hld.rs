@@ -3,8 +3,29 @@
 use crate::graphs::dfs_order::{get_dfs_postorder, get_dfs_preorder};
 use std::ops::Range;
 
+/// # Example
+/// ```
+/// use programming_team_code_rust::graphs::hld::HLD;
+///
+/// let adj = vec![
+///    vec![1, 2],
+///    vec![0, 3, 4],
+///    vec![0, 5],
+///    vec![1],
+///    vec![1],
+///    vec![2],
+/// ];
+///
+/// let hld = HLD::new(&mut adj);
+/// assert_eq!(hld.hld(0, 1), 0);
+/// assert_eq!(hld.hld(0, 2), 0);
+/// assert_eq!(hld.hld(0, 5), 0);
+/// assert_eq!(hld.hld(3, 4), 1);
+/// ```
 pub struct HLD {
+    /// parent
     pub p: Vec<usize>,
+    /// time in
     pub tin: Vec<usize>,
     siz: Vec<usize>,
     head: Vec<usize>,
@@ -12,6 +33,14 @@ pub struct HLD {
 }
 
 impl HLD {
+    /// Create a new HLD struct
+    ///
+    /// `adj` can be undirected tree or a directed tree (rooted at node 0)
+    /// `adj` can also be an undirected forest
+    ///
+    /// # Complexity (n = adj.len())
+    /// - Time: O(n)
+    /// - Space: O(n)
     pub fn new(adj: &mut [Vec<usize>], vals_edges: bool) -> Self {
         let n = adj.len();
         let mut p = vec![0; n];
@@ -46,6 +75,11 @@ impl HLD {
         }
     }
 
+    /// Gets the lowest common ancestor of u and v
+    ///
+    /// # Complexity
+    /// - Time: O(log n)
+    /// - Space: O(1)
     pub fn lca(&self, mut u: usize, mut v: usize) -> usize {
         loop {
             if self.tin[u] > self.tin[v] {
@@ -58,6 +92,11 @@ impl HLD {
         }
     }
 
+    /// Calls callback `f` on ranges representing the path from u to v
+    ///
+    /// # Complexity
+    /// - Time: O(log n) calls to `f`
+    /// - Space: O(1)
     pub fn path(&self, mut u: usize, mut v: usize, mut f: impl FnMut(Range<usize>, bool)) {
         let mut u_anc = false;
         loop {
@@ -77,6 +116,11 @@ impl HLD {
         );
     }
 
+    /// Gets range representing the subtree of u
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn sub_tree(&self, u: usize) -> Range<usize> {
         self.tin[u] + self.vals_edges as usize..self.tin[u] + self.siz[u]
     }

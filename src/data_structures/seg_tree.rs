@@ -12,7 +12,9 @@
 /// ```
 pub struct SegTree<T> {
     n: usize,
+    /// operation
     pub op: Box<dyn Fn(T, T) -> T>,
+    /// identity element
     pub unit: T,
     tree: Vec<T>,
 }
