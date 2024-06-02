@@ -61,12 +61,7 @@ impl HLD {
         }
     }
 
-    pub fn path(
-        &self,
-        mut u: usize,
-        mut v: usize,
-        mut f: impl FnMut(Range<usize>, bool) -> (),
-    ) -> () {
+    pub fn path(&self, mut u: usize, mut v: usize, mut f: impl FnMut(Range<usize>, bool)) {
         let mut u_anc = false;
         loop {
             if self.tin[u] > self.tin[v] {
