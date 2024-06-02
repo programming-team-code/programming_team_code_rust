@@ -5,8 +5,8 @@ use std::ops::Range;
 
 pub struct HLD {
     pub p: Vec<usize>,
-    siz: Vec<usize>,
     pub tin: Vec<usize>,
+    siz: Vec<usize>,
     head: Vec<usize>,
     vals_edges: bool,
 }
