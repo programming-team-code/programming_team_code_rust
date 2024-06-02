@@ -27,12 +27,9 @@ impl HLD {
             for i in 0..adj[u].len() {
                 let v = adj[u][i];
                 siz[u] += siz[v];
-                /*
-                 * TODO: put back after observing TLE
                 if siz[v] > siz[adj[u][0]] {
                     adj[u].swap(0, i);
                 }
-                */
             }
         }
         let mut tin = vec![0; n];
