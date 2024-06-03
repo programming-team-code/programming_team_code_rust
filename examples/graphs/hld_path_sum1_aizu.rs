@@ -37,7 +37,7 @@ fn main() {
                     u: usize,
                     delta: usize,
                 }
-                hld.path(u, hld.p[u], |range, _| {
+                hld.path(u, hld.p[u].unwrap(), |range, _| {
                     assert!(range.len() <= 1);
                     if range.len() == 1 {
                         fenwick.add(range.start, delta)
