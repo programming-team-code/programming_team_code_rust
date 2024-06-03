@@ -85,23 +85,6 @@ impl HLD {
         }
     }
 
-    /// Gets the lowest common ancestor of u and v
-    ///
-    /// # Complexity
-    /// - Time: O(log n)
-    /// - Space: O(1)
-    pub fn lca(&self, mut u: usize, mut v: usize) -> usize {
-        loop {
-            if self.tin[u] > self.tin[v] {
-                std::mem::swap(&mut u, &mut v);
-            }
-            if self.head[u] == self.head[v] {
-                return u;
-            }
-            v = self.p[self.head[v]].unwrap();
-        }
-    }
-
     /// Calls callback `f` on ranges representing the path from u to v
     ///
     /// # Complexity
@@ -133,6 +116,23 @@ impl HLD {
     /// - Space: O(1)
     pub fn sub_tree(&self, u: usize) -> Range<usize> {
         self.tin[u] + self.vals_edges as usize..self.tin[u] + self.siz[u]
+    }
+
+    /// Gets the lowest common ancestor of u and v
+    ///
+    /// # Complexity
+    /// - Time: O(log n)
+    /// - Space: O(1)
+    pub fn lca(&self, mut u: usize, mut v: usize) -> usize {
+        loop {
+            if self.tin[u] > self.tin[v] {
+                std::mem::swap(&mut u, &mut v);
+            }
+            if self.head[u] == self.head[v] {
+                return u;
+            }
+            v = self.p[self.head[v]].unwrap();
+        }
     }
 
     pub fn in_sub(&self, u: usize, v: usize) -> bool {
