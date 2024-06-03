@@ -173,11 +173,11 @@ impl HLD {
             if k <= len_path {
                 return Some(self.ord[self.tin[u] - k]);
             }
-            k -= len_path + 1;
             match self.p[self.head[u]] {
                 Some(v) => u = v,
                 None => return None,
             }
+            k -= len_path + 1;
         }
     }
 
