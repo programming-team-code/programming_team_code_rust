@@ -12,7 +12,7 @@
 /// ```
 pub struct SegTree<T> {
     n: usize,
-    op: Box<dyn Fn(T, T) -> T>,
+    op: fn(&T, &T) -> T,
     unit: T,
     tree: Vec<T>,
 }
@@ -23,12 +23,12 @@ impl<T: Clone> SegTree<T> {
     /// # Complexity
     /// - Time: O(n)
     /// - Space: O(n)
-    pub fn new(n: usize, op: impl Fn(T, T) -> T + 'static, unit: T) -> Self {
+    pub fn new(n: usize, op: fn(&T, &T) -> T, unit: T) -> Self {
         Self {
             n,
-            op: Box::new(op),
-            unit: unit.clone(),
+            op,
             tree: vec![unit.clone(); 2 * n],
+            unit,
         }
     }
 
@@ -37,17 +37,17 @@ impl<T: Clone> SegTree<T> {
     /// # Complexity
     /// - Time: O(n)
     /// - Space: O(n)
-    pub fn build_on_array(a: &[T], op: impl Fn(T, T) -> T + 'static, unit: T) -> Self {
+    pub fn build_on_array(a: &[T], op: fn(&T, &T) -> T, unit: T) -> Self {
         let n = a.len();
         let mut tree = vec![unit.clone(); n];
         tree.extend(a.to_vec());
         for i in (1..n).rev() {
-            tree[i] = op(tree[2 * i].clone(), tree[2 * i + 1].clone());
+            tree[i] = op(&tree[2 * i], &tree[2 * i + 1]);
         }
         Self {
             n,
-            op: Box::new(op),
-            unit: unit.clone(),
+            op,
+            unit,
             tree,
         }
     }
@@ -62,7 +62,7 @@ impl<T: Clone> SegTree<T> {
         self.tree[i] = val;
         while i >= 2 {
             i /= 2;
-            self.tree[i] = (self.op)(self.tree[2 * i].clone(), self.tree[2 * i + 1].clone());
+            self.tree[i] = (self.op)(&self.tree[2 * i], &self.tree[2 * i + 1]);
         }
     }
 
@@ -80,15 +80,15 @@ impl<T: Clone> SegTree<T> {
         );
         while le < ri {
             if le % 2 == 1 {
-                vl = (self.op)(vl, self.tree[le].clone());
+                vl = (self.op)(&vl, &self.tree[le]);
                 le += 1;
             }
             if ri % 2 == 1 {
-                vr = (self.op)(self.tree[ri - 1].clone(), vr);
+                vr = (self.op)(&self.tree[ri - 1], &vr);
             }
             le /= 2;
             ri /= 2;
         }
-        (self.op)(vl, vr)
+        (self.op)(&vl, &vr)
     }
 }

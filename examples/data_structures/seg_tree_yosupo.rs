@@ -4,8 +4,6 @@ use proconio::input;
 use programming_team_code_rust::data_structures::seg_tree::SegTree;
 
 fn main() {
-    let md = 998244353;
-
     input! {
         n: usize,
         q: usize
@@ -23,7 +21,7 @@ fn main() {
 
     let mut seg_tree = SegTree::<(usize, usize)>::build_on_array(
         &a,
-        move |x, y| (x.0 * y.0 % md, (y.0 * x.1 + y.1) % md),
+        move |x, y| (x.0 * y.0 % 998244353, (y.0 * x.1 + y.1) % 998244353),
         (1, 0),
     );
 
@@ -48,7 +46,7 @@ fn main() {
                     x: usize
                 }
                 let (c, d) = seg_tree.query(le..ri);
-                println!("{}", (c * x + d) % md);
+                println!("{}", (c * x + d) % 998244353);
             }
         }
     }
