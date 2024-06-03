@@ -39,8 +39,8 @@ name = "rmq"
 path = "examples/data_structures/rmq.rs"
 
 [[example]]
-name = "seg_tree_build_on_array"
-path = "examples/data_structures/seg_tree_build_on_array.rs"
+name = "lazy_seg_tree_build_on_array"
+path = "examples/data_structures/lazy_seg_tree_build_on_array.rs"
 
 [[example]]
 name = "trie"
@@ -89,3 +89,11 @@ path = "examples/numbers/primes_is_prime.rs"
 [[example]]
 name = "manacher"
 path = "examples/strings/manacher.rs"
+
+[[example]]
+name = "seg_tree_yosupo"
+path = "examples/data_structures/seg_tree_yosupo.rs"
+
+[[example]]
+name = "seg_tree_aizu"
+path = "examples/data_structures/seg_tree_aizu.rs"
