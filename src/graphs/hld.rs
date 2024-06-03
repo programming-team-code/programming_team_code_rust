@@ -32,7 +32,7 @@ pub struct HLD {
     pub tin: Vec<usize>,
     /// depth
     pub d: Vec<usize>,
-    order: Vec<usize>,
+    ord: Vec<usize>,
     siz: Vec<usize>,
     head: Vec<usize>,
     vals_edges: bool,
@@ -66,8 +66,8 @@ impl HLD {
         let mut d = vec![0; n];
         let mut tin = vec![0; n];
         let mut head = vec![0; n];
-        let order = get_dfs_preorder(adj);
-        for (i, &u) in order.iter().enumerate() {
+        let ord = get_dfs_preorder(adj);
+        for (i, &u) in ord.iter().enumerate() {
             tin[u] = i;
             for &v in &adj[u] {
                 d[v] = 1 + d[u];
@@ -78,7 +78,7 @@ impl HLD {
             p,
             siz,
             d,
-            order,
+            ord,
             tin,
             head,
             vals_edges,
@@ -151,7 +151,7 @@ impl HLD {
         loop {
             let len_path = self.tin[u] - self.tin[self.head[u]];
             if k <= len_path {
-                return Some(self.order[self.tin[u] - k]);
+                return Some(self.ord[self.tin[u] - k]);
             }
             k -= len_path + 1;
             match self.p[self.head[u]] {
