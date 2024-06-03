@@ -16,7 +16,7 @@ use std::ops::Range;
 ///    vec![1],
 ///    vec![2],
 /// ];
-/// let mut fenwick = Fenwick::<usize>::build_on_array(&[3, 2, 4, 5, 1, 2]);
+/// let fenwick = Fenwick::<usize>::build_on_array(&[3, 2, 4, 5, 1, 2]);
 ///
 /// let hld = HLD::new(&mut adj, false);
 /// assert_eq!(hld.lca(3, 4), 1);
