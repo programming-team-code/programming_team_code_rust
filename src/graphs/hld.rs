@@ -135,13 +135,16 @@ impl HLD {
         }
     }
 
-    /// Gets the number of edges on path from u to v
+    /// If !vals_edges, then gets number of nodes on path from u to v
+    /// If vals_edges, then gets number of edges on path from u to v
     ///
     /// # Complexity
     /// - Time: O(log n)
     /// - Space: O(1)
     pub fn dist(&self, u: usize, v: usize) -> usize {
-        self.d[u] + self.d[v] - 2 * self.d[self.lca(u, v)]
+        let mut dst = 0;
+        self.path(u, v, |range, _| dst += range.len());
+        dst
     }
 
     /// Returns true iff v is in u's subtree
@@ -159,10 +162,10 @@ impl HLD {
     /// - Time: O(log n)
     /// - Space: O(1)
     pub fn on_path(&self, u: usize, v: usize, w: usize) -> bool {
-        self.dist(u, w) + self.dist(w, v) == self.dist(u, v)
+        self.in_sub(self.lca(u, v), w) && (self.in_sub(w, u) || self.in_sub(w, v))
     }
 
-    /// Returns a node x with in_sub(x, u) and dist(u, x) == k; or None
+    /// Returns a node k edges up from u, or None
     ///
     /// # Complexity
     /// - Time: O(log n)
