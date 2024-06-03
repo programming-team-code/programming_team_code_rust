@@ -11,7 +11,9 @@
 /// ```
 pub struct SegTree<T> {
     n: usize,
+    /// associative operation
     pub op: fn(&T, &T) -> T,
+    /// identity element
     pub unit: T,
     tree: Vec<T>,
 }
