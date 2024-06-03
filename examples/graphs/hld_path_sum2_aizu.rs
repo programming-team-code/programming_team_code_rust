@@ -37,14 +37,14 @@ fn main() {
                     u: usize,
                     delta: u64,
                 }
-                hld.path(0, u, |range, _| st.update(range, delta));
+                hld.path(u, 0, |range, _| st.update(range, delta));
             }
             _ => {
                 input! {
                     u: usize,
                 }
                 let mut sum = 0;
-                hld.path(0, u, |range, _| sum += st.query(range));
+                hld.path(u, 0, |range, _| sum += st.query(range));
                 println!("{}", sum);
             }
         }

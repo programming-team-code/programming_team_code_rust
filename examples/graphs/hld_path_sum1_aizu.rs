@@ -49,7 +49,7 @@ fn main() {
                     u: usize,
                 }
                 let mut sum = 0;
-                hld.path(0, u, |range, _| sum += fenwick.sum(range));
+                hld.path(u, 0, |range, _| sum += fenwick.sum(range));
                 println!("{}", sum);
             }
         }
