@@ -1,6 +1,6 @@
 //! # Heavy Light Decomposition
 
-use crate::graphs::dfs_order::{get_dfs_preorder, get_dfs_postorder};
+use crate::graphs::dfs_order::{get_dfs_postorder, get_dfs_preorder};
 use std::ops::Range;
 
 /// # Example

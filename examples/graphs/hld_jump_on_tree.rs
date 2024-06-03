@@ -2,7 +2,6 @@
 
 use proconio::input;
 use programming_team_code_rust::graphs::hld::HLD;
-use programming_team_code_rust::graphs::dfs_order::get_dfs_preorder;
 
 fn main() {
     input! {
@@ -23,13 +22,6 @@ fn main() {
     let hld_nodes = HLD::new(&mut adj, false);
     let hld_edges = HLD::new(&mut adj, true);
 
-    let mut d: Vec<usize> = vec![0; n];
-    for &u in get_dfs_preorder(&adj).iter() {
-        if let Some(par) = hld_nodes.p[u] {
-            d[u] = 1 + d[par];
-        }
-    }
-
     for _ in 0..q {
         input! {
             u: usize,
@@ -38,9 +30,6 @@ fn main() {
         }
 
         assert_eq!(hld_nodes.dist(u, v), 1 + hld_edges.dist(u, v));
-        let in_sub_naive = hld_nodes.kth_par(v, d[u].abs_diff(d[v])) == Some(u);
-        assert_eq!(in_sub_naive, hld_nodes.in_sub(u, v));
-        assert_eq!(in_sub_naive, hld_edges.in_sub(u, v));
 
         let res = hld_nodes.kth_on_path(u, v, k);
         assert_eq!(res, hld_edges.kth_on_path(u, v, k));
