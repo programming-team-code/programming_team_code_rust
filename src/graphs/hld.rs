@@ -185,14 +185,14 @@ impl HLD {
     /// - Time: O(log n)
     /// - Space: O(1)
     pub fn kth_on_path(&self, u: usize, v: usize, k: usize) -> Option<usize> {
-        let mut dst = [0; 2];
-        self.path(u, v, |range, u_anc| dst[u_anc as usize] += range.len());
-        if k < dst[0] {
+        let mut dst_side = [0; 2];
+        self.path(u, v, |range, u_anc| dst_side[u_anc as usize] += range.len());
+        if k < dst_side[0] {
             return self.kth_par(u, k);
         }
-        let d = dst[0] + dst[1] - !self.vals_edges as usize;
-        if k <= d {
-            self.kth_par(v, d - k)
+        let dst = dst_side[0] + dst_side[1] - !self.vals_edges as usize;
+        if k <= dst {
+            self.kth_par(v, dst - k)
         } else {
             None
         }
