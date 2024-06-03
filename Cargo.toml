@@ -59,12 +59,12 @@ name = "dijk_yosupo"
 path = "examples/graphs/dijk_yosupo.rs"
 
 [[example]]
-name = "lca_aizu"
-path = "examples/graphs/lca_aizu.rs"
+name = "lca_rmq_aizu"
+path = "examples/graphs/lca_rmq_aizu.rs"
 
 [[example]]
-name = "lca_yosupo"
-path = "examples/graphs/lca_yosupo.rs"
+name = "lca_rmq_yosupo"
+path = "examples/graphs/lca_rmq_yosupo.rs"
 
 [[example]]
 name = "scc"
@@ -97,3 +97,31 @@ path = "examples/data_structures/seg_tree_yosupo.rs"
 [[example]]
 name = "seg_tree_aizu"
 path = "examples/data_structures/seg_tree_aizu.rs"
+
+[[example]]
+name = "hld_lca_yosupo"
+path = "examples/graphs/hld_lca_yosupo.rs"
+
+[[example]]
+name = "hld_lca_aizu"
+path = "examples/graphs/hld_lca_aizu.rs"
+
+[[example]]
+name = "hld_subtree_sum_yosupo"
+path = "examples/graphs/hld_subtree_sum_yosupo.rs"
+
+[[example]]
+name = "hld_path_sum_yosupo"
+path = "examples/graphs/hld_path_sum_yosupo.rs"
+
+[[example]]
+name = "hld_path_sum1_aizu"
+path = "examples/graphs/hld_path_sum1_aizu.rs"
+
+[[example]]
+name = "hld_path_sum2_aizu"
+path = "examples/graphs/hld_path_sum2_aizu.rs"
+
+[[example]]
+name = "hld_path_composite_yosupo"
+path = "examples/graphs/hld_path_composite_yosupo.rs"
