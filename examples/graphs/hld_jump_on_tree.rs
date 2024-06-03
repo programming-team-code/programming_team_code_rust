@@ -19,8 +19,7 @@ fn main() {
         adj[v].push(u);
     }
 
-    let hld_nodes = HLD::new(&mut adj, false);
-    let hld_edges = HLD::new(&mut adj, true);
+    let hld = HLD::new(&mut adj, true);
 
     for _ in 0..q {
         input! {
@@ -28,9 +27,7 @@ fn main() {
             v: usize,
             k: usize,
         }
-        let res = hld_nodes.kth_on_path(u, v, k);
-        assert!(res == hld_edges.kth_on_path(u, v, k));
-        match res {
+        match hld.kth_on_path(u, v, k) {
             Some(v) => println!("{}", v),
             None => println!("-1"),
         }
