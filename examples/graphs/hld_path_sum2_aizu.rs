@@ -37,7 +37,7 @@ fn main() {
                     u: usize,
                     delta: u64,
                 }
-                hld.path(0, u, |range, _| st.update(range, delta));
+                hld.path(u, 0, |range, _| st.update(range, delta));
             }
             _ => {
                 input! {
