@@ -28,16 +28,16 @@ fn main() {
             v: usize,
             k: usize,
         }
+        let in_sub_naive = hld_nodes.kth_par(v, hld_nodes.d[u].abs_diff(hld_nodes.d[v])) == Some(u);
+        assert_eq!(in_sub_naive, hld_nodes.in_sub(u, v));
+        assert_eq!(in_sub_naive, hld_edges.in_sub(u, v));
         match hld_nodes.kth_on_path(u, v, k) {
             Some(w) => {
                 assert!(k <= hld_nodes.dist(u, v));
                 assert!(hld_nodes.on_path(u, v, w));
-                let u_sub_tree = hld_nodes.in_sub(w, u);
-                let v_sub_tree = hld_nodes.in_sub(w, v);
-                assert_eq!(u_sub_tree, hld_edges.in_sub(w, u));
-                assert_eq!(v_sub_tree, hld_edges.in_sub(w, v));
-                assert!(u_sub_tree || v_sub_tree);
-                assert_eq!(u_sub_tree && v_sub_tree, w == hld_nodes.lca(u, v));
+                if w != v {
+                    assert!(!hld_nodes.on_path(u, w, v));
+                }
                 println!("{}", w);
             }
             None => {
