@@ -4,16 +4,15 @@
 /// ```
 /// use programming_team_code_rust::data_structures::seg_tree::SegTree;
 ///
-/// let md = 6;
-/// let mut st = SegTree::<usize>::new(3, move |x, y| (x + y) % md, 0);
+/// let mut st = SegTree::<usize>::new(3, |&x, &y| x + y, 0);
 /// st.set(1, 2);
 /// st.set(2, 3);
 /// assert_eq!(st.query(0..3), 5);
 /// ```
 pub struct SegTree<T> {
     n: usize,
-    /// operation
-    pub op: Box<dyn Fn(T, T) -> T>,
+    /// associative operation
+    pub op: fn(&T, &T) -> T,
     /// identity element
     pub unit: T,
     tree: Vec<T>,
@@ -25,12 +24,12 @@ impl<T: Clone> SegTree<T> {
     /// # Complexity
     /// - Time: O(n)
     /// - Space: O(n)
-    pub fn new(n: usize, op: impl Fn(T, T) -> T + 'static, unit: T) -> Self {
+    pub fn new(n: usize, op: fn(&T, &T) -> T, unit: T) -> Self {
         Self {
             n,
-            op: Box::new(op),
-            unit: unit.clone(),
+            op,
             tree: vec![unit.clone(); 2 * n],
+            unit,
         }
     }
 
@@ -39,19 +38,14 @@ impl<T: Clone> SegTree<T> {
     /// # Complexity
     /// - Time: O(n)
     /// - Space: O(n)
-    pub fn build_on_array(a: &[T], op: impl Fn(T, T) -> T + 'static, unit: T) -> Self {
+    pub fn build_on_array(a: &[T], op: fn(&T, &T) -> T, unit: T) -> Self {
         let n = a.len();
         let mut tree = vec![unit.clone(); n];
         tree.extend(a.to_vec());
         for i in (1..n).rev() {
-            tree[i] = op(tree[2 * i].clone(), tree[2 * i + 1].clone());
+            tree[i] = op(&tree[2 * i], &tree[2 * i + 1]);
         }
-        Self {
-            n,
-            op: Box::new(op),
-            unit: unit.clone(),
-            tree,
-        }
+        Self { n, op, unit, tree }
     }
 
     /// Sets the value at `idx` to `val`
@@ -64,7 +58,7 @@ impl<T: Clone> SegTree<T> {
         self.tree[i] = val;
         while i >= 2 {
             i /= 2;
-            self.tree[i] = (self.op)(self.tree[2 * i].clone(), self.tree[2 * i + 1].clone());
+            self.tree[i] = (self.op)(&self.tree[2 * i], &self.tree[2 * i + 1]);
         }
     }
 
@@ -82,15 +76,15 @@ impl<T: Clone> SegTree<T> {
         );
         while le < ri {
             if le % 2 == 1 {
-                vl = (self.op)(vl, self.tree[le].clone());
+                vl = (self.op)(&vl, &self.tree[le]);
                 le += 1;
             }
             if ri % 2 == 1 {
-                vr = (self.op)(self.tree[ri - 1].clone(), vr);
+                vr = (self.op)(&self.tree[ri - 1], &vr);
             }
             le /= 2;
             ri /= 2;
         }
-        (self.op)(vl, vr)
+        (self.op)(&vl, &vr)
     }
 }

@@ -85,7 +85,7 @@ impl LazySegTree {
         }
     }
 
-    /// Updates the range [le, ri) by adding delta to each element
+    /// Updates the range [qr.start, qr.end) by adding delta to each element
     /// in the range
     ///
     /// # Complexity
@@ -109,7 +109,7 @@ impl LazySegTree {
         self.tree[v] = op(self.tree[2 * v], self.tree[2 * v + 1]);
     }
 
-    /// Queries the range [le, ri)
+    /// Queries the range [qr.start, qr.end)
     ///
     /// # Complexity
     /// - Time: O(log(n))
