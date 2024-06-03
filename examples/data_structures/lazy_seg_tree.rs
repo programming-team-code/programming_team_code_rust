@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/all/DSL_2_G
 
 use proconio::input;
-use programming_team_code_rust::data_structures::seg_tree::SegTree;
+use programming_team_code_rust::data_structures::lazy_seg_tree::LazySegTree;
 
 fn main() {
     input! {
@@ -9,7 +9,7 @@ fn main() {
         q: usize
     }
 
-    let mut seg_tree = SegTree::new(n);
+    let mut seg_tree = LazySegTree::new(n);
     for _ in 0..q {
         input! {
             t: usize

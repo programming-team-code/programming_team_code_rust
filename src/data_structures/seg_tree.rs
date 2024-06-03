@@ -1,135 +1,88 @@
 //! # Segment Tree
 
-use std::ops::Range;
-
-/// see https://codeforces.com/blog/entry/112755
-///
-/// returns the split point of the range which
-/// makes the segment tree a complete binary tree
-fn split(tr: &Range<usize>) -> usize {
-    let pw2 = 1 << tr.len().ilog2();
-    (tr.start + pw2).min(tr.end - pw2 / 2)
-}
-
-fn op(vl: u64, vr: u64) -> u64 {
-    vl + vr
-}
-
 /// # Example
 /// ```
 /// use programming_team_code_rust::data_structures::seg_tree::SegTree;
 ///
-/// let mut seg_tree = SegTree::new(10);
-/// seg_tree.update(0..5, 1);
-/// seg_tree.update(5..10, 2);
-/// assert_eq!(seg_tree.query(0..10), 15);
+/// let mut st = SegTree::<usize>::new(3, |&x, &y| x + y, 0);
+/// st.set(1, 2);
+/// st.set(2, 3);
+/// assert_eq!(st.query(0..3), 5);
 /// ```
-pub struct SegTree {
+pub struct SegTree<T> {
     n: usize,
-    tree: Vec<u64>,
-    lazy: Vec<u64>,
+    op: fn(&T, &T) -> T,
+    unit: T,
+    tree: Vec<T>,
 }
 
-impl SegTree {
+impl<T: Clone> SegTree<T> {
     /// Creates a new segment tree with n elements
     ///
     /// # Complexity
     /// - Time: O(n)
     /// - Space: O(n)
-    pub fn new(n: usize) -> Self {
-        SegTree {
+    pub fn new(n: usize, op: fn(&T, &T) -> T, unit: T) -> Self {
+        Self {
             n,
-            tree: vec![0; 2 * n],
-            lazy: vec![0; n],
+            op,
+            tree: vec![unit.clone(); 2 * n],
+            unit,
         }
     }
 
-    /// Constructs a segment tree on a given array
+    /// Creates a segment tree on a given array
     ///
     /// # Complexity
     /// - Time: O(n)
     /// - Space: O(n)
-    pub fn build_on_array(a: &[u64]) -> Self {
+    pub fn build_on_array(a: &[T], op: fn(&T, &T) -> T, unit: T) -> Self {
         let n = a.len();
-        let mut pw2 = 1;
-        while pw2 < n {
-            pw2 *= 2;
-        }
-        let mut tree = vec![0; 2 * n];
-        for i in 0..n {
-            tree[(i + pw2) % n + n] = a[i];
-        }
+        let mut tree = vec![unit.clone(); n];
+        tree.extend(a.to_vec());
         for i in (1..n).rev() {
-            tree[i] = op(tree[2 * i], tree[2 * i + 1]);
+            tree[i] = op(&tree[2 * i], &tree[2 * i + 1]);
         }
-        SegTree {
-            n,
-            tree,
-            lazy: vec![0; n],
-        }
+        Self { n, op, unit, tree }
     }
 
-    fn apply(&mut self, delta: u64, tr: &Range<usize>, v: usize) {
-        self.tree[v] += delta * tr.len() as u64;
-        if v < self.n {
-            self.lazy[v] += delta;
-        }
-    }
-
-    fn push(&mut self, tr: &Range<usize>, v: usize) {
-        if self.lazy[v] > 0 {
-            let tm = split(tr);
-            self.apply(self.lazy[v], &(tr.start..tm), 2 * v);
-            self.apply(self.lazy[v], &(tm..tr.end), 2 * v + 1);
-            self.lazy[v] = 0;
-        }
-    }
-
-    /// Updates the range [le, ri) by adding delta to each element
-    /// in the range
+    /// Sets the value at `idx` to `val`
     ///
     /// # Complexity
-    /// - Time: O(log(n))
-    /// - Space: O(log(n)) due to the program stack
-    pub fn update(&mut self, qr: Range<usize>, delta: u64) {
-        self.update_impl(&qr, delta, &(0..self.n), 1);
+    /// - Time: O(log n)
+    /// - Space: O(1)
+    pub fn set(&mut self, idx: usize, val: T) {
+        let mut i = idx + self.n;
+        self.tree[i] = val;
+        while i >= 2 {
+            i /= 2;
+            self.tree[i] = (self.op)(&self.tree[2 * i], &self.tree[2 * i + 1]);
+        }
     }
 
-    fn update_impl(&mut self, qr: &Range<usize>, delta: u64, tr: &Range<usize>, v: usize) {
-        if qr.end <= tr.start || tr.end <= qr.start {
-            return;
-        }
-        if qr.start <= tr.start && tr.end <= qr.end {
-            return self.apply(delta, tr, v);
-        }
-        self.push(tr, v);
-        let tm = split(tr);
-        self.update_impl(qr, delta, &(tr.start..tm), 2 * v);
-        self.update_impl(qr, delta, &(tm..tr.end), 2 * v + 1);
-        self.tree[v] = op(self.tree[2 * v], self.tree[2 * v + 1]);
-    }
-
-    /// Queries the range [le, ri)
+    /// Query the op of the range [range.start, range.end)
     ///
     /// # Complexity
-    /// - Time: O(log(n))
-    /// - Space: O(log(n)) due to the program stack
-    pub fn query(&mut self, qr: Range<usize>) -> u64 {
-        self.query_impl(&qr, &(0..self.n), 1)
-    }
-
-    fn query_impl(&mut self, qr: &Range<usize>, tr: &Range<usize>, v: usize) -> u64 {
-        if qr.end <= tr.start || tr.end <= qr.start {
-            return 0;
+    /// - Time: O(log n)
+    /// - Space: O(1)
+    pub fn query(&self, range: std::ops::Range<usize>) -> T {
+        let (mut vl, mut vr, mut le, mut ri) = (
+            self.unit.clone(),
+            self.unit.clone(),
+            range.start + self.n,
+            range.end + self.n,
+        );
+        while le < ri {
+            if le % 2 == 1 {
+                vl = (self.op)(&vl, &self.tree[le]);
+                le += 1;
+            }
+            if ri % 2 == 1 {
+                vr = (self.op)(&self.tree[ri - 1], &vr);
+            }
+            le /= 2;
+            ri /= 2;
         }
-        if qr.start <= tr.start && tr.end <= qr.end {
-            return self.tree[v];
-        }
-        self.push(tr, v);
-        let tm = split(tr);
-        op(
-            self.query_impl(qr, &(tr.start..tm), 2 * v),
-            self.query_impl(qr, &(tm..tr.end), 2 * v + 1),
-        )
+        (self.op)(&vl, &vr)
     }
 }
