@@ -44,12 +44,7 @@ impl<T: Clone> SegTree<T> {
         for i in (1..n).rev() {
             tree[i] = op(&tree[2 * i], &tree[2 * i + 1]);
         }
-        Self {
-            n,
-            op,
-            unit,
-            tree,
-        }
+        Self { n, op, unit, tree }
     }
 
     /// Sets the value at `idx` to `val`
