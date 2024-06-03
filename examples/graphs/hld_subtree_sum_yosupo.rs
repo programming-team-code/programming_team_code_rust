@@ -20,13 +20,11 @@ fn main() {
         adj[p].push(c);
     }
 
-    let hld_nodes = HLD::new(&mut adj, false);
+    let hld = HLD::new(&mut adj, false);
     let mut fenwick = Fenwick::<usize>::new(n);
 
-    let hld_edges = HLD::new(&mut adj, true);
-
     for (i, &elem) in a.iter().enumerate() {
-        fenwick.add(hld_nodes.tin[i], elem);
+        fenwick.add(hld.tin[i], elem);
     }
 
     for _ in 0..q {
@@ -40,19 +38,13 @@ fn main() {
                     u: usize,
                     delta: usize,
                 }
-                fenwick.add(hld_nodes.tin[u], delta);
+                fenwick.add(hld.tin[u], delta);
             }
             _ => {
                 input! {
                     u: usize,
                 }
-                let nodes_subtree = hld_nodes.sub_tree(u);
-                let edges_subtree = hld_edges.sub_tree(u);
-                assert!(
-                    nodes_subtree.start + 1 == edges_subtree.start
-                        && nodes_subtree.end == edges_subtree.end
-                );
-                println!("{}", fenwick.sum(nodes_subtree));
+                println!("{}", fenwick.sum(hld.sub_tree(u)));
             }
         }
     }
