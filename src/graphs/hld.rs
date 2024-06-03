@@ -1,6 +1,6 @@
 //! # Heavy Light Decomposition
 
-use crate::graphs::dfs_order::{get_dfs_postorder, get_dfs_preorder};
+use crate::graphs::dfs_order::{get_dfs_preorder, get_dfs_postorder};
 use std::ops::Range;
 
 /// # Example
@@ -30,8 +30,6 @@ pub struct HLD {
     pub p: Vec<Option<usize>>,
     /// time in
     pub tin: Vec<usize>,
-    /// depth
-    pub d: Vec<usize>,
     ord: Vec<usize>,
     siz: Vec<usize>,
     head: Vec<usize>,
@@ -63,21 +61,18 @@ impl HLD {
                 }
             }
         }
-        let mut d = vec![0; n];
         let mut tin = vec![0; n];
         let mut head = vec![0; n];
         let ord = get_dfs_preorder(adj);
         for (i, &u) in ord.iter().enumerate() {
             tin[u] = i;
             for &v in &adj[u] {
-                d[v] = 1 + d[u];
                 head[v] = if v == adj[u][0] { head[u] } else { v };
             }
         }
         HLD {
             p,
             siz,
-            d,
             ord,
             tin,
             head,
@@ -190,7 +185,7 @@ impl HLD {
     /// - Time: O(log n)
     /// - Space: O(1)
     pub fn kth_on_path(&self, u: usize, v: usize, k: usize) -> Option<usize> {
-        let mut dst = vec![0; 2];
+        let mut dst = [0; 2];
         self.path(u, v, |range, u_anc| dst[u_anc as usize] += range.len());
         if k < dst[0] {
             return self.kth_par(u, k);
