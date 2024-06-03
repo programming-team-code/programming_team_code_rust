@@ -27,7 +27,7 @@ use std::ops::Range;
 /// ```
 pub struct HLD {
     /// parent
-    pub p: Vec<usize>,
+    pub p: Vec<Option<usize>>,
     /// time in
     pub tin: Vec<usize>,
     siz: Vec<usize>,
@@ -46,14 +46,14 @@ impl HLD {
     /// - Space: O(n)
     pub fn new(adj: &mut [Vec<usize>], vals_edges: bool) -> Self {
         let n = adj.len();
-        let mut p = vec![0; n];
+        let mut p = vec![None; n];
         let mut siz = vec![0; n];
         for &u in get_dfs_postorder(adj).iter() {
             adj[u].retain(|&v| siz[v] > 0);
             siz[u] = 1;
             for i in 0..adj[u].len() {
                 let v = adj[u][i];
-                p[v] = u;
+                p[v] = Some(u);
                 siz[u] += siz[v];
                 if siz[v] > siz[adj[u][0]] {
                     adj[u].swap(0, i);
@@ -77,23 +77,6 @@ impl HLD {
         }
     }
 
-    /// Gets the lowest common ancestor of u and v
-    ///
-    /// # Complexity
-    /// - Time: O(log n)
-    /// - Space: O(1)
-    pub fn lca(&self, mut u: usize, mut v: usize) -> usize {
-        loop {
-            if self.tin[u] > self.tin[v] {
-                std::mem::swap(&mut u, &mut v);
-            }
-            if self.head[u] == self.head[v] {
-                return u;
-            }
-            v = self.p[self.head[v]];
-        }
-    }
-
     /// Calls callback `f` on ranges representing the path from u to v
     ///
     /// # Complexity
@@ -110,7 +93,7 @@ impl HLD {
                 break;
             }
             f(self.tin[self.head[v]]..self.tin[v] + 1, u_anc);
-            v = self.p[self.head[v]];
+            v = self.p[self.head[v]].unwrap();
         }
         f(
             self.tin[u] + self.vals_edges as usize..self.tin[v] + 1,
@@ -125,5 +108,22 @@ impl HLD {
     /// - Space: O(1)
     pub fn sub_tree(&self, u: usize) -> Range<usize> {
         self.tin[u] + self.vals_edges as usize..self.tin[u] + self.siz[u]
+    }
+
+    /// Gets the lowest common ancestor of u and v
+    ///
+    /// # Complexity
+    /// - Time: O(log n)
+    /// - Space: O(1)
+    pub fn lca(&self, mut u: usize, mut v: usize) -> usize {
+        loop {
+            if self.tin[u] > self.tin[v] {
+                std::mem::swap(&mut u, &mut v);
+            }
+            if self.head[u] == self.head[v] {
+                return u;
+            }
+            v = self.p[self.head[v]].unwrap();
+        }
     }
 }
