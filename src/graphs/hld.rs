@@ -135,7 +135,11 @@ impl HLD {
     }
 
     pub fn in_sub(&self, u: usize, v: usize) -> bool {
-        u == v || self.sub_tree(u).contains(&v /*TODO theres a bug here*/)
+        u == v || self.sub_tree(u).contains(&self.tin[v])
+    }
+
+    pub fn on_path(&self, u: usize, v: usize, w: usize) -> bool {
+        self.dist(u, w) + self.dist(w, v) == self.dist(u, v)
     }
 
     pub fn dist(&self, u: usize, v: usize) -> usize {
