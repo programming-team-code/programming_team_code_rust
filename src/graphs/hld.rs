@@ -91,21 +91,21 @@ impl HLD {
     /// - Time: O(log n) calls to `f`
     /// - Space: O(1)
     pub fn path(&self, mut u: usize, mut v: usize, mut f: impl FnMut(Range<usize>, bool)) {
-        let mut u_anc = false;
+        let mut v_anc = true;
         loop {
             if self.tin[u] > self.tin[v] {
                 std::mem::swap(&mut u, &mut v);
-                u_anc = !u_anc;
+                v_anc = !v_anc;
             }
             if self.head[u] == self.head[v] {
                 break;
             }
-            f(self.tin[self.head[v]]..self.tin[v] + 1, u_anc);
+            f(self.tin[self.head[v]]..self.tin[v] + 1, v_anc);
             v = self.p[self.head[v]].unwrap();
         }
         f(
             self.tin[u] + self.vals_edges as usize..self.tin[v] + 1,
-            u_anc,
+            v_anc,
         );
     }
 
@@ -190,13 +190,13 @@ impl HLD {
     /// - Time: O(log n)
     /// - Space: O(1)
     pub fn kth_on_path(&self, u: usize, v: usize, k: usize) -> Option<usize> {
-        let d_lca = self.d[self.lca(u, v)];
-        let (u_dist, v_dist) = (self.d[u] - d_lca, self.d[v] - d_lca);
-        if k <= u_dist {
+        let mut dst = vec![0; 2];
+        self.path(u, v, |range, u_anc| dst[u_anc as usize] += range.len());
+        if k <= dst[1] {
             return self.kth_par(u, k);
         }
-        if k <= u_dist + v_dist {
-            return self.kth_par(v, u_dist + v_dist - k);
+        if k <= dst[0] + dst[1] {
+            return self.kth_par(v, dst[0] + dst[1] - k);
         }
         None
     }

@@ -70,11 +70,11 @@ fn main() {
                     x: usize
                 }
                 let (mut u_anc_val, mut v_anc_val) = (st_forwards.unit, st_backwards.unit);
-                hld.path(u, v, |range, u_anc| {
-                    if u_anc {
-                        u_anc_val = (st_forwards.op)(&u_anc_val, &st_backwards.query(range));
-                    } else {
+                hld.path(u, v, |range, v_anc| {
+                    if v_anc {
                         v_anc_val = (st_forwards.op)(&st_forwards.query(range), &v_anc_val);
+                    } else {
+                        u_anc_val = (st_forwards.op)(&u_anc_val, &st_backwards.query(range));
                     }
                 });
                 let res = (st_forwards.op)(&u_anc_val, &v_anc_val);
