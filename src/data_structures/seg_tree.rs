@@ -4,8 +4,7 @@
 /// ```
 /// use programming_team_code_rust::data_structures::seg_tree::SegTree;
 ///
-/// let md = 6;
-/// let mut st = SegTree::<usize>::new(3, move |x, y| (x + y) % md, 0);
+/// let mut st = SegTree::<usize>::new(3, |&x, &y| x + y, 0);
 /// st.set(1, 2);
 /// st.set(2, 3);
 /// assert_eq!(st.query(0..3), 5);
