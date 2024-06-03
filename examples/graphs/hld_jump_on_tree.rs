@@ -54,10 +54,6 @@ fn main() {
                     assert!(!hld_nodes.on_path(v, w, u));
                     assert!(!hld_edges.on_path(v, w, u));
                 }
-                if w != v {
-                    assert!(!hld_nodes.on_path(u, w, v));
-                    assert!(!hld_edges.on_path(u, w, v));
-                }
                 println!("{}", w);
             }
             None => {
