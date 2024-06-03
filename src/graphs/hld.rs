@@ -27,9 +27,11 @@ use std::ops::Range;
 /// ```
 pub struct HLD {
     /// parent
-    pub p: Vec<usize>,
+    pub p: Vec<Option<usize>>,
     /// time in
     pub tin: Vec<usize>,
+    d: Vec<usize>,
+    order: Vec<usize>,
     siz: Vec<usize>,
     head: Vec<usize>,
     vals_edges: bool,
@@ -46,31 +48,36 @@ impl HLD {
     /// - Space: O(n)
     pub fn new(adj: &mut [Vec<usize>], vals_edges: bool) -> Self {
         let n = adj.len();
-        let mut p = vec![0; n];
+        let mut p = vec![None; n];
         let mut siz = vec![0; n];
         for &u in get_dfs_postorder(adj).iter() {
             adj[u].retain(|&v| siz[v] > 0);
             siz[u] = 1;
             for i in 0..adj[u].len() {
                 let v = adj[u][i];
-                p[v] = u;
+                p[v] = Some(u);
                 siz[u] += siz[v];
                 if siz[v] > siz[adj[u][0]] {
                     adj[u].swap(0, i);
                 }
             }
         }
+        let mut d = vec![0; n];
         let mut tin = vec![0; n];
         let mut head = vec![0; n];
-        for (i, &u) in get_dfs_preorder(adj).iter().enumerate() {
+        let order = get_dfs_preorder(adj);
+        for (i, &u) in order.iter().enumerate() {
             tin[u] = i;
             for &v in &adj[u] {
+                d[v] = 1 + d[u];
                 head[v] = if v == adj[u][0] { head[u] } else { v };
             }
         }
         HLD {
             p,
             siz,
+            d,
+            order,
             tin,
             head,
             vals_edges,
@@ -90,7 +97,7 @@ impl HLD {
             if self.head[u] == self.head[v] {
                 return u;
             }
-            v = self.p[self.head[v]];
+            v = self.p[self.head[v]].unwrap();
         }
     }
 
@@ -110,7 +117,7 @@ impl HLD {
                 break;
             }
             f(self.tin[self.head[v]]..self.tin[v] + 1, u_anc);
-            v = self.p[self.head[v]];
+            v = self.p[self.head[v]].unwrap();
         }
         f(
             self.tin[u] + self.vals_edges as usize..self.tin[v] + 1,
@@ -128,15 +135,36 @@ impl HLD {
     }
 
     pub fn in_sub(&self, u: usize, v: usize) -> bool {
-        u == v || self.sub_tree(u).contains(&v/*TODO theres a bug here*/)
+        u == v || self.sub_tree(u).contains(&v /*TODO theres a bug here*/)
     }
 
     pub fn dist(&self, u: usize, v: usize) -> usize {
+        self.d[u] + self.d[v] - 2 * self.d[self.lca(u, v)]
     }
 
-    pub fn kth_par(&self, u: usize, k: usize) -> usize {
+    pub fn kth_par(&self, mut u: usize, mut k: usize) -> Option<usize> {
+        loop {
+            let len_path = self.tin[u] - self.tin[self.head[u]];
+            if k <= len_path {
+                return Some(self.order[self.tin[u] - k]);
+            }
+            k -= len_path + 1;
+            match self.p[self.head[u]] {
+                Some(v) => u = v,
+                None => return None,
+            }
+        }
     }
 
-    pub fn kth_on_path(&self, u: usize, v: usize, k: usize) -> usize {
+    pub fn kth_on_path(&self, u: usize, v: usize, k: usize) -> Option<usize> {
+        let d_lca = self.d[self.lca(u, v)];
+        let (u_dist, v_dist) = (self.d[u] - d_lca, self.d[v] - d_lca);
+        if k <= u_dist {
+            return self.kth_par(u, k);
+        }
+        if k <= u_dist + v_dist {
+            return self.kth_par(v, u_dist + v_dist - k);
+        }
+        None
     }
 }
