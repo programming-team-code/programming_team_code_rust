@@ -29,14 +29,15 @@ fn main() {
             k: usize,
         }
 
-        assert_eq!(hld_nodes.dist(u, v), 1 + hld_edges.dist(u, v));
+        let dist_nodes = hld_nodes.dist(u, v);
+        assert_eq!(dist_nodes, 1 + hld_edges.dist(u, v));
 
         let res = hld_nodes.kth_on_path(u, v, k);
         assert_eq!(res, hld_edges.kth_on_path(u, v, k));
 
         match res {
             Some(w) => {
-                assert!(k < hld_nodes.dist(u, v));
+                assert!(k < dist_nodes);
                 assert!(hld_nodes.on_path(u, v, w));
                 assert!(hld_edges.on_path(u, v, w));
                 if w != u {
@@ -46,7 +47,7 @@ fn main() {
                 println!("{}", w);
             }
             None => {
-                assert!(k >= hld_nodes.dist(u, v));
+                assert!(k >= dist_nodes);
                 println!("-1");
             }
         }
