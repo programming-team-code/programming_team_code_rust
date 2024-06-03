@@ -34,10 +34,9 @@ fn main() {
         assert_eq!(in_sub_naive, hld_nodes.in_sub(u, v));
         assert_eq!(in_sub_naive, hld_edges.in_sub(u, v));
 
-        //let res = hld_nodes.kth_on_path(u, v, k);
-        //assert_eq!(res, hld_edges.kth_on_path(u, v, k));
+        let res = hld_nodes.kth_on_path(u, v, k);
+        assert_eq!(res, hld_edges.kth_on_path(u, v, k));
 
-        let res = hld_edges.kth_on_path(u, v, k);
         match res {
             Some(w) => {
                 assert!(k < hld_nodes.dist(u, v));
