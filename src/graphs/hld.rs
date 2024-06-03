@@ -192,7 +192,7 @@ impl HLD {
     pub fn kth_on_path(&self, u: usize, v: usize, k: usize) -> Option<usize> {
         let mut dst = vec![0; 2];
         self.path(u, v, |range, u_anc| dst[u_anc as usize] += range.len());
-        if k <= dst[1] {
+        if k <= dst[0] {
             return self.kth_par(u, k);
         }
         if k <= dst[0] + dst[1] {
