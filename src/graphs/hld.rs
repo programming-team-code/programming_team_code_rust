@@ -135,18 +135,38 @@ impl HLD {
         }
     }
 
+    /// Gets the number of edges on path from u to v
+    ///
+    /// # Complexity
+    /// - Time: O(log n)
+    /// - Space: O(1)
     pub fn dist(&self, u: usize, v: usize) -> usize {
         self.d[u] + self.d[v] - 2 * self.d[self.lca(u, v)]
     }
 
+    /// Returns true iff v is in u's subtree
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn in_sub(&self, u: usize, v: usize) -> bool {
         u == v || self.sub_tree(u).contains(&self.tin[v])
     }
 
+    /// Returns true iff w is on the path from u to v
+    ///
+    /// # Complexity
+    /// - Time: O(log n)
+    /// - Space: O(1)
     pub fn on_path(&self, u: usize, v: usize, w: usize) -> bool {
         self.dist(u, w) + self.dist(w, v) == self.dist(u, v)
     }
 
+    /// Returns a node x with in_sub(x, u) and dist(u, x) == k; or None
+    ///
+    /// # Complexity
+    /// - Time: O(log n)
+    /// - Space: O(1)
     pub fn kth_par(&self, mut u: usize, mut k: usize) -> Option<usize> {
         loop {
             let len_path = self.tin[u] - self.tin[self.head[u]];
@@ -161,6 +181,11 @@ impl HLD {
         }
     }
 
+    /// Returns the node \[u, p\[u\], .., lca(u, v), .., p\[v\], v\]\[k\], or None
+    ///
+    /// # Complexity
+    /// - Time: O(log n)
+    /// - Space: O(1)
     pub fn kth_on_path(&self, u: usize, v: usize, k: usize) -> Option<usize> {
         let d_lca = self.d[self.lca(u, v)];
         let (u_dist, v_dist) = (self.d[u] - d_lca, self.d[v] - d_lca);
