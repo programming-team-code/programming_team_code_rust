@@ -131,8 +131,7 @@ impl HLD {
         u == v || self.sub_tree(u).contains(&v/*TODO theres a bug here*/)
     }
 
-    pub fn dist_edges(&self, u: usize, v: usize) -> usize {
-        0
+    pub fn dist(&self, u: usize, v: usize) -> usize {
     }
 
     pub fn kth_par(&self, u: usize, k: usize) -> usize {
