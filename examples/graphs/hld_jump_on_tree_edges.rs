@@ -19,8 +19,7 @@ fn main() {
         adj[v].push(u);
     }
 
-    let hld_nodes = HLD::new(&mut adj, false);
-    let hld_edges = HLD::new(&mut adj, true);
+    let hld = HLD::new(&mut adj, true);
 
     for _ in 0..q {
         input! {
@@ -29,25 +28,17 @@ fn main() {
             k: usize,
         }
 
-        let dist_nodes = hld_nodes.dist(u, v);
-        assert_eq!(dist_nodes, 1 + hld_edges.dist(u, v));
-
-        let res = hld_nodes.kth_on_path(u, v, k);
-        assert_eq!(res, hld_edges.kth_on_path(u, v, k));
-
-        match res {
+        match hld.kth_on_path(u, v, k) {
             Some(w) => {
-                assert!(k < dist_nodes);
-                assert!(hld_nodes.on_path(u, v, w));
-                assert!(hld_edges.on_path(u, v, w));
+                assert!(k <= hld.dist(u, v));
+                assert!(hld.on_path(u, v, w));
                 if w != u {
-                    assert!(!hld_nodes.on_path(v, w, u));
-                    assert!(!hld_edges.on_path(v, w, u));
+                    assert!(!hld.on_path(v, w, u));
                 }
                 println!("{}", w);
             }
             None => {
-                assert!(k >= dist_nodes);
+                assert!(k > hld.dist(u, v));
                 println!("-1");
             }
         }

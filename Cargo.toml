@@ -127,5 +127,9 @@ name = "hld_path_composite_yosupo"
 path = "examples/graphs/hld_path_composite_yosupo.rs"
 
 [[example]]
-name = "hld_jump_on_tree"
-path = "examples/graphs/hld_jump_on_tree.rs"
+name = "hld_jump_on_tree_nodes"
+path = "examples/graphs/hld_jump_on_tree_nodes.rs"
+
+[[example]]
+name = "hld_jump_on_tree_edges"
+path = "examples/graphs/hld_jump_on_tree_edges.rs"
