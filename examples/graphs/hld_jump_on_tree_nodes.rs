@@ -21,7 +21,7 @@ fn main() {
 
     let hld = HLD::new(&mut adj, false);
 
-    fn dfs(u: usize, adj: &[Vec<usize>], d: &mut Vec<usize>) {
+    fn dfs(u: usize, adj: &[Vec<usize>], d: &mut [usize]) {
         for &v in &adj[u] {
             d[v] = 1 + d[u];
             dfs(v, adj, d);
