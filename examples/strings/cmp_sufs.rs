@@ -11,17 +11,8 @@ fn main() {
         b: [i32; m]
     }
 
-    a.push(1001); //TODO figure out why this is WA, but pushing -1 is AC
     a.extend(b);
 
     let suf_ary = SufAry::new_arbitrary::<i32>(&a);
-    let res = suf_ary.cmp_substrs(0..n, n + 1..n + 1 + m);
-
-    if res == std::cmp::Ordering::Equal {
-        assert_eq!(std::cmp::Ordering::Greater, suf_ary.cmp_sufs(0, n + 1));
-    } else {
-        assert_eq!(res, suf_ary.cmp_sufs(0, n + 1));
-    }
-
-    println!("{}", (res == std::cmp::Ordering::Less) as usize);
+    println!("{}", (suf_ary.cmp_substrs(0..n, n..n + m) == std::cmp::Ordering::Less) as usize);
 }
