@@ -1,4 +1,4 @@
-// verification-helper: PROBLEM https://judge.yosupo.jp/problem/suffixarray
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/zalgorithm
 
 use proconio::input;
 use programming_team_code_rust::strings::suffix_array::SufAry;
@@ -12,8 +12,9 @@ fn main() {
 
     let suf_ary = SufAry::new(&s_vec);
 
-    for val in suf_ary.sa {
-        print!("{} ", val);
+    for i in 0..s_vec.len() {
+        print!("{} ", suf_ary.len_lcp(0, i));
     }
+
     println!();
 }
