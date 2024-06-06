@@ -154,3 +154,7 @@ path = "examples/strings/cmp_sufs.rs"
 [[example]]
 name = "suf_ary_find_str_aizu"
 path = "examples/strings/suf_ary_find_str_aizu.rs"
+
+[[example]]
+name = "suf_ary_find_many_strs_aizu"
+path = "examples/strings/suf_ary_find_many_strs_aizu.rs"
