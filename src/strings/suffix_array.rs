@@ -4,11 +4,11 @@ use std::cmp::Ordering;
 use std::ops::Range;
 
 use crate::data_structures::rmq::RMQ;
-use ac_library::string::{lcp_array_arbitrary, suffix_array, suffix_array_arbitrary};
+use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 
 pub struct SufAry {
     n: usize,
-    //s: Vec<usize>,
+    s: Vec<usize>,
     /// suffix array
     pub sa: Vec<usize>,
     /// inverse suffix array
@@ -27,27 +27,13 @@ fn get_inv(a: &[usize]) -> Vec<usize> {
 }
 
 impl SufAry {
-    /*
-    pub fn new(s: &str) -> Self {
-        let sa = suffix_array(s);
-        let lcp = lcp_array_arbitrary(s, &sa);
-        Self {
-            n: sa.len(),
-            //s: s.iter().map(|&x| x as usize).collect::<Vec<usize>>(),
-            sa_inv: get_inv(&sa),
-            rmq: RMQ::new(&lcp, std::cmp::min),
-            sa,
-            lcp,
-        }
-    }
-    */
 
-    pub fn new_arbitrary<T: Ord>(s: &[T]) -> Self {
-        let sa = suffix_array_arbitrary(s);
+    pub fn new(s: &[usize], max_val: usize) -> Self {
+        let sa = suffix_array_manual(&s.iter().map(|&x| x as i32).collect::<Vec<i32>>(), max_val as i32);
         let lcp = lcp_array_arbitrary(s, &sa);
         Self {
             n: sa.len(),
-            //s: s.to_vec(),
+            s: s.to_vec(),
             sa_inv: get_inv(&sa),
             rmq: RMQ::new(&lcp, std::cmp::min),
             lcp,
@@ -81,6 +67,10 @@ impl SufAry {
         } else {
             self.sa_inv[x.start].cmp(&self.sa_inv[y.start])
         }
+    }
+
+    pub fn find_str(&self, t: &[usize]) -> Range<usize> {
+
     }
 
     /*
