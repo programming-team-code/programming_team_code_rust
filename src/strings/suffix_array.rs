@@ -18,23 +18,21 @@ pub struct SufAry {
     rmq: RMQ<usize>,
 }
 
-fn get_inv(a: &[usize]) -> Vec<usize> {
-    let mut inv = vec![0; a.len()];
-    for (i, &elem) in a.iter().enumerate() {
-        inv[elem] = i;
-    }
-    inv
-}
-
 impl SufAry {
-
     pub fn new(s: &[usize], max_val: usize) -> Self {
-        let sa = suffix_array_manual(&s.iter().map(|&x| x as i32).collect::<Vec<i32>>(), max_val as i32);
+        let sa = suffix_array_manual(
+            &s.iter().map(|&x| x as i32).collect::<Vec<i32>>(),
+            max_val as i32,
+        );
         let lcp = lcp_array_arbitrary(s, &sa);
+        let mut sa_inv = vec![0; s.len()];
+        for (i, &elem) in sa.iter().enumerate() {
+            sa_inv[elem] = i;
+        }
         Self {
             n: sa.len(),
             s: s.to_vec(),
-            sa_inv: get_inv(&sa),
+            sa_inv,
             rmq: RMQ::new(&lcp, std::cmp::min),
             lcp,
             sa,
@@ -70,7 +68,9 @@ impl SufAry {
     }
 
     pub fn find_str(&self, t: &[usize]) -> Range<usize> {
-
+        let le = self.sa.partition_point(|&i| &self.s[i..] < t);
+        let ri = self.sa[le..].partition_point(|&i| &self.s[i..] > t);
+        le..ri
     }
 
     /*

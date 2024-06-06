@@ -8,14 +8,14 @@ fn main() {
         s: String
     }
 
-    let mut s_vec = s.chars().collect::<Vec<char>>();
+    let mut s_vec = s.chars().map(|c| c as usize).collect::<Vec<usize>>();
     let n = s_vec.len();
     let s_rev = s_vec.clone().into_iter().rev();
 
-    s_vec.push('$');
+    s_vec.push(0);
     s_vec.extend(s_rev);
 
-    let suf_ary = SufAry::new(&s_vec);
+    let suf_ary = SufAry::new(&s_vec, 255);
 
     for i in 0..n {
         for j in i..std::cmp::min(i + 2, n) {

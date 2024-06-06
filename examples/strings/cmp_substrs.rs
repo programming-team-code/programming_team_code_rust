@@ -1,6 +1,7 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/lesson/8/ITP2/all/ITP2_5_A
 
 use proconio::input;
+use programming_team_code_rust::helpers::compress::compress;
 use programming_team_code_rust::strings::suffix_array::SufAry;
 
 fn main() {
@@ -9,7 +10,9 @@ fn main() {
         a: [i32; 2 * n]
     }
 
-    let suf_ary = SufAry::new_arbitrary::<i32>(&a);
+    let (compressed, max_val) = compress::<i32>(&a);
+
+    let suf_ary = SufAry::new(&compressed, max_val);
 
     let mut indexes = (0..n).collect::<Vec<usize>>();
 

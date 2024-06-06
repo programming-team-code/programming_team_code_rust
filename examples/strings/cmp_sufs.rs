@@ -6,13 +6,16 @@ use programming_team_code_rust::strings::suffix_array::SufAry;
 fn main() {
     input! {
         n: usize,
-        mut a: [i32; n],
+        mut a: [usize; n],
         m: usize,
-        b: [i32; m]
+        b: [usize; m]
     }
 
     a.extend(b);
 
-    let suf_ary = SufAry::new_arbitrary::<i32>(&a);
-    println!("{}", (suf_ary.cmp_substrs(0..n, n..n + m) == std::cmp::Ordering::Less) as usize);
+    let suf_ary = SufAry::new(&a, 1000);
+    println!(
+        "{}",
+        (suf_ary.cmp_substrs(0..n, n..n + m) == std::cmp::Ordering::Less) as usize
+    );
 }
