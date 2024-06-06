@@ -142,3 +142,7 @@ path = "examples/strings/lcp_query_yosupo_zfunc.rs"
 [[example]]
 name = "lcp_query_yosupo_palindrome"
 path = "examples/strings/lcp_query_yosupo_palindrome.rs"
+
+[[example]]
+name = "cmp_substrs"
+path = "examples/strings/cmp_substrs.rs"

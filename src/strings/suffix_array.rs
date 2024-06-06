@@ -1,10 +1,14 @@
 //! # Suffix Array
 
+use std::cmp::Ordering;
+use std::ops::Range;
+
 use crate::data_structures::rmq::RMQ;
-use ac_library::string::{lcp_array_arbitrary, suffix_array_arbitrary, suffix_array_manual};
+use ac_library::string::{lcp_array_arbitrary, suffix_array, suffix_array_arbitrary};
 
 pub struct SufAry {
     n: usize,
+    //s: Vec<usize>,
     /// suffix array
     pub sa: Vec<usize>,
     /// inverse suffix array
@@ -23,23 +27,27 @@ fn get_inv(a: &[usize]) -> Vec<usize> {
 }
 
 impl SufAry {
-    pub fn new(s: &[char]) -> Self {
-        let sa = suffix_array_manual(&s.iter().map(|&x| x as i32).collect::<Vec<i32>>(), 255);
+    /*
+    pub fn new(s: &str) -> Self {
+        let sa = suffix_array(s);
         let lcp = lcp_array_arbitrary(s, &sa);
         Self {
             n: sa.len(),
+            //s: s.iter().map(|&x| x as usize).collect::<Vec<usize>>(),
             sa_inv: get_inv(&sa),
             rmq: RMQ::new(&lcp, std::cmp::min),
-            lcp,
             sa,
+            lcp,
         }
     }
+    */
 
     pub fn new_arbitrary<T: Ord>(s: &[T]) -> Self {
         let sa = suffix_array_arbitrary(s);
         let lcp = lcp_array_arbitrary(s, &sa);
         Self {
             n: sa.len(),
+            //s: s.to_vec(),
             sa_inv: get_inv(&sa),
             rmq: RMQ::new(&lcp, std::cmp::min),
             lcp,
@@ -58,4 +66,32 @@ impl SufAry {
         }
         self.rmq.query(le..ri)
     }
+
+    pub fn cmp_sufs(&self, le1: usize, le2: usize) -> Ordering {
+        if std::cmp::max(le1, le2) == self.n {
+            le2.cmp(&le1)
+        } else {
+            self.sa_inv[le1].cmp(&self.sa_inv[le2])
+        }
+    }
+
+    pub fn cmp_substrs(&self, x: Range<usize>, y: Range<usize>) -> Ordering {
+        if self.len_lcp(x.start, y.start) >= std::cmp::min(x.len(), y.len()) {
+            x.len().cmp(&y.len())
+        } else {
+            self.sa_inv[x.start].cmp(&self.sa_inv[y.start])
+        }
+    }
+
+    /*
+    pub fn find_substr(&self, substr: Range<usize>) -> Range<usize> {
+        if substr.start == self.n {
+            return 0..self.n;
+        }
+
+        self.sa.partition_point(|&idx| );
+
+        0..1
+    }
+    */
 }
