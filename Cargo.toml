@@ -138,3 +138,7 @@ path = "examples/graphs/hld_jump_on_tree_edges.rs"
 [[example]]
 name = "lcp_query_yosupo_zfunc"
 path = "examples/strings/lcp_query_yosupo_zfunc.rs"
+
+[[example]]
+name = "lcp_query_yosupo_palindrome"
+path = "examples/strings/lcp_query_yosupo_palindrome.rs"
