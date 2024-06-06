@@ -9,6 +9,7 @@ edition = "2024"
 
 [dependencies]
 proconio = "0.4.5"
+ac-library-rs = "0.1.1"
 
 [[example]]
 name = "binary_trie"
@@ -133,3 +134,7 @@ path = "examples/graphs/hld_jump_on_tree_nodes.rs"
 [[example]]
 name = "hld_jump_on_tree_edges"
 path = "examples/graphs/hld_jump_on_tree_edges.rs"
+
+[[example]]
+name = "suffix_array"
+path = "examples/strings/suffix_array.rs"
