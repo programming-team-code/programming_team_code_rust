@@ -1,7 +1,16 @@
 //! # Value Compression
 
-// mention https://doc.rust-lang.org/nightly/std/vec/struct.Vec.html#method.split_off in example
-// for compressing multiple arrays
+/// # Example
+/// ```
+/// use programming_team_code_rust::helpers::compress::compress;
+///
+/// let a_and_b = [-4, 3, 100, 3, 0, -1];
+/// let (mut a, max_val) = compress(&a_and_b);
+/// let b = a.split_off(3);
+/// assert_eq!(a, [0, 3, 4]);
+/// assert_eq!(b, [3, 2, 1]);
+/// assert_eq!(max_val, 5);
+/// ```
 pub fn compress<T: Ord>(a: &[T]) -> (Vec<usize>, usize) {
     let n = a.len();
     let mut idx = (0..n).collect::<Vec<usize>>();
