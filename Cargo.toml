@@ -148,10 +148,6 @@ name = "cmp_substrs"
 path = "examples/strings/cmp_substrs.rs"
 
 [[example]]
-name = "cmp_sufs"
-path = "examples/strings/cmp_sufs.rs"
-
-[[example]]
 name = "suf_ary_find_str_aizu"
 path = "examples/strings/suf_ary_find_str_aizu.rs"
 
