@@ -62,7 +62,7 @@ impl SufAry {
         }
     }
 
-    /// Gets max k such that s[i1..i1 + k] == s[i2..i2 + k]
+    /// Gets max k such that s\[i1..i1 + k\] == s\[i2..i2 + k\]
     ///
     /// # Complexity
     /// - Time: O(1)
@@ -79,7 +79,7 @@ impl SufAry {
         self.rmq.query(le..ri)
     }
 
-    /// Gets s[le1..] compared with s[le2..]
+    /// Gets s\[le1..\] compared with s\[le2..\]
     ///
     /// # Complexity
     /// - Time: O(1)
@@ -92,7 +92,7 @@ impl SufAry {
         }
     }
 
-    /// Gets s[x] compared with s[y]
+    /// Gets s\[x\] compared with s\[y\]
     ///
     /// # Complexity
     /// - Time: O(1)
@@ -106,7 +106,7 @@ impl SufAry {
     }
 
     /// Gets range r such that:
-    ///   - for all i in sa[r] s[i..i + t.len()] == t
+    ///   - for all i in sa\[r\] s\[i..i + t.len()\] == t
     ///   - r.len() is the number of matches of t in s
     ///
     /// # Complexity
@@ -120,8 +120,8 @@ impl SufAry {
     }
 
     /// Gets range r such that:
-    ///   - for all i in sa[r] s[i..i + substr.len()] == s[substr]
-    ///   - r.len() is the number of matches of s[substr] in s
+    ///   - for all i in sa\[r\] s\[i..i + substr.len()\] == s\[substr\]
+    ///   - r.len() is the number of matches of s\[substr\] in s
     ///
     /// # Complexity
     /// - Time: O(log(|s|))
