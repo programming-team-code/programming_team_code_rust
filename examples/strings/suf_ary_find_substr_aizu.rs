@@ -13,9 +13,22 @@ fn main() {
     let t_vec = t.chars().map(|x| x as usize).collect::<Vec<usize>>();
 
     let suf_ary = SufAry::new(&s_vec, 255);
+
+    /*
+    for &val in &suf_ary.sa {
+        println!("{:?}", &s_vec[val..]);
+    }
+    */
+
     let range = suf_ary.find_str(&t_vec);
+
+    //println!("range is {} {}", range.start, range.end);
+
     let mut res: Vec<usize> = Vec::new();
     res.extend_from_slice(&suf_ary.sa[range]);
+
+    //println!("{:?}", &res);
+
     res.sort();
 
     for val in res {
