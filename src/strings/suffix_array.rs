@@ -6,6 +6,24 @@ use std::ops::Range;
 use crate::data_structures::rmq::RMQ;
 use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 
+/// # Example
+/// ```
+/// use programming_team_code_rust::helpers::compress::compress;
+/// use programming_team_code_rust::strings::suffix_array::SufAry;
+///
+/// let s = "banana";
+/// let suf_ary1 = SufAry::new(&s.chars().map(|c| c as usize).collect::<Vec<usize>>(), 255);
+///
+/// let a = [-4, 8, 1_000_000_000, 3];
+/// let (a_comp, max_val) = compress(&a);
+/// let suf_ary2 = SufAry::new(&a_comp, max_val);
+///
+/// assert_eq!(suf_ary1.sa, [5, 3, 1, 0, 4, 2]);
+/// assert_eq!(suf_ary1.sa_inv, [3, 2, 5, 1, 4, 0]);
+/// assert_eq!(suf_ary1.lcp, [1, 3, 0, 0, 2]);
+///
+/// assert_eq!(suf_ary2.sa, [0, 3, 1, 2]);
+/// ```
 pub struct SufAry {
     n: usize,
     s: Vec<usize>,
@@ -19,6 +37,11 @@ pub struct SufAry {
 }
 
 impl SufAry {
+    /// Creates a new Suffix Array struct
+    ///
+    /// # Complexity
+    /// - Time: O(n + max_val)
+    /// - Space: O(n)
     pub fn new(s: &[usize], max_val: usize) -> Self {
         let sa = suffix_array_manual(
             &s.iter().map(|&x| x as i32).collect::<Vec<i32>>(),
@@ -39,6 +62,11 @@ impl SufAry {
         }
     }
 
+    /// Gets max k such that s[i1..i1 + k] == s[i2..i2 + k]
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn len_lcp(&self, i1: usize, i2: usize) -> usize {
         let mx = std::cmp::max(i1, i2);
         if i1 == i2 || mx == self.n {
