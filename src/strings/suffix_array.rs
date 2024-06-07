@@ -69,21 +69,20 @@ impl SufAry {
 
     pub fn find_str(&self, t: &[usize]) -> Range<usize> {
         let le = self.sa.partition_point(|&i| &self.s[i..] < t);
-        let ri = self.sa[le..]
-            .partition_point(|&i| &self.s[i..std::cmp::min(i + t.len(), self.n)] == t)
-            + le;
-        le..ri
+        let sz = self.sa[le..]
+            .partition_point(|&i| &self.s[i..std::cmp::min(i + t.len(), self.n)] == t);
+        le..le + sz
     }
 
-    /*
     pub fn find_substr(&self, substr: Range<usize>) -> Range<usize> {
         if substr.start == self.n {
             return 0..self.n;
         }
-
-        self.sa.partition_point(|&idx| );
-
-        0..1
+        let cmp = |i: usize, flip: bool| -> bool {
+            flip ^ (self.len_lcp(i, substr.start) < substr.len())
+        };
+        let le = self.sa[..self.sa_inv[substr.start]].partition_point(|&i| cmp(i, false));
+        let sz = self.sa[self.sa_inv[substr.start] + 1..].partition_point(|&i| cmp(i, true));
+        le..le + sz
     }
-    */
 }
