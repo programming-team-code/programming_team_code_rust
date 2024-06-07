@@ -79,6 +79,11 @@ impl SufAry {
         self.rmq.query(le..ri)
     }
 
+    /// Gets s[le1..] compared with s[le2..]
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn cmp_sufs(&self, le1: usize, le2: usize) -> Ordering {
         if std::cmp::max(le1, le2) == self.n {
             le2.cmp(&le1)
@@ -87,6 +92,11 @@ impl SufAry {
         }
     }
 
+    /// Gets s[x] compared with s[y]
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn cmp_substrs(&self, x: Range<usize>, y: Range<usize>) -> Ordering {
         if self.len_lcp(x.start, y.start) >= std::cmp::min(x.len(), y.len()) {
             x.len().cmp(&y.len())
@@ -95,6 +105,13 @@ impl SufAry {
         }
     }
 
+    /// Gets range r such that:
+    ///   - for all i in sa[r] s[i..i + t.len()] == t
+    ///   - r.len() is the number of matches of t in s
+    ///
+    /// # Complexity
+    /// - Time: O(|t| * log(|s|))
+    /// - Space: O(1)
     pub fn find_str(&self, t: &[usize]) -> Range<usize> {
         let le = self.sa.partition_point(|&i| &self.s[i..] < t);
         let sz =
@@ -102,6 +119,13 @@ impl SufAry {
         le..le + sz
     }
 
+    /// Gets range r such that:
+    ///   - for all i in sa[r] s[i..i + substr.len()] == s[substr]
+    ///   - r.len() is the number of matches of s[substr] in s
+    ///
+    /// # Complexity
+    /// - Time: O(log(|s|))
+    /// - Space: O(1)
     pub fn find_substr(&self, substr: Range<usize>) -> Range<usize> {
         if substr.start == self.n {
             return 0..self.n;
