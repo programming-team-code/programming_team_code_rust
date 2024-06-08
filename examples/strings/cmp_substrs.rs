@@ -18,6 +18,11 @@ fn main() {
     let suf_ary = SufAry::new(&a, 1000);
     let res = suf_ary.cmp_substrs(0..n, n..n + m);
 
+    assert_eq!(
+        suf_ary.cmp_substrs(n + m..n + m, 0..n),
+        std::cmp::Ordering::Less
+    );
+
     if are_equal {
         assert_eq!(res, std::cmp::Ordering::Equal);
         println!("0");
