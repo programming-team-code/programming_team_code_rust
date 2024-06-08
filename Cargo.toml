@@ -144,8 +144,8 @@ name = "lcp_query_yosupo_palindrome"
 path = "examples/strings/lcp_query_yosupo_palindrome.rs"
 
 [[example]]
-name = "cmp_substrs"
-path = "examples/strings/cmp_substrs.rs"
+name = "suf_ary_cmp_aizu"
+path = "examples/strings/suf_ary_cmp_aizu.rs"
 
 [[example]]
 name = "suf_ary_find_str_aizu"
