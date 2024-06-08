@@ -28,6 +28,11 @@ fn main() {
 
     assert_eq!(suf_ary.cmp_sufs(n + m + 1, 0), std::cmp::Ordering::Less);
     assert_eq!(suf_ary.cmp_sufs(0, n + m + 1), std::cmp::Ordering::Greater);
+    assert_eq!(
+        suf_ary.cmp_sufs(n + m + 1, n + m + 1),
+        std::cmp::Ordering::Equal
+    );
+    assert_eq!(suf_ary.cmp_sufs(0, 0), std::cmp::Ordering::Equal);
 
     if are_equal {
         assert_eq!(res, std::cmp::Ordering::Equal);
