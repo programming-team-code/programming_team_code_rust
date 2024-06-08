@@ -15,6 +15,7 @@ fn main() {
     both.extend(t.chars().map(|x| x as usize).collect::<Vec<usize>>());
 
     let suf_ary = SufAry::new(&both, 255);
+    assert_eq!(suf_ary.find_substr(n + m..n + m), 0..n + m);
     let range = suf_ary.find_substr(n..n + m);
     let mut res = suf_ary.sa[range]
         .iter()
