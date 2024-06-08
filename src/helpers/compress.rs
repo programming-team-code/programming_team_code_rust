@@ -1,5 +1,7 @@
 //! # Value Compression
 
+/// Get's compressed array compressed with 0 <= compressed[\i\] < max_val
+///
 /// # Example
 /// ```
 /// use programming_team_code_rust::helpers::compress::compress;
@@ -10,7 +12,6 @@
 /// assert_eq!(a, [0, 2, 3]);
 /// assert_eq!(b, [2, 1]);
 /// assert_eq!(max_val, 4);
-///
 /// ```
 ///
 /// # Complexity
