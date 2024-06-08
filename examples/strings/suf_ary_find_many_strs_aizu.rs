@@ -6,7 +6,7 @@ use programming_team_code_rust::strings::suffix_array::SufAry;
 fn main() {
     input! {
         s: String,
-        q: usize
+        q: usize,
     }
 
     let s_vec = s.chars().map(|x| x as usize).collect::<Vec<usize>>();
