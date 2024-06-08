@@ -26,6 +26,9 @@ fn main() {
         std::cmp::Ordering::Less
     );
 
+    assert_eq!(suf_ary.cmp_sufs(n + m + 1, 0), std::cmp::Ordering::Less);
+    assert_eq!(suf_ary.cmp_sufs(0, n + m + 1), std::cmp::Ordering::Greater);
+
     if are_equal {
         assert_eq!(res, std::cmp::Ordering::Equal);
         assert_eq!(suf_ary.cmp_sufs(0, n + 1), std::cmp::Ordering::Greater);
