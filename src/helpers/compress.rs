@@ -11,10 +11,11 @@
 /// assert_eq!(b, [3, 2, 1]);
 /// assert_eq!(max_val, 5);
 ///
+/// ```
+///
 /// # Complexity
 /// - Time: O(n log n)
 /// - Space: O(n)
-/// ```
 pub fn compress<T: Ord>(a: &[T]) -> (Vec<usize>, usize) {
     let n = a.len();
     let mut idx = (0..n).collect::<Vec<usize>>();

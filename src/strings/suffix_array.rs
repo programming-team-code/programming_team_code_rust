@@ -14,13 +14,32 @@ use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 /// let s = "banana";
 /// let suf_ary1 = SufAry::new(&s.chars().map(|c| c as usize).collect::<Vec<usize>>(), 255);
 ///
-/// let a = [-4, 8, 1_000_000_000, 3];
-/// let (a_comp, max_val) = compress(&a);
-/// let suf_ary2 = SufAry::new(&a_comp, max_val);
+/// // 0 banana 3
+/// // 1 anana  2
+/// // 2 nana   5
+/// // 3 ana    1
+/// // 4 na     4
+/// // 5 a      0
+/// //
+/// // 5 a      0
+/// //   |
+/// // 3 ana    1
+/// //   |||
+/// // 1 anana  2
+/// //
+/// // 0 banana 3
+/// //
+/// // 4 na     4
+/// //   ||
+/// // 2 nana   5
 ///
 /// assert_eq!(suf_ary1.sa, [5, 3, 1, 0, 4, 2]);
 /// assert_eq!(suf_ary1.sa_inv, [3, 2, 5, 1, 4, 0]);
 /// assert_eq!(suf_ary1.lcp, [1, 3, 0, 0, 2]);
+///
+/// let a = [-4, 8, 1_000_000_000, 3];
+/// let (a_comp, max_val) = compress(&a);
+/// let suf_ary2 = SufAry::new(&a_comp, max_val);
 ///
 /// assert_eq!(suf_ary2.sa, [0, 3, 1, 2]);
 /// ```
