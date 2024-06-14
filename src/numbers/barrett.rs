@@ -15,7 +15,8 @@
 /// let barr = Barrett::new(0_u32);
 /// ```
 pub struct Barrett {
-    denom: u32,
+    /// denominator
+    pub denom: u32,
     im: u64,
 }
 
@@ -46,5 +47,14 @@ impl Barrett {
         } else {
             (quot, rem)
         }
+    }
+
+    /// Gets x * y % denom
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
+    pub fn mult(&self, x: u32, y: u32) -> u32 {
+        self.div(x as u64 * y as u64).1
     }
 }
