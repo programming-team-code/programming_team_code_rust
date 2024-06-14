@@ -8,7 +8,7 @@ fn main() {
         a: u32,
         b: u32,
     }
-    let barr = Barrett::new(b as u32);
+    let barr = Barrett::new(b);
 
     let (quot, rem) = barr.div(a as u64);
 
