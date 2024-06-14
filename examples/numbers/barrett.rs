@@ -21,6 +21,7 @@ fn main() {
         denominator as u64,
         0_u64,
         1_u64,
+        u64::MAX - 35128,
         u64::MAX - 1,
         u64::MAX,
         numerator as u64 * denominator as u64,
