@@ -4,6 +4,7 @@ use crate::numbers::barrett::Barrett;
 
 /// # Example
 /// ```
+/// use programming_team_code_rust::numbers::barrett::Barrett;
 /// use programming_team_code_rust::numbers::binom::Binom;
 ///
 /// let barr = Barrett::new(1_000_000_007);
