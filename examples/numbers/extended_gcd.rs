@@ -11,7 +11,8 @@ fn do_asserts(a: i64, b: i64) {
         assert_eq!(b % gcd, 0);
     }
     if b != 0 {
-        assert!(-(b / gcd).abs() < x && x < (b / gcd).abs());
+        assert!(-(b / gcd).abs() < x);
+        assert!(x < (b / gcd).abs());
     }
 }
 
