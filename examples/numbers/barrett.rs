@@ -33,6 +33,9 @@ fn main() {
     for test_num in test_numerators {
         do_asserts(test_num, numerator);
         do_asserts(test_num, denominator);
+        do_asserts(test_num, u32::MAX / 2);
+        do_asserts(test_num, u32::MAX / 2 - 1);
+        do_asserts(test_num, u32::MAX / 2 - 2);
     }
 
     let barr = Barrett::new(denominator);
