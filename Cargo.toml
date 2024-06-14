@@ -137,3 +137,7 @@ path = "examples/graphs/hld_jump_on_tree_edges.rs"
 [[example]]
 name = "barrett"
 path = "examples/numbers/barrett.rs"
+
+[[example]]
+name = "extended_gcd"
+path = "examples/numbers/extended_gcd.rs"
