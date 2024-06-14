@@ -6,8 +6,8 @@ use programming_team_code_rust::numbers::barrett::Barrett;
 fn do_asserts(numerator: u64, denominator: u32) {
     let barr = Barrett::new(denominator);
     let (quot, rem) = barr.div(numerator);
-    assert_eq!(quot * denominator as u64 + rem, numerator);
-    assert!(rem < denominator as u64);
+    assert_eq!(quot * denominator as u64 + rem as u64, numerator);
+    assert!(rem < denominator);
 }
 
 fn main() {

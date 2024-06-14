@@ -15,8 +15,7 @@
 /// let barr = Barrett::new(0_u32);
 /// ```
 pub struct Barrett {
-    /// denominator
-    pub denom: u64,
+    denom: u32,
     im: u64,
 }
 
@@ -29,7 +28,7 @@ impl Barrett {
     pub fn new(denom: u32) -> Self {
         assert_ne!(denom, 0);
         Self {
-            denom: denom as u64,
+            denom,
             im: u64::MAX / (denom as u64),
         }
     }
@@ -39,9 +38,9 @@ impl Barrett {
     /// # Complexity
     /// - Time: O(1)
     /// - Space: O(1)
-    pub fn div(&self, numer: u64) -> (u64, u64) {
+    pub fn div(&self, numer: u64) -> (u64, u32) {
         let quot = ((self.im as u128 * numer as u128) >> 64) as u64;
-        let rem = numer - quot * self.denom;
+        let rem = (numer - quot * self.denom as u64) as u32;
         if rem >= self.denom {
             (quot + 1, rem - self.denom)
         } else {
