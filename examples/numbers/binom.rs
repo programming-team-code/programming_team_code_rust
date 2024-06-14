@@ -1,14 +1,16 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/binomial_coefficient_prime_mod
 
 use proconio::input;
+use programming_team_code_rust::numbers::barrett::Barrett;
 use programming_team_code_rust::numbers::binom::Binom;
 
 fn main() {
     input! {
         t: usize,
-        m: u64,
+        m: u32,
     }
-    let mut binom = Binom::new(m);
+    let barr = Barrett::new(m);
+    let mut binom = Binom::new(barr);
     for _ in 0..t {
         input! {
             n: usize,
