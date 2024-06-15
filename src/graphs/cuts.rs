@@ -14,11 +14,23 @@
 ///    adj[v].push((u, i));
 /// }
 ///
-/// let (num_bccs, is_cut, bcc_id) = get_bridges(&adj, 4);
+/// let (num_bccs, is_cut, bcc_id) = get_cuts(&adj, 4);
 ///
 /// assert_eq!(num_bccs, 2);
-/// assert_eq!(is_cut, vec![false, false, true]);
-/// assert_eq!(two_edge_ccid, vec![1, 1, 0]);
+/// assert_eq!(is_cut, vec![false, true, false]);
+/// assert_eq!(bcc_id, vec![1, 1, 0, 1]);
+/// ```
+///
+/// # Panics
+/// ```panic
+/// use programming_team_code_rust::graphs::cuts::get_cuts;
+/// let edge_list = [(0,0)];
+/// let mut adj = vec![vec![]; 1];
+/// for (i, &(u, v)) in edge_list.iter().enumerate() {
+///    adj[u].push((v, i));
+///    adj[v].push((u, i));
+/// }
+/// let (_, _, _) = get_cuts(&adj, 1);
 /// ```
 ///
 /// # Complexity

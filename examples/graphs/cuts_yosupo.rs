@@ -27,6 +27,7 @@ fn main() {
                 .iter()
                 .any(|&(_, e_id)| bcc_id[e_id] != bcc_id[adj[i][0].1])
         );
+        assert_eq!(is_cut[i], bvt[i].len() >= 2);
     }
 
     let lone_nodes = adj
