@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/two_edge_connected_components
 
 use proconio::input;
-use programming_team_code_rust::graphs::bridges::get_bridges;
+use programming_team_code_rust::graphs::cuts::get_cuts;
 
 fn main() {
     input! {
