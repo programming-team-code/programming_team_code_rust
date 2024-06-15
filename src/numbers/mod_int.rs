@@ -28,8 +28,7 @@ impl Mint {
     }
 
     pub fn exp(self, mut e: u64) -> Self {
-        let mut res = Mint::new(1);
-        let mut b = Mint::new(self.val);
+        let (mut res, mut b) = (Mint::new(1), Mint::new(self.val));
         while e > 0 {
             if e % 2 == 1 {
                 res *= Mint::new(b.val);
