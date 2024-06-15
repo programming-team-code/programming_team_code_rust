@@ -8,6 +8,6 @@ fn main() {
         n: usize,
         k: usize,
     }
-    let mut binom = Binom::new();
+    let mut binom = Binom::default();
     println!("{}", binom.comb(k, n));
 }

@@ -6,7 +6,7 @@ const MOD: u64 = 1_000_000_007;
 /// ```
 /// use programming_team_code_rust::numbers::binom::Binom;
 ///
-/// let mut binom = Binom::new();
+/// let mut binom = Binom::default();
 /// assert_eq!(binom.comb(5, 2), 10);
 /// assert_eq!(binom.comb(10, 3), 120);
 /// ```
@@ -16,20 +16,17 @@ pub struct Binom {
     inv_fact: Vec<u64>,
 }
 
-impl Binom {
-    /// Create a new instance of Binom.
-    ///
-    /// # Complexity
-    /// - Time: O(1)
-    /// - Space: O(1)
-    pub fn new() -> Binom {
-        Binom {
-            inv: vec![1; 2],
-            fact: vec![1; 2],
-            inv_fact: vec![1; 2],
+impl Default for Binom {
+    fn default() -> Self {
+        Self {
+            inv: vec![1, 1],
+            fact: vec![1, 1],
+            inv_fact: vec![1, 1],
         }
     }
+}
 
+impl Binom {
     /// Calculate C(n, k)
     ///
     /// # Complexity
