@@ -21,6 +21,12 @@ impl Mint {
         }
     }
 
+    pub fn inv(self) -> Self {
+        let (gcd, x, _) = ext_gcd(self.val as i64, MOD as i64);
+        assert_eq!(gcd, 1);
+        Mint::new(x as u64)
+    }
+
     pub fn exp(self, mut e: u64) -> Self {
         let mut res = Mint::new(1);
         let mut b = Mint::new(self.val);
@@ -80,19 +86,16 @@ impl std::ops::MulAssign for Mint {
     }
 }
 
+#[allow(clippy::suspicious_arithmetic_impl)]
 impl std::ops::Div for Mint {
     type Output = Self;
     fn div(self, rhs: Self) -> Self {
-        let (gcd, x, _) = ext_gcd(rhs.val as i64, MOD as i64);
-        assert_eq!(gcd, 1);
-        Mint::new(self.val * x as u64)
+        Mint::new(self.val * rhs.inv().val)
     }
 }
 
 impl std::ops::DivAssign for Mint {
     fn div_assign(&mut self, rhs: Self) {
-        let (gcd, x, _) = ext_gcd(rhs.val as i64, MOD as i64);
-        assert_eq!(gcd, 1);
-        self.val = self.val * x as u64 % MOD;
+        self.val = self.val * rhs.inv().val % MOD;
     }
 }
