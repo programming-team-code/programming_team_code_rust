@@ -1,5 +1,29 @@
 //! # Bridge Edges
 
+/// # Guarantees
+/// - 0 <= two_edge_ccid\[u\] < num_2_edge_ccs
+///
+/// # Example
+/// ```
+/// use programming_team_code_rust::graphs::bridges::get_bridges;
+///
+/// let edge_list = [(0,1), (0,1), (1,2), (0,1)];
+/// let mut adj = vec![vec![]; 3];
+/// for (i, &(u, v)) in edge_list.iter().enumerate() {
+///    adj[u].push((v, i));
+///    adj[v].push((u, i));
+/// }
+///
+/// let (num_2_edge_ccs, is_bridge, two_edge_ccid) = get_bridges(&adj, 4);
+///
+/// assert_eq!(num_2_edge_ccs, 2);
+/// assert_eq!(is_bridge, vec![false, false, true, false]);
+/// assert_eq!(two_edge_ccid, vec![1, 1, 0]);
+/// ```
+///
+/// # Complexity
+/// - Time: O(V + E)
+/// - Space: O(V)
 pub fn get_bridges(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec<usize>) {
     #[allow(clippy::too_many_arguments)]
     fn dfs(
