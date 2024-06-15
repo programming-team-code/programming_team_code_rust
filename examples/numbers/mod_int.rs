@@ -10,14 +10,14 @@ fn main() {
 
     for _ in 0..q {
         input! {
-            a: i64,
-            b: i64,
+            a: u64,
+            b: u64,
         }
 
         let a_mod = Mint::new(a);
         let b_mod = Mint::new(b);
 
-        assert_eq!((a_mod + b_mod).val, ((a + b) % MOD as i64) as u32);
+        assert_eq!((a_mod + b_mod).val, (a + b) % MOD);
 
         println!("{}", a + b);
     }
