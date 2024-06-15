@@ -21,6 +21,9 @@
 ///
 /// assert_eq!(bvt, [vec![4], vec![4, 3], vec![3], vec![1, 2], vec![0, 1]]);
 ///
+/// // indexes 0..n are nodes
+/// // indexes n..n + num_bccs are bccs
+///
 /// for u in 0..n {
 ///    // loop over each unique bcc containing a node u
 ///    for bccid in bvt[u].iter().map(|v| v - n) {
@@ -49,8 +52,8 @@ pub fn get_bvt(adj: &[Vec<(usize, usize)>], num_bccs: usize, bcc_id: &[usize]) -
                 bvt[id + n].push(i);
             }
         }
-        for &id in &bvt[i] {
-            vis[id - n] = false;
+        for id in bvt[i].iter().map(|v| v - n) {
+            vis[id] = false;
         }
     }
     bvt
