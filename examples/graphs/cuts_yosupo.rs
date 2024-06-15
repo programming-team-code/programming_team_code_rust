@@ -1,6 +1,7 @@
-// verification-helper: PROBLEM https://judge.yosupo.jp/problem/two_edge_connected_components
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/biconnected_components
 
 use proconio::input;
+use programming_team_code_rust::graphs::block_vertex_tree::get_bvt;
 use programming_team_code_rust::graphs::cuts::get_cuts;
 
 fn main() {
@@ -16,22 +17,34 @@ fn main() {
         adj[v].push((u, i));
     }
 
-    let (num_2_edge_ccs, is_bridge, two_edge_ccid) = get_bridges(&adj, m);
+    let (num_bccs, is_cut, bcc_id) = get_cuts(&adj, m);
+    let bvt = get_bvt(&adj, num_bccs, &bcc_id);
 
-    for (i, &(u, v)) in edges.iter().enumerate() {
-        assert_eq!(is_bridge[i], two_edge_ccid[u] != two_edge_ccid[v]);
-    }
-
-    println!("{}", num_2_edge_ccs);
-
-    let mut bridge_ccs = vec![vec![]; num_2_edge_ccs];
     for i in 0..n {
-        bridge_ccs[two_edge_ccid[i]].push(i);
+        assert_eq!(
+            is_cut[i],
+            adj[i]
+                .iter()
+                .any(|&(_, e_id)| bcc_id[e_id] != bcc_id[adj[i][0].1])
+        );
     }
 
-    for cc in bridge_ccs.iter() {
-        print!("{} ", cc.len());
-        for u in cc {
+    let lone_nodes = adj
+        .iter()
+        .enumerate()
+        .filter(|&(_, neighbors)| neighbors.is_empty())
+        .map(|(i, _)| i)
+        .collect::<Vec<usize>>();
+
+    println!("{}", num_bccs + lone_nodes.len());
+
+    for u in lone_nodes {
+        println!("1 {}", u);
+    }
+
+    for neighbors in bvt.iter().skip(n) {
+        print!("{} ", neighbors.len());
+        for u in neighbors {
             print!("{} ", u);
         }
         println!();
