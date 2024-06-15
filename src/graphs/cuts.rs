@@ -1,5 +1,29 @@
 //! # Cut nodes
 
+/// # Guarantees
+/// - 0 <= bcc_id\[u\] < num_bccs
+///
+/// # Example
+/// ```
+/// use programming_team_code_rust::graphs::cuts::get_cuts;
+///
+/// let edge_list = [(0,1), (0,1), (1,2), (0,1)];
+/// let mut adj = vec![vec![]; 3];
+/// for (i, &(u, v)) in edge_list.iter().enumerate() {
+///    adj[u].push((v, i));
+///    adj[v].push((u, i));
+/// }
+///
+/// let (num_bccs, is_cut, bcc_id) = get_bridges(&adj, 4);
+///
+/// assert_eq!(num_bccs, 2);
+/// assert_eq!(is_cut, vec![false, false, true]);
+/// assert_eq!(two_edge_ccid, vec![1, 1, 0]);
+/// ```
+///
+/// # Complexity
+/// - Time: O(V + E)
+/// - Space: O(V)
 pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec<usize>) {
     #[allow(clippy::too_many_arguments)]
     fn dfs(
