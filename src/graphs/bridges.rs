@@ -73,8 +73,7 @@ pub fn get_bridges(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, 
         low
     }
     let (n, mut timer, mut num_2_edge_ccs, mut is_bridge) = (adj.len(), 1, 0, vec![false; m]);
-    let (mut tin, mut two_edge_ccid, mut node_stack) =
-        (vec![0; n], vec![0; n], Vec::with_capacity(n));
+    let (mut tin, mut two_edge_ccid, mut st) = (vec![0; n], vec![0; n], Vec::with_capacity(n));
     for i in 0..n {
         if tin[i] == 0 {
             dfs(
@@ -86,7 +85,7 @@ pub fn get_bridges(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, 
                 &mut num_2_edge_ccs,
                 &mut is_bridge,
                 &mut two_edge_ccid,
-                &mut node_stack,
+                &mut st,
             );
         }
     }
