@@ -18,17 +18,14 @@ fn main() {
 
     let (_, is_cut, bcc_id) = get_cuts(&adj, m);
 
-    /*
     for i in 0..n {
-        let mut all_same = true;
-        for &(_, e_id) in &adj[i] {
-            if bcc_id[e_id] != bcc_id[adj[i][0].1] {
-                all_same = false;
-            }
-        }
-        assert_eq!(all_same, !is_cut[i]);
+        assert_eq!(
+            is_cut[i],
+            adj[i]
+                .iter()
+                .any(|&(_, e_id)| bcc_id[e_id] != bcc_id[adj[i][0].1])
+        );
     }
-    */
 
     let all_cut_nodes = is_cut
         .iter()

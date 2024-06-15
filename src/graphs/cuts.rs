@@ -1,6 +1,7 @@
 //! # Cut nodes
 
 pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec<usize>) {
+    #[allow(clippy::too_many_arguments)]
     fn dfs(
         u: usize,
         p_id: Option<usize>,
@@ -32,7 +33,7 @@ pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec
                     st.truncate(st_sz);
                     *num_bccs += 1;
                 }
-                low = low.min(tin[v]);
+                low = low.min(low_ch);
                 deg += 1;
             } else if tin[v] < tin[u] {
                 st.push(e_id);
@@ -44,8 +45,9 @@ pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec
         }
         low
     }
-    let (n, mut timer, mut num_bccs, mut bcc_id) = (adj.len(), 1, 0, vec![0; m]);
-    let (mut tin, mut is_cut, mut node_stack) = (vec![0; n], vec![false; n], Vec::with_capacity(n));
+    let (n, mut timer, mut num_bccs, mut bcc_id, mut st) =
+        (adj.len(), 1, 0, vec![0; m], Vec::with_capacity(m));
+    let (mut tin, mut is_cut) = (vec![0; n], vec![false; n]);
     for i in 0..n {
         if tin[i] == 0 {
             dfs(
@@ -57,7 +59,7 @@ pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec
                 &mut num_bccs,
                 &mut is_cut,
                 &mut bcc_id,
-                &mut node_stack,
+                &mut st,
             );
         }
     }
