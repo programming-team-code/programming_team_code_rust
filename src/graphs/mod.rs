@@ -1,4 +1,5 @@
 //! # Graph Algorithms
+pub mod bridges;
 pub mod cent_decomp;
 pub mod count_paths_per_length;
 mod dfs_order;
