@@ -64,8 +64,8 @@ pub fn get_bridges(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, 
             if let Some(p) = p_id {
                 is_bridge[p] = true;
             }
-            for i in st_sz..st.len() {
-                two_edge_ccid[st[i]] = *num_2_edge_ccs;
+            for &id in st.iter().skip(st_sz) {
+                two_edge_ccid[id] = *num_2_edge_ccs;
             }
             st.truncate(st_sz);
             *num_2_edge_ccs += 1;
