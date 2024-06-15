@@ -79,6 +79,10 @@ name = "binom"
 path = "examples/numbers/binom.rs"
 
 [[example]]
+name = "mod_int"
+path = "examples/numbers/mod_int.rs"
+
+[[example]]
 name = "primes_factorize"
 path = "examples/numbers/primes_factorize.rs"
 
