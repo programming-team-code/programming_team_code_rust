@@ -63,8 +63,8 @@ pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec
                 let low_ch = dfs(v, Some(e_id), adj, timer, tin, num_bccs, is_cut, bcc_id, st);
                 if low_ch >= tin[u] {
                     is_cut[u] = true;
-                    for i in st_sz..st.len() {
-                        bcc_id[st[i]] = *num_bccs;
+                    for &id in st.iter().skip(st_sz) {
+                        bcc_id[id] = *num_bccs;
                     }
                     st.truncate(st_sz);
                     *num_bccs += 1;
