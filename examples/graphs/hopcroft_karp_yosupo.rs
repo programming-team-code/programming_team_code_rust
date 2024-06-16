@@ -36,7 +36,8 @@ fn main() {
         mvc_l.iter().filter(|&elem| *elem).count() + mvc_r.iter().filter(|&elem| *elem).count()
     );
     for &(u, v) in edge_list.iter() {
-        assert!(mvc_l[u] || mvc_r[v]);
+        let either = mvc_l[u] || mvc_r[v];
+        assert!(either);
     }
 
     println!("{}", matching_siz);
