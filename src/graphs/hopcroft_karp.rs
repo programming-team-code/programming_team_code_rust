@@ -25,8 +25,7 @@ pub fn get_max_matching(
             if w.is_none()
                 || dist[u] + 1 == dist[w.unwrap()] && dfs(w.unwrap(), adj, dist, l_to_r, r_to_l)
             {
-                l_to_r[u] = Some(v);
-                r_to_l[v] = Some(u);
+                (l_to_r[u], r_to_l[v]) = (Some(v), Some(u));
                 return true;
             }
         }
