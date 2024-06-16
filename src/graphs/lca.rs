@@ -1,7 +1,7 @@
 //! # Lowest Common Ancestor
 
 use crate::data_structures::rmq::RMQ;
-use crate::graphs::dfs_order::get_dfs_preorder;
+use crate::graphs::dfs::dfs;
 
 /// # Example
 /// ```
@@ -42,7 +42,19 @@ impl LCA {
         let mut tin = vec![0; n];
         let mut p = vec![0; n];
         let mut d = vec![0; n];
-        let order = get_dfs_preorder(adj);
+        let mut order = Vec::with_capacity(n);
+        dfs(adj, |u| {
+            tin[u] = order.len();
+            order.push(u);
+            for &v in &adj[u] {
+                if v != p[u] {
+                    p[v] = u;
+                    d[v] = d[u] + 1;
+                }
+            }
+        }, |_|{});
+        //let order = get_dfs_preorder(adj);
+        /*
         for (i, &u) in order.iter().enumerate() {
             tin[u] = i;
             for &v in &adj[u] {
@@ -52,6 +64,7 @@ impl LCA {
                 }
             }
         }
+        */
         let d_with_order: Vec<(usize, usize)> = order.iter().map(|&u| (d[u], u)).collect();
         let rmq = RMQ::new(&d_with_order, std::cmp::min);
         LCA { tin, p, rmq }
