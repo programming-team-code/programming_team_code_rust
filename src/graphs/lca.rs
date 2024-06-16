@@ -43,16 +43,20 @@ impl LCA {
         let mut p = vec![0; n];
         let mut d = vec![0; n];
         let mut order = Vec::with_capacity(n);
-        dfs(adj, |u| {
-            tin[u] = order.len();
-            order.push(u);
-            for &v in &adj[u] {
-                if v != p[u] {
-                    p[v] = u;
-                    d[v] = d[u] + 1;
+        dfs(
+            adj,
+            |u| {
+                tin[u] = order.len();
+                order.push(u);
+                for &v in &adj[u] {
+                    if v != p[u] {
+                        p[v] = u;
+                        d[v] = d[u] + 1;
+                    }
                 }
-            }
-        }, |_|{});
+            },
+            |_| {},
+        );
         //let order = get_dfs_preorder(adj);
         /*
         for (i, &u) in order.iter().enumerate() {
