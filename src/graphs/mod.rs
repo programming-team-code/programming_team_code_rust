@@ -1,7 +1,7 @@
 //! # Graph Algorithms
 pub mod cent_decomp;
 pub mod count_paths_per_length;
-mod dfs;
+pub mod dfs;
 mod dfs_order;
 pub mod dijk;
 pub mod hld;
