@@ -15,7 +15,7 @@
 ///
 /// let mut u = 2; // loop over shortest path in reverse
 /// while let Some(prev) = par[u] {
-///    u = prev_u;
+///    u = prev;
 /// }
 /// ```
 ///
