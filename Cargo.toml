@@ -135,6 +135,14 @@ name = "hld_jump_on_tree_edges"
 path = "examples/graphs/hld_jump_on_tree_edges.rs"
 
 [[example]]
+name = "cuts_yosupo"
+path = "examples/graphs/cuts_yosupo.rs"
+
+[[example]]
+name = "cuts_aizu"
+path = "examples/graphs/cuts_aizu.rs"
+
+[[example]]
 name = "bridges_yosupo"
 path = "examples/graphs/bridges_yosupo.rs"
 
