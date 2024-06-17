@@ -141,3 +141,15 @@ path = "examples/graphs/cuts_yosupo.rs"
 [[example]]
 name = "cuts_aizu"
 path = "examples/graphs/cuts_aizu.rs"
+
+[[example]]
+name = "bridges_yosupo"
+path = "examples/graphs/bridges_yosupo.rs"
+
+[[example]]
+name = "bridges_aizu"
+path = "examples/graphs/bridges_aizu.rs"
+
+[[example]]
+name = "ext_gcd"
+path = "examples/numbers/ext_gcd.rs"
