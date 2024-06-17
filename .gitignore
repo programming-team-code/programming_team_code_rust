@@ -3,3 +3,4 @@ Cargo.lock
 .verify-helper/
 default_*.profraw
 ptc_rust.profdata
+input
