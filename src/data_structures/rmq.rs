@@ -5,22 +5,27 @@
 /// use programming_team_code_rust::data_structures::rmq::RMQ;
 ///
 /// let a = [1, 3, 2, 4, 5];
-/// let rmq = RMQ::new(&a, std::cmp::min);
-/// assert_eq!(rmq.query(0..5), 1);
-/// assert_eq!(rmq.query(1..4), 2);
+/// let rmq1 = RMQ::new(&a, std::cmp::min);
+/// assert_eq!(rmq1.query(0..5), 1);
+/// assert_eq!(rmq1.query(1..4), 2);
+///
+/// let outside_var = 5;
+/// let rmq2 = RMQ::new(&a, |x, y| if x + outside_var < y + outside_var { x } else { y });
+/// assert_eq!(rmq2.query(0..5), 1);
+/// assert_eq!(rmq2.query(1..4), 2);
 /// ```
-pub struct RMQ<T> {
+pub struct RMQ<T, F> {
     t: Vec<Vec<T>>,
-    op: fn(T, T) -> T,
+    op: F,
 }
 
-impl<T: Copy> RMQ<T> {
+impl<T: Copy, F: Fn(T, T) -> T> RMQ<T, F> {
     /// Create a new RMQ instance
     ///
     /// # Complexity (n = a.len())
     /// - Time: O(n log n)
     /// - Space: O(n log n)
-    pub fn new(a: &[T], op: fn(T, T) -> T) -> Self {
+    pub fn new(a: &[T], op: F) -> Self {
         let mut t = vec![a.to_owned(); 1];
         let mut i = 0;
         while (2 << i) <= a.len() {
