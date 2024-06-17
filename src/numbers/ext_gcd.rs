@@ -7,7 +7,7 @@
 ///
 /// # Example
 /// ```
-/// use programming_team_code_rust::numbers::extended_gcd::ext_gcd;
+/// use programming_team_code_rust::numbers::ext_gcd::ext_gcd;
 ///
 /// let (a, b) = (4, -6);
 /// let (gcd, x, y) = ext_gcd(a, b);
