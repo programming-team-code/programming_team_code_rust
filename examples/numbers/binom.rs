@@ -1,19 +1,13 @@
-// verification-helper: PROBLEM https://judge.yosupo.jp/problem/binomial_coefficient_prime_mod
+// verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/DPL_5_E
 
 use proconio::input;
 use programming_team_code_rust::numbers::binom::Binom;
 
 fn main() {
     input! {
-        t: usize,
-        m: u64,
+        n: usize,
+        k: usize,
     }
-    let mut binom = Binom::new(m);
-    for _ in 0..t {
-        input! {
-            n: usize,
-            k: usize,
-        }
-        println!("{}", binom.comb(n, k));
-    }
+    let mut binom = Binom::default();
+    println!("{}", binom.comb(k, n));
 }

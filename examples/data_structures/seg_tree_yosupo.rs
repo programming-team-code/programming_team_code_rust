@@ -3,6 +3,8 @@
 use proconio::input;
 use programming_team_code_rust::data_structures::seg_tree::SegTree;
 
+const MOD: u64 = 998_244_353;
+
 fn main() {
     input! {
         n: usize,
@@ -12,16 +14,16 @@ fn main() {
     let a = (0..n)
         .map(|_| {
             input! {
-                c: usize,
-                d: usize
+                c: u64,
+                d: u64
             }
             (c, d)
         })
-        .collect::<Vec<(usize, usize)>>();
+        .collect::<Vec<(u64, u64)>>();
 
-    let mut seg_tree = SegTree::<(usize, usize)>::build_on_array(
+    let mut seg_tree = SegTree::<(u64, u64)>::build_on_array(
         &a,
-        move |x, y| (x.0 * y.0 % 998244353, (y.0 * x.1 + y.1) % 998244353),
+        move |x, y| (x.0 * y.0 % MOD, (y.0 * x.1 + y.1) % MOD),
         (1, 0),
     );
 
@@ -34,8 +36,8 @@ fn main() {
             0 => {
                 input! {
                     idx: usize,
-                    c: usize,
-                    d: usize
+                    c: u64,
+                    d: u64
                 }
                 seg_tree.set(idx, (c, d));
             }
@@ -43,10 +45,10 @@ fn main() {
                 input! {
                     le: usize,
                     ri: usize,
-                    x: usize
+                    x: u64
                 }
                 let (c, d) = seg_tree.query(le..ri);
-                println!("{}", (c * x + d) % 998244353);
+                println!("{}", (c * x + d) % MOD);
             }
         }
     }
