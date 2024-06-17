@@ -86,21 +86,21 @@ impl HLD {
     /// - Time: O(log n) calls to `f`
     /// - Space: O(1)
     pub fn path(&self, mut u: usize, mut v: usize, mut f: impl FnMut(Range<usize>, bool)) {
-        let mut v_anc = true;
+        let mut u_anc = false;
         loop {
             if self.tin[u] > self.tin[v] {
                 std::mem::swap(&mut u, &mut v);
-                v_anc = !v_anc;
+                u_anc = !u_anc;
             }
             if self.head[u] == self.head[v] {
                 break;
             }
-            f(self.tin[self.head[v]]..self.tin[v] + 1, v_anc);
+            f(self.tin[self.head[v]]..self.tin[v] + 1, u_anc);
             v = self.p[self.head[v]].unwrap();
         }
         f(
             self.tin[u] + self.vals_edges as usize..self.tin[v] + 1,
-            v_anc,
+            u_anc,
         );
     }
 
@@ -187,7 +187,7 @@ impl HLD {
     pub fn kth_on_path(&self, u: usize, v: usize, k: usize) -> Option<usize> {
         let mut dst_side = [0; 2];
         self.path(u, v, |range, u_anc| dst_side[u_anc as usize] += range.len());
-        if k < dst_side[0] {
+        if k < dst_side[1] {
             return self.kth_par(u, k);
         }
         let dst = dst_side[0] + dst_side[1] - !self.vals_edges as usize;
