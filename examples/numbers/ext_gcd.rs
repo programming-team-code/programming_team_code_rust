@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_B
 
 use proconio::input;
-use programming_team_code_rust::numbers::extended_gcd::ext_gcd;
+use programming_team_code_rust::numbers::ext_gcd::ext_gcd;
 
 fn do_asserts(a: i64, b: i64) {
     let (gcd, x, y) = ext_gcd(a, b);
