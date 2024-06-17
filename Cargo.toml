@@ -135,5 +135,13 @@ name = "hld_jump_on_tree_edges"
 path = "examples/graphs/hld_jump_on_tree_edges.rs"
 
 [[example]]
+name = "bridges_yosupo"
+path = "examples/graphs/bridges_yosupo.rs"
+
+[[example]]
+name = "bridges_aizu"
+path = "examples/graphs/bridges_aizu.rs"
+
+[[example]]
 name = "ext_gcd"
 path = "examples/numbers/ext_gcd.rs"
