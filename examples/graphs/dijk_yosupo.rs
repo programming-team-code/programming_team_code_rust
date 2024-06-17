@@ -17,37 +17,22 @@ fn main() {
         adj[u].push((v, w));
     }
 
-    let dist = dijk(&adj, s);
+    let (dist, par) = dijk(&adj, s);
+
+    assert_eq!(par[s], None);
 
     if dist[t] == u64::MAX {
         println!("{}", -1);
         return;
     }
 
-    let mut par = vec![0; n];
-    par[s] = s;
-    let mut seen = vec![false; n];
-    seen[s] = true;
-    let mut q = std::collections::VecDeque::new();
-    q.push_back(s);
-    while let Some(u) = q.pop_front() {
-        for &(v, w) in &adj[u] {
-            if seen[v] || dist[u] + w != dist[v] {
-                continue;
-            }
-            par[v] = u;
-            seen[v] = true;
-            q.push_back(v);
-        }
-    }
-
     let mut path = vec![];
     let mut u = t;
-    while u != s {
-        path.push(u);
-        u = par[u];
+    path.push(u);
+    while let Some(prev_u) = par[u] {
+        path.push(prev_u);
+        u = prev_u;
     }
-    path.push(s);
 
     path.reverse();
 

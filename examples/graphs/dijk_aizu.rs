@@ -16,7 +16,10 @@ fn main() {
         adj[u].push((v, w));
     }
 
-    let dist = dijk(&adj, s);
+    let (dist, par) = dijk(&adj, s);
+
+    assert_eq!(par[s], None);
+
     for d in dist {
         if d == u64::MAX {
             println!("INF");
