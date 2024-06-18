@@ -15,12 +15,7 @@
 /// use programming_team_code_rust::strings::manacher::manacher;
 ///
 /// assert_eq!(manacher(&"baaba".chars().collect::<Vec<_>>()), vec![0, 1, 1, 0, 2, 3, 2, 4, 4]);
-/// ```
-///
-/// # Panics
-/// ```panic
-/// use programming_team_code_rust::strings::manacher::manacher;
-/// manacher(&"".chars().collect::<Vec<_>>());
+/// assert!(std::panic::catch_unwind(|| manacher::<usize>(&[])).is_err());
 /// ```
 ///
 /// # Complexity (n = s.len())
