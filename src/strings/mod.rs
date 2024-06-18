@@ -1,3 +1,3 @@
 //! # String Algorithms
 pub mod manacher;
-pub mod suf_ar;
+pub mod suf_ary;

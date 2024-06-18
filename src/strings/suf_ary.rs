@@ -11,7 +11,7 @@ type OpType = fn(usize, usize) -> usize;
 /// # Example
 /// ```
 /// use programming_team_code_rust::helpers::compress::compress;
-/// use programming_team_code_rust::strings::suffix_array::SufAry;
+/// use programming_team_code_rust::strings::suf_ary::SufAry;
 ///
 /// let s = "banana";
 /// let suf_ary1 = SufAry::new(&s.chars().map(|c| c as usize).collect::<Vec<usize>>(), 255);
