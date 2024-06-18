@@ -15,6 +15,9 @@ pub fn hopcroft_karp_asserts(
         r_to_l.iter().filter(|elem| elem.is_some()).count()
     );
 
+    for (i, elem) in l_to_r.iter().enumerate().filter(|(_, elem)| elem.is_some()) {
+        assert_eq!(Some(i), r_to_l[elem.unwrap()]);
+    }
     for (i, elem) in r_to_l.iter().enumerate().filter(|(_, elem)| elem.is_some()) {
         assert_eq!(Some(i), l_to_r[elem.unwrap()]);
     }
