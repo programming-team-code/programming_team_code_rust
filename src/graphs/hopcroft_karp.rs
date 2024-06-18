@@ -85,9 +85,8 @@ pub fn hopcroft_karp(
         if !found {
             return (matching_siz, l_to_r, r_to_l, mvc_l, mvc_r);
         }
-        for i in 0..lsz {
-            matching_siz +=
-                (l_to_r[i].is_none() && dfs(i, adj, &mut dist, &mut l_to_r, &mut r_to_l)) as usize;
-        }
+        matching_siz += (0..lsz)
+            .filter(|&i| l_to_r[i].is_none() && dfs(i, adj, &mut dist, &mut l_to_r, &mut r_to_l))
+            .count();
     }
 }
