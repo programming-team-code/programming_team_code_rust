@@ -161,7 +161,9 @@ impl SufAry {
             flip ^ (self.len_lcp(i, substr.start) < substr.len())
         };
         let le = self.sa[..self.sa_inv[substr.start]].partition_point(|&i| cmp(i, false));
-        let sz = self.sa[self.sa_inv[substr.start] + 1..].partition_point(|&i| cmp(i, true)) + 1;
-        le..le + sz
+        let ri = self.sa[self.sa_inv[substr.start] + 1..].partition_point(|&i| cmp(i, true))
+            + self.sa_inv[substr.start]
+            + 1;
+        le..ri
     }
 }

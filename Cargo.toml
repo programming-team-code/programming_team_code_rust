@@ -160,6 +160,10 @@ name = "suf_ary_find_substr_aizu"
 path = "examples/strings/suf_ary_find_substr_aizu.rs"
 
 [[example]]
+name = "suf_ary_find_substr_many_aizu"
+path = "examples/strings/suf_ary_find_substr_many_aizu.rs"
+
+[[example]]
 name = "compress"
 path = "examples/helpers/compress.rs"
 

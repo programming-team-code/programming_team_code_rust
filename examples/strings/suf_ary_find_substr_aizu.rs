@@ -11,14 +11,15 @@ fn main() {
 
     let n = s.chars().count();
     let m = t.chars().count();
-    let mut both = s.chars().map(|x| x as usize).collect::<Vec<usize>>();
-    both.extend(t.chars().map(|x| x as usize).collect::<Vec<usize>>());
+    let mut both = t.chars().map(|x| x as usize).collect::<Vec<usize>>();
+    both.extend(s.chars().map(|x| x as usize).collect::<Vec<usize>>());
 
     let suf_ary = SufAry::new(&both, 255);
-    let mut res = suf_ary.sa[suf_ary.find_substr(n..n + m)]
+    let mut res = suf_ary.sa[suf_ary.find_substr(0..m)]
         .iter()
         .copied()
-        .filter(|&i| i + m <= n)
+        .filter(|&i| i >= m)
+        .map(|i| i - m)
         .collect::<Vec<usize>>();
     res.sort();
 
