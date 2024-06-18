@@ -9,20 +9,16 @@ type OpType = fn((usize, usize), (usize, usize)) -> (usize, usize);
 /// ```
 /// use programming_team_code_rust::graphs::lca::LCA;
 ///
-/// let adj = vec![
-///    vec![1, 2],
-///    vec![0, 3, 4],
-///    vec![0, 5],
-///    vec![1],
-///    vec![1],
-///    vec![2],
-/// ];
+/// let n = 4;
+/// let mut adj = vec![vec![]; n];
+/// for (u, v) in [(0,1), (0,2), (2,3)] {
+///    adj[u].push(v);
+///    adj[v].push(u);
+/// }
 ///
 /// let lca = LCA::new(&adj);
-/// assert_eq!(lca.lca(0, 1), 0);
-/// assert_eq!(lca.lca(0, 2), 0);
-/// assert_eq!(lca.lca(0, 5), 0);
-/// assert_eq!(lca.lca(3, 4), 1);
+/// assert_eq!(lca.lca(1, 3), 0);
+/// assert_eq!(lca.lca(2, 3), 2);
 /// ```
 pub struct LCA {
     tin: Vec<usize>,
