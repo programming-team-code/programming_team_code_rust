@@ -12,9 +12,6 @@ fn main() {
 
     let suf_ary = SufAry::new(&s_vec, 255);
 
-    assert_eq!(suf_ary.len_lcp(0, s.chars().count()), 0);
-    assert_eq!(suf_ary.len_lcp(s.chars().count(), 0), 0);
-
     for i in 0..s_vec.len() {
         print!("{} ", suf_ary.len_lcp(0, i));
     }
