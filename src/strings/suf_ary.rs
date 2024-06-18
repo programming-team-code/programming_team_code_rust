@@ -6,8 +6,6 @@ use std::ops::Range;
 use crate::data_structures::rmq::RMQ;
 use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 
-type OpType = fn(usize, usize) -> usize;
-
 /// # Example
 /// ```
 /// use programming_team_code_rust::helpers::compress::compress;
@@ -54,7 +52,7 @@ pub struct SufAry {
     pub sa_inv: Vec<usize>,
     /// longest common prefix array
     pub lcp: Vec<usize>,
-    rmq: RMQ<usize, OpType>,
+    rmq: RMQ<usize, fn(usize, usize) -> usize>,
 }
 
 impl SufAry {
