@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/GRL_7_A
 
 use proconio::input;
-use programming_team_code_rust::graphs::hopcroft_karp::get_max_matching;
+use programming_team_code_rust::graphs::hopcroft_karp::hopcroft_karp;
 
 fn main() {
     input! {
@@ -16,7 +16,7 @@ fn main() {
         adj[u].push(v);
     }
 
-    let (matching_siz, l_to_r, r_to_l, mvc_l, mvc_r) = get_max_matching(&adj, rsz);
+    let (matching_siz, l_to_r, r_to_l, mvc_l, mvc_r) = hopcroft_karp(&adj, rsz);
 
     assert_eq!(
         matching_siz,

@@ -4,14 +4,14 @@ use std::collections::VecDeque;
 
 /// # Example
 /// ```
-/// use programming_team_code_rust::graphs::hopcroft_karp::get_max_matching;
+/// use programming_team_code_rust::graphs::hopcroft_karp::hopcroft_karp;
 ///
 /// let mut adj = vec![vec![]; 2];
 /// for (u, v) in [(0, 0), (0, 2), (1, 2)] {
 ///    adj[u].push(v);
 /// }
 ///
-/// let (matching_siz, l_to_r, r_to_l, mvc_l, mvc_r) = get_max_matching(&adj, 3);
+/// let (matching_siz, l_to_r, r_to_l, mvc_l, mvc_r) = hopcroft_karp(&adj, 3);
 ///
 /// assert_eq!(matching_siz, 2);
 /// assert_eq!(l_to_r, [Some(0), Some(2)]);
@@ -26,7 +26,7 @@ use std::collections::VecDeque;
 /// - Time: O(V + E * sqrt(v))
 /// - Space: O(V)
 #[allow(clippy::type_complexity)]
-pub fn get_max_matching(
+pub fn hopcroft_karp(
     adj: &[Vec<usize>],
     rsz: usize,
 ) -> (
