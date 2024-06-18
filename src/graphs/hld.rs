@@ -8,22 +8,25 @@ use std::ops::Range;
 /// use programming_team_code_rust::graphs::hld::HLD;
 /// use programming_team_code_rust::data_structures::fenwick::Fenwick;
 ///
-/// let mut adj = vec![
-///    vec![1, 2],
-///    vec![0, 3, 4],
-///    vec![0, 5],
-///    vec![1],
-///    vec![1],
-///    vec![2],
-/// ];
-/// let fenwick = Fenwick::<usize>::build_on_array(&[3, 2, 4, 5, 1, 2]);
+/// let n = 4;
+/// let mut adj = vec![vec![]; n];
+/// for (u, v) in [(0,1), (0,2), (2,3)] {
+///    adj[u].push(v);
+///    adj[v].push(u);
+/// }
 ///
 /// let hld = HLD::new(&mut adj, false);
-/// assert_eq!(hld.lca(3, 4), 1);
-/// assert_eq!(fenwick.sum(hld.sub_tree(0)), 17);
+/// let mut fenwick = Fenwick::<usize>::new(n);
+/// let init_vals = [10, 1, 100, 1000];
+/// for i in 0..n {
+///    fenwick.add(hld.tin[i], init_vals[i]);
+/// }
+///
+/// assert_eq!(hld.lca(1, 3), 0);
+/// assert_eq!(fenwick.sum(hld.sub_tree(2)), 1100);
 /// let mut sum = 0;
-/// hld.path(3, 4, |range, _| sum += fenwick.sum(range));
-/// assert_eq!(sum, 11);
+/// hld.path(1, 2, |range, _| sum += fenwick.sum(range));
+/// assert_eq!(sum, 111);
 /// ```
 pub struct HLD {
     /// parent

@@ -7,9 +7,8 @@
 /// ```
 /// use programming_team_code_rust::graphs::cuts::get_cuts;
 ///
-/// let edge_list = [(0,1), (0,1), (1,2), (0,1)];
 /// let mut adj = vec![vec![]; 3];
-/// for (i, &(u, v)) in edge_list.iter().enumerate() {
+/// for (i, &(u, v)) in [(0,1), (0,1), (1,2), (0,1)].iter().enumerate() {
 ///    adj[u].push((v, i));
 ///    adj[v].push((u, i));
 /// }
@@ -19,18 +18,14 @@
 /// assert_eq!(num_bccs, 2);
 /// assert_eq!(is_cut, vec![false, true, false]);
 /// assert_eq!(bcc_id, vec![1, 1, 0, 1]);
-/// ```
 ///
-/// # Panics
-/// ```panic
-/// use programming_team_code_rust::graphs::cuts::get_cuts;
-/// let edge_list = [(0,0)];
-/// let mut adj = vec![vec![]; 1];
-/// for (i, &(u, v)) in edge_list.iter().enumerate() {
+/// // self edges not allowed
+/// adj = vec![vec![]; 1];
+/// for (i, &(u, v)) in [(0,0)].iter().enumerate() {
 ///    adj[u].push((v, i));
 ///    adj[v].push((u, i));
 /// }
-/// let (_, _, _) = get_cuts(&adj, 1);
+/// assert!(std::panic::catch_unwind(|| get_cuts(&adj, 1)).is_err());
 /// ```
 ///
 /// # Complexity

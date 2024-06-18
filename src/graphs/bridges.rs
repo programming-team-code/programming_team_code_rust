@@ -7,9 +7,8 @@
 /// ```
 /// use programming_team_code_rust::graphs::bridges::get_bridges;
 ///
-/// let edge_list = [(0,1), (0,1), (1,2), (2,2)];
 /// let mut adj = vec![vec![]; 3];
-/// for (i, &(u, v)) in edge_list.iter().enumerate() {
+/// for (i, &(u, v)) in [(0,1), (0,1), (1,2), (2,2)].iter().enumerate() {
 ///    adj[u].push((v, i));
 ///    adj[v].push((u, i));
 /// }
