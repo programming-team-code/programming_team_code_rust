@@ -9,6 +9,7 @@ edition = "2024"
 
 [dependencies]
 proconio = "0.4.5"
+ac-library-rs = "0.1.1"
 
 [[example]]
 name = "binary_trie"
@@ -133,6 +134,38 @@ path = "examples/graphs/hld_jump_on_tree_nodes.rs"
 [[example]]
 name = "hld_jump_on_tree_edges"
 path = "examples/graphs/hld_jump_on_tree_edges.rs"
+
+[[example]]
+name = "lcp_query_yosupo_zfunc"
+path = "examples/strings/lcp_query_yosupo_zfunc.rs"
+
+[[example]]
+name = "lcp_query_yosupo_palindrome"
+path = "examples/strings/lcp_query_yosupo_palindrome.rs"
+
+[[example]]
+name = "suf_ary_cmp_aizu"
+path = "examples/strings/suf_ary_cmp_aizu.rs"
+
+[[example]]
+name = "suf_ary_find_str_aizu"
+path = "examples/strings/suf_ary_find_str_aizu.rs"
+
+[[example]]
+name = "suf_ary_find_many_strs_aizu"
+path = "examples/strings/suf_ary_find_many_strs_aizu.rs"
+
+[[example]]
+name = "suf_ary_find_substr_aizu"
+path = "examples/strings/suf_ary_find_substr_aizu.rs"
+
+[[example]]
+name = "suf_ary_find_substr_many_aizu"
+path = "examples/strings/suf_ary_find_substr_many_aizu.rs"
+
+[[example]]
+name = "compress"
+path = "examples/helpers/compress.rs"
 
 [[example]]
 name = "cuts_yosupo"

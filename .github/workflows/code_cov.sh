@@ -4,7 +4,7 @@
 set -eo pipefail
 
 executables=$(find target/debug/examples/ -type f -executable | sed 's/^/--object /')
-cov_flags=(-Xdemangler=rustfilt --ignore-filename-regex='/.cargo/registry' --instr-profile=ptc_rust.profdata "${executables}")
+cov_flags=(-Xdemangler=rustfilt --ignore-filename-regex='/.cargo/registry' --ignore-filename-regex='/rustc' --instr-profile=ptc_rust.profdata "${executables}")
 
 cargo profdata -- merge -sparse default_*.profraw -o ptc_rust.profdata
 # shellcheck disable=SC2068 # double quotes cause command to fail, not sure why
