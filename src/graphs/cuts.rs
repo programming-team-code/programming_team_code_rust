@@ -49,7 +49,7 @@ pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec
         bcc_id: vec![0; m],
         st: Vec::with_capacity(m),
     };
-    fn dfs(u: usize, p_id: Option<usize>, adj: &[Vec<(usize, usize)>], e: &mut Env) -> usize {
+    fn dfs(e: &mut Env, u: usize, p_id: Option<usize>, adj: &[Vec<(usize, usize)>]) -> usize {
         e.tin[u] = e.timer;
         let (mut low, mut deg) = (e.timer, 0);
         e.timer += 1;
@@ -61,7 +61,7 @@ pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec
             if e.tin[v] == 0 {
                 let st_sz = e.st.len();
                 e.st.push(e_id);
-                let low_ch = dfs(v, Some(e_id), adj, e);
+                let low_ch = dfs(e, v, Some(e_id), adj);
                 if low_ch >= e.tin[u] {
                     e.is_cut[u] = true;
                     for &id in e.st.iter().skip(st_sz) {
@@ -84,7 +84,7 @@ pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec
     }
     for i in 0..n {
         if e.tin[i] == 0 {
-            dfs(i, None, adj, &mut e);
+            dfs(&mut e, i, None, adj);
         }
     }
     (e.num_bccs, e.is_cut, e.bcc_id)
