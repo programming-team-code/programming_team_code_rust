@@ -20,7 +20,7 @@
 /// # Panics
 /// ```panic
 /// use programming_team_code_rust::strings::manacher::manacher;
-/// manacher(&"".chars().collect::<Vec<_>>());
+/// ma nacher(&"".chars().collect::<Vec<_>>());
 /// ```
 ///
 /// # Complexity (n = s.len())
