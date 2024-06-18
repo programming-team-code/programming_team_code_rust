@@ -144,9 +144,8 @@ impl SufAry {
     /// - Space: O(1)
     pub fn find_str(&self, t: &[usize]) -> Range<usize> {
         let le = self.sa.partition_point(|&i| &self.s[i..] < t);
-        let ri = self.sa[le..]
-            .partition_point(|&i| &self.s[i..std::cmp::min(i + t.len(), self.n)] == t)
-            + le;
+        let ri =
+            self.sa[le..].partition_point(|&i| &self.s[i..(i + t.len()).min(self.n)] == t) + le;
         le..ri
     }
 
