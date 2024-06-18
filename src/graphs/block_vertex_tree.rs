@@ -6,7 +6,7 @@
 /// # Example
 /// ```
 /// use programming_team_code_rust::graphs::cuts::get_cuts;
-/// use programming_team_code_rust::graphs::block_vertex_tree::get_get_block_vertex_tree;
+/// use programming_team_code_rust::graphs::block_vertex_tree::get_block_vertex_tree;
 ///
 /// let edge_list = [(0,1), (0,1), (1,2), (0,1)];
 /// let (n, m) = (3, 4);
@@ -17,7 +17,7 @@
 /// }
 ///
 /// let (num_bccs, _, bcc_id) = get_cuts(&adj, m);
-/// let bvt = get_get_block_vertex_tree(&adj, num_bccs, &bcc_id);
+/// let bvt = get_block_vertex_tree(&adj, num_bccs, &bcc_id);
 ///
 /// assert_eq!(bvt, [vec![4], vec![4, 3], vec![3], vec![1, 2], vec![0, 1]]);
 ///
