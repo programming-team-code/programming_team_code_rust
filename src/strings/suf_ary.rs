@@ -89,9 +89,8 @@ impl SufAry {
     /// - Time: O(1)
     /// - Space: O(1)
     pub fn len_lcp(&self, i1: usize, i2: usize) -> usize {
-        let mx = std::cmp::max(i1, i2);
-        if i1 == i2 || mx == self.n {
-            return self.n - mx;
+        if i1 == i2 {
+            return self.n - i1;
         }
         let (mut le, mut ri) = (self.sa_inv[i1], self.sa_inv[i2]);
         if le > ri {
@@ -106,11 +105,7 @@ impl SufAry {
     /// - Time: O(1)
     /// - Space: O(1)
     pub fn cmp_sufs(&self, le1: usize, le2: usize) -> Ordering {
-        if std::cmp::max(le1, le2) == self.n {
-            le2.cmp(&le1)
-        } else {
-            self.sa_inv[le1].cmp(&self.sa_inv[le2])
-        }
+        self.sa_inv[le1].cmp(&self.sa_inv[le2])
     }
 
     /// Gets s\[x\] compared with s\[y\]
@@ -148,9 +143,6 @@ impl SufAry {
     /// - Time: O(log(|s|))
     /// - Space: O(1)
     pub fn find_substr(&self, substr: Range<usize>) -> Range<usize> {
-        if substr.start == self.n {
-            return 0..self.n;
-        }
         let cmp = |i: usize, flip: bool| -> bool {
             flip ^ (self.len_lcp(i, substr.start) < substr.len())
         };
