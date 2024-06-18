@@ -8,6 +8,7 @@ use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 
 /// # Example
 /// ```
+/// use std::cmp::Ordering;
 /// use programming_team_code_rust::helpers::compress::compress;
 /// use programming_team_code_rust::strings::suf_ary::SufAry;
 ///
@@ -33,6 +34,7 @@ use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 /// // 2 nana   5
 ///
 /// let suf_ary1 = SufAry::new(&s.chars().map(|c| c as usize).collect::<Vec<usize>>(), 255);
+/// let n = suf_ary1.sa.len();
 /// assert_eq!(suf_ary1.sa, [5, 3, 1, 0, 4, 2]);
 /// assert_eq!(suf_ary1.sa_inv, [3, 2, 5, 1, 4, 0]);
 /// assert_eq!(suf_ary1.lcp, [1, 3, 0, 0, 2]);
@@ -42,7 +44,20 @@ use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 /// let suf_ary2 = SufAry::new(&a_comp, max_val);
 ///
 /// assert_eq!(suf_ary1.len_lcp(1, 3), 3);
+/// assert!(std::panic::catch_unwind(|| suf_ary1.len_lcp(1, n)).is_err());
 ///
+/// assert_eq!(suf_ary1.cmp_sufs(1, 3), Ordering::Greater);
+/// assert!(std::panic::catch_unwind(|| suf_ary1.cmp_sufs(n, 2)).is_err());
+///
+/// assert_eq!(suf_ary1.cmp_substrs(1..4, 3..6), Ordering::Equal);
+/// assert!(std::panic::catch_unwind(|| suf_ary1.cmp_substrs(3..4, n..n)).is_err());
+///
+/// assert_eq!(suf_ary1.find_str(&"ana".chars().map(|c| c as usize).collect::<Vec<usize>>()), 1..3);
+/// assert_eq!(suf_ary1.find_str(&[]), 0..n);
+///
+/// assert_eq!(suf_ary1.find_substr(1..4), 1..3);
+/// assert_eq!(suf_ary1.find_substr(1..1), 0..n);
+/// assert!(std::panic::catch_unwind(|| suf_ary1.find_substr(n..n)).is_err());
 /// ```
 pub struct SufAry {
     n: usize,
