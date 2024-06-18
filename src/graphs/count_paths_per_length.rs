@@ -72,17 +72,15 @@ impl CentDecompDfs for CountPathsPerLength {
 /// # Example
 /// ```
 /// use programming_team_code_rust::graphs::count_paths_per_length::count_paths_per_length;
-/// let adj = vec![
-///    vec![1, 2],
-///    vec![0, 3, 4],
-///    vec![0, 5, 6],
-///    vec![1],
-///    vec![1],
-///    vec![2],
-///    vec![2],
-/// ];
+///
+/// let mut adj = vec![vec![]; 4];
+/// for (u, v) in [(0,1), (0,2), (0,3)] {
+///    adj[u].push(v);
+///    adj[v].push(u);
+/// }
+///
 /// let res = count_paths_per_length(&adj);
-/// assert_eq!(res, vec![0, 6, 7, 4, 4, 0, 0]);
+/// assert_eq!(res, [0, 3, 3, 0]);
 /// ```
 ///
 /// # Complexity
