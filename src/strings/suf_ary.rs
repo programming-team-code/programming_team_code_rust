@@ -131,7 +131,7 @@ impl SufAry {
         if self.len_lcp(x.start, y.start) >= std::cmp::min(x.len(), y.len()) {
             x.len().cmp(&y.len())
         } else {
-            self.sa_inv[x.start].cmp(&self.sa_inv[y.start])
+            self.cmp_sufs(x.start, y.start)
         }
     }
 
