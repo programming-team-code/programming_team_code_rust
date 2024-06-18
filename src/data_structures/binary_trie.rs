@@ -11,7 +11,9 @@ struct Node {
 /// use programming_team_code_rust::data_structures::binary_trie::BinaryTrie;
 ///
 /// let mut trie = BinaryTrie::default();
+/// assert!(std::panic::catch_unwind(|| trie.min_xor(4)).is_err());
 /// trie.update(1, 1);
+/// assert!(std::panic::catch_unwind(|| trie.min_xor(4)).is_ok());
 /// trie.update(2, 1);
 /// trie.update(3, 1);
 /// trie.update(2, -1);
@@ -74,14 +76,6 @@ impl BinaryTrie {
     }
 
     /// Find the minimum xor of `num` and any number in the trie
-    ///
-    /// # Panics
-    /// ```panic
-    /// use programming_team_code_rust::data_structures::binary_trie::BinaryTrie;
-    ///
-    /// let trie = BinaryTrie::default();
-    /// trie.min_xor(0);
-    /// ```
     ///
     /// # Complexity
     /// - Time: O(log(max_num))
