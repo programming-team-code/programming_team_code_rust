@@ -131,7 +131,7 @@ impl SufAry {
         if self.len_lcp(x.start, y.start) >= std::cmp::min(x.len(), y.len()) {
             x.len().cmp(&y.len())
         } else {
-            self.sa_inv[x.start].cmp(&self.sa_inv[y.start])
+            self.cmp_sufs(x.start, y.start)
         }
     }
 
@@ -144,9 +144,8 @@ impl SufAry {
     /// - Space: O(1)
     pub fn find_str(&self, t: &[usize]) -> Range<usize> {
         let le = self.sa.partition_point(|&i| &self.s[i..] < t);
-        let ri = self.sa[le..]
-            .partition_point(|&i| &self.s[i..std::cmp::min(i + t.len(), self.n)] == t)
-            + le;
+        let ri =
+            self.sa[le..].partition_point(|&i| &self.s[i..(i + t.len()).min(self.n)] == t) + le;
         le..ri
     }
 
@@ -161,10 +160,9 @@ impl SufAry {
         let cmp = |i: usize, flip: bool| -> bool {
             flip ^ (self.len_lcp(i, substr.start) < substr.len())
         };
-        let le = self.sa[..self.sa_inv[substr.start]].partition_point(|&i| cmp(i, false));
-        let ri = self.sa[self.sa_inv[substr.start] + 1..].partition_point(|&i| cmp(i, true))
-            + self.sa_inv[substr.start]
-            + 1;
+        let idx = self.sa_inv[substr.start];
+        let le = self.sa[..idx].partition_point(|&i| cmp(i, false));
+        let ri = self.sa[idx + 1..].partition_point(|&i| cmp(i, true)) + idx + 1;
         le..ri
     }
 }
