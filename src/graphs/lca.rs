@@ -26,7 +26,7 @@ type OpType = fn((usize, usize), (usize, usize)) -> (usize, usize);
 /// ```
 pub struct LCA {
     tin: Vec<usize>,
-    p: Vec<usize>,
+    p: Vec<Option<usize>>,
     rmq: RMQ<(usize, usize), OpType>,
 }
 
@@ -42,21 +42,28 @@ impl LCA {
     pub fn new(adj: &[Vec<usize>]) -> Self {
         let n = adj.len();
         let mut tin = vec![0; n];
-        let mut p = vec![0; n];
+        let mut p = vec![None; n];
         let mut d = vec![0; n];
         let order = get_dfs_preorder(adj);
         for (i, &u) in order.iter().enumerate() {
             tin[u] = i;
             for &v in &adj[u] {
-                if v != p[u] {
-                    p[v] = u;
-                    d[v] = d[u] + 1;
+                if Some(v) != p[u] {
+                    (p[v], d[v]) = (Some(u), d[u] + 1);
                 }
             }
         }
-        let d_with_order: Vec<(usize, usize)> = order.iter().map(|&u| (d[u], u)).collect();
-        let rmq = RMQ::<(usize, usize), OpType>::new(&d_with_order, std::cmp::min);
-        LCA { tin, p, rmq }
+        LCA {
+            tin,
+            p,
+            rmq: RMQ::new(
+                &order
+                    .iter()
+                    .map(|&u| (d[u], u))
+                    .collect::<Vec<(usize, usize)>>(),
+                std::cmp::min,
+            ),
+        }
     }
 
     /// Gets the lowest common ancestor of u and v
@@ -72,6 +79,6 @@ impl LCA {
         if le > ri {
             std::mem::swap(&mut le, &mut ri);
         }
-        self.p[self.rmq.query(le + 1..ri + 1).1]
+        self.p[self.rmq.query(le + 1..ri + 1).1].unwrap()
     }
 }
