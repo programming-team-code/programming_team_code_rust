@@ -32,67 +32,60 @@
 /// - Time: O(V + E)
 /// - Space: O(V)
 pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec<usize>) {
-    #[allow(clippy::too_many_arguments)]
-    fn dfs(
-        u: usize,
-        p_id: Option<usize>,
-        adj: &[Vec<(usize, usize)>],
-        timer: &mut usize,
-        tin: &mut [usize],
-        num_bccs: &mut usize,
-        is_cut: &mut [bool],
-        bcc_id: &mut [usize],
-        st: &mut Vec<usize>,
-    ) -> usize {
-        tin[u] = *timer;
-        let (mut low, mut deg) = (*timer, 0);
-        *timer += 1;
+    struct Env {
+        timer: usize,
+        tin: Vec<usize>,
+        num_bccs: usize,
+        is_cut: Vec<bool>,
+        bcc_id: Vec<usize>,
+        st: Vec<usize>,
+    }
+    fn dfs(u: usize, p_id: Option<usize>, adj: &[Vec<(usize, usize)>], e: &mut Env) -> usize {
+        e.tin[u] = e.timer;
+        let (mut low, mut deg) = (e.timer, 0);
+        e.timer += 1;
         for &(v, e_id) in &adj[u] {
             assert_ne!(u, v);
             if Some(e_id) == p_id {
                 continue;
             }
-            if tin[v] == 0 {
-                let st_sz = st.len();
-                st.push(e_id);
-                let low_ch = dfs(v, Some(e_id), adj, timer, tin, num_bccs, is_cut, bcc_id, st);
-                if low_ch >= tin[u] {
-                    is_cut[u] = true;
-                    for &id in st.iter().skip(st_sz) {
-                        bcc_id[id] = *num_bccs;
+            if e.tin[v] == 0 {
+                let st_sz = e.st.len();
+                e.st.push(e_id);
+                let low_ch = dfs(v, Some(e_id), adj, e);
+                if low_ch >= e.tin[u] {
+                    e.is_cut[u] = true;
+                    for &id in e.st.iter().skip(st_sz) {
+                        e.bcc_id[id] = e.num_bccs;
                     }
-                    st.truncate(st_sz);
-                    *num_bccs += 1;
+                    e.st.truncate(st_sz);
+                    e.num_bccs += 1;
                 }
                 low = low.min(low_ch);
                 deg += 1;
-            } else if tin[v] < tin[u] {
-                st.push(e_id);
-                low = low.min(tin[v]);
+            } else if e.tin[v] < e.tin[u] {
+                e.st.push(e_id);
+                low = low.min(e.tin[v]);
             }
         }
         if p_id.is_none() {
-            is_cut[u] = deg > 1;
+            e.is_cut[u] = deg > 1;
         }
         low
     }
-    let (n, mut timer, mut num_bccs, mut bcc_id, mut st) =
-        (adj.len(), 1, 0, vec![0; m], Vec::with_capacity(m));
-    let (mut tin, mut is_cut) = (vec![0; n], vec![false; n]);
+    let n = adj.len();
+    let mut e = Env {
+        timer: 1,
+        tin: vec![0; n],
+        num_bccs: 0,
+        is_cut: vec![false; n],
+        bcc_id: vec![0; m],
+        st: Vec::with_capacity(m),
+    };
     for i in 0..n {
-        if tin[i] == 0 {
-            dfs(
-                i,
-                None,
-                adj,
-                &mut timer,
-                &mut tin,
-                &mut num_bccs,
-                &mut is_cut,
-                &mut bcc_id,
-                &mut st,
-            );
+        if e.tin[i] == 0 {
+            dfs(i, None, adj, &mut e);
         }
     }
-    (num_bccs, is_cut, bcc_id)
+    (e.num_bccs, e.is_cut, e.bcc_id)
 }
