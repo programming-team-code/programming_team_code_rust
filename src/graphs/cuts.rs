@@ -7,9 +7,8 @@
 /// ```
 /// use programming_team_code_rust::graphs::cuts::get_cuts;
 ///
-/// let edge_list = [(0,1), (0,1), (1,2), (0,1)];
 /// let mut adj = vec![vec![]; 3];
-/// for (i, &(u, v)) in edge_list.iter().enumerate() {
+/// for (i, &(u, v)) in [(0,1), (0,1), (1,2), (0,1)].iter().enumerate() {
 ///    adj[u].push((v, i));
 ///    adj[v].push((u, i));
 /// }
@@ -24,9 +23,8 @@
 /// # Panics
 /// ```panic
 /// use programming_team_code_rust::graphs::cuts::get_cuts;
-/// let edge_list = [(0,0)];
 /// let mut adj = vec![vec![]; 1];
-/// for (i, &(u, v)) in edge_list.iter().enumerate() {
+/// for (i, &(u, v)) in [(0,0)].iter().enumerate() {
 ///    adj[u].push((v, i));
 ///    adj[v].push((u, i));
 /// }

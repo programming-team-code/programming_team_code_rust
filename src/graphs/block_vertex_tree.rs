@@ -8,10 +8,9 @@
 /// use programming_team_code_rust::graphs::cuts::get_cuts;
 /// use programming_team_code_rust::graphs::block_vertex_tree::get_block_vertex_tree;
 ///
-/// let edge_list = [(0,1), (0,1), (1,2), (0,1)];
 /// let (n, m) = (3, 4);
 /// let mut adj = vec![vec![]; n];
-/// for (i, &(u, v)) in edge_list.iter().enumerate() {
+/// for (i, &(u, v)) in [(0,1), (0,1), (1,2), (0,1)].iter().enumerate() {
 ///    adj[u].push((v, i));
 ///    adj[v].push((u, i));
 /// }
