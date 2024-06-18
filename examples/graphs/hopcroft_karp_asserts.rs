@@ -27,6 +27,11 @@ pub fn hopcroft_karp_asserts(
         mvc_l.iter().filter(|&&elem| elem).count() + mvc_r.iter().filter(|&&elem| elem).count()
     );
     for &(u, v) in edge_list.iter() {
+        // this might look weird, but it's done so that code coverage passes:
+        //
+        // this:
+        // assert!(mvc_l[u] || mvc_r[v]);
+        // will fail code coverage, saying that the false branch is never run
         let either = mvc_l[u] || mvc_r[v];
         assert!(either);
     }
