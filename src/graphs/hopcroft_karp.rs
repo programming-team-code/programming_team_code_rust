@@ -56,7 +56,7 @@ pub fn hopcroft_karp(
         false
     }
     let (lsz, mut matching_siz) = (adj.len(), 0);
-    let (mut l_to_r, mut r_to_l) = (vec![None::<usize>; lsz], vec![None::<usize>; rsz]);
+    let (mut l_to_r, mut r_to_l) = (vec![None; lsz], vec![None; rsz]);
     loop {
         let (mut dist, mut q) = (vec![usize::MAX; lsz], VecDeque::new());
         for (i, _) in l_to_r
