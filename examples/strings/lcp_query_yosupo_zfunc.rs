@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/zalgorithm
 
 use proconio::input;
-use programming_team_code_rust::strings::suffix_array::SufAry;
+use programming_team_code_rust::strings::suf_ary::SufAry;
 
 fn main() {
     input! {

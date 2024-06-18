@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_14_D
 
 use proconio::input;
-use programming_team_code_rust::strings::suffix_array::SufAry;
+use programming_team_code_rust::strings::suf_ary::SufAry;
 
 fn main() {
     input! {
