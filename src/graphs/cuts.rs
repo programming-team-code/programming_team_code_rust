@@ -32,6 +32,7 @@
 /// - Time: O(V + E)
 /// - Space: O(V)
 pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec<usize>) {
+    let n = adj.len();
     struct Env {
         timer: usize,
         tin: Vec<usize>,
@@ -40,6 +41,14 @@ pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec
         bcc_id: Vec<usize>,
         st: Vec<usize>,
     }
+    let mut e = Env {
+        timer: 1,
+        tin: vec![0; n],
+        num_bccs: 0,
+        is_cut: vec![false; n],
+        bcc_id: vec![0; m],
+        st: Vec::with_capacity(m),
+    };
     fn dfs(u: usize, p_id: Option<usize>, adj: &[Vec<(usize, usize)>], e: &mut Env) -> usize {
         e.tin[u] = e.timer;
         let (mut low, mut deg) = (e.timer, 0);
@@ -73,15 +82,6 @@ pub fn get_cuts(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec
         }
         low
     }
-    let n = adj.len();
-    let mut e = Env {
-        timer: 1,
-        tin: vec![0; n],
-        num_bccs: 0,
-        is_cut: vec![false; n],
-        bcc_id: vec![0; m],
-        st: Vec::with_capacity(m),
-    };
     for i in 0..n {
         if e.tin[i] == 0 {
             dfs(i, None, adj, &mut e);
