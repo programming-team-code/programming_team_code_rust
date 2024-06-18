@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/biconnected_components
 
 use proconio::input;
-use programming_team_code_rust::graphs::block_vertex_tree::get_bvt;
+use programming_team_code_rust::graphs::block_vertex_tree::get_block_vertex_tree;
 use programming_team_code_rust::graphs::cuts::get_cuts;
 
 fn main() {
@@ -18,7 +18,7 @@ fn main() {
     }
 
     let (num_bccs, is_cut, bcc_id) = get_cuts(&adj, m);
-    let bvt = get_bvt(&adj, num_bccs, &bcc_id);
+    let bvt = get_block_vertex_tree(&adj, num_bccs, &bcc_id);
 
     for i in 0..n {
         assert_eq!(
