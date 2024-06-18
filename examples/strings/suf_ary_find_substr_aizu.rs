@@ -9,7 +9,6 @@ fn main() {
         t: String
     }
 
-    let n = s.chars().count();
     let m = t.chars().count();
     let mut both = t.chars().map(|x| x as usize).collect::<Vec<usize>>();
     both.extend(s.chars().map(|x| x as usize).collect::<Vec<usize>>());
