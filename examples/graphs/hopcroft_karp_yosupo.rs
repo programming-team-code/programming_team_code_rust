@@ -3,6 +3,9 @@
 use proconio::input;
 use programming_team_code_rust::graphs::hopcroft_karp::hopcroft_karp;
 
+mod hopcroft_karp_asserts;
+use hopcroft_karp_asserts::hopcroft_karp_asserts;
+
 fn main() {
     input! {
         lsz: usize,
@@ -18,27 +21,7 @@ fn main() {
 
     let (matching_siz, l_to_r, r_to_l, mvc_l, mvc_r) = hopcroft_karp(&adj, rsz);
 
-    assert_eq!(
-        matching_siz,
-        l_to_r.iter().filter(|elem| elem.is_some()).count()
-    );
-    assert_eq!(
-        matching_siz,
-        r_to_l.iter().filter(|elem| elem.is_some()).count()
-    );
-
-    for (i, elem) in r_to_l.iter().enumerate().filter(|(_, elem)| elem.is_some()) {
-        assert_eq!(Some(i), l_to_r[elem.unwrap()]);
-    }
-
-    assert_eq!(
-        matching_siz,
-        mvc_l.iter().filter(|&elem| *elem).count() + mvc_r.iter().filter(|&elem| *elem).count()
-    );
-    for &(u, v) in edge_list.iter() {
-        let either = mvc_l[u] || mvc_r[v];
-        assert!(either);
-    }
+    hopcroft_karp_asserts(matching_siz, &l_to_r, &r_to_l, &mvc_l, &mvc_r, &edge_list);
 
     println!("{}", matching_siz);
     for (i, elem) in l_to_r.iter().enumerate().filter(|(_, elem)| elem.is_some()) {
