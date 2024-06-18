@@ -11,19 +11,15 @@ use crate::graphs::dfs_order::get_dfs_postorder;
 /// ```
 /// use programming_team_code_rust::graphs::scc::get_sccs;
 ///
-/// let adj = vec![
-///    vec![1],
-///    vec![2],
-///    vec![0],
-///    vec![3],
-///    vec![5],
-///    vec![4],
-///    vec![5],
-/// ];
+/// let n = 4;
+/// let mut adj = vec![vec![]; n];
+/// for (u, v) in [(0,1), (1,2), (2,0), (1,3), (3,3)] {
+///    adj[u].push(v);
+/// }
 ///
 /// let (num_sccs, scc_id) = get_sccs(&adj);
-/// assert_eq!(num_sccs, 4);
-/// assert_eq!(scc_id, vec![3, 3, 3, 2, 1, 1, 0]);
+/// assert_eq!(num_sccs, 2);
+/// assert_eq!(scc_id, [0, 0, 0, 1]);
 /// ```
 ///
 /// # Complexity
