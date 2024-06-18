@@ -21,7 +21,7 @@ pub fn hopcroft_karp_asserts(
 
     assert_eq!(
         matching_siz,
-        mvc_l.iter().filter(|&elem| *elem).count() + mvc_r.iter().filter(|&elem| *elem).count()
+        mvc_l.iter().filter(|&&elem| elem).count() + mvc_r.iter().filter(|&&elem| elem).count()
     );
     for &(u, v) in edge_list.iter() {
         let either = mvc_l[u] || mvc_r[v];
