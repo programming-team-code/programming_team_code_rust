@@ -7,6 +7,7 @@ pub mod cuts;
 mod dfs_order;
 pub mod dijk;
 pub mod hld;
+pub mod hopcroft_karp;
 pub mod lca;
 pub mod scc;
 pub mod two_sat;
