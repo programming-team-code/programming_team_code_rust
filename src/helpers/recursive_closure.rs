@@ -1,3 +1,22 @@
+//! # Recursive Closure
+
+/// # Example
+/// ```
+/// use programming_team_code_rust::helpers::recursive_closure::recursive_closure;
+/// //use helpers::recursive_closure::recursive_closure;
+///
+/// let fib = recursive_closure!(|fib, i: u32| -> u32 {
+///    if i <= 1 {
+///       i
+///    } else {
+///       // fib will call the closure recursively
+///       fib(i - 1) + fib(i - 2)
+///    }
+/// });
+///
+/// assert_eq!(fib(7), 13);
+/// ```
+#[macro_export]
 macro_rules! recursive_closure {
     (
         $($mov:ident)? |$self_arg:ident $(, $arg_name:ident : $arg_type:ty)* $(,)? | $(-> $ret_type:ty)?
