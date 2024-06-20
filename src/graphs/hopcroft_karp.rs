@@ -4,14 +4,20 @@ use std::collections::VecDeque;
 
 /// # Example
 /// ```
-/// use programming_team_code_rust::graphs::hopcroft_karp::hopcroft_karp;
+/// use programming_team_code_rust::graphs::hopcroft_karp::HopcroftKarp;
 ///
 /// let mut adj = vec![vec![]; 2];
 /// for (u, v) in [(0, 0), (0, 2), (1, 2)] {
 ///    adj[u].push(v);
 /// }
 ///
-/// let (matching_siz, l_to_r, r_to_l, mvc_l, mvc_r) = hopcroft_karp(&adj, 3);
+/// let HopcroftKarp {
+///    matching_siz,
+///    l_to_r,
+///    r_to_l,
+///    mvc_l,
+///    mvc_r,
+/// } = HopcroftKarp::new(&adj, 3);
 ///
 /// assert_eq!(matching_siz, 2);
 /// assert_eq!(l_to_r, [Some(0), Some(2)]);
