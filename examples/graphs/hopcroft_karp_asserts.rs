@@ -6,26 +6,21 @@ pub fn hopcroft_karp_asserts(
     mvc_r: &[bool],
     edge_list: &[(usize, usize)],
 ) {
-    assert_eq!(
-        matching_siz,
-        l_to_r.iter().filter(|elem| elem.is_some()).count()
-    );
-    assert_eq!(
-        matching_siz,
-        r_to_l.iter().filter(|elem| elem.is_some()).count()
-    );
-
-    for (i, elem) in l_to_r.iter().enumerate().filter(|(_, elem)| elem.is_some()) {
-        assert_eq!(Some(i), r_to_l[elem.unwrap()]);
-    }
-    for (i, elem) in r_to_l.iter().enumerate().filter(|(_, elem)| elem.is_some()) {
-        assert_eq!(Some(i), l_to_r[elem.unwrap()]);
+    for (left, right) in [(l_to_r, r_to_l), (r_to_l, l_to_r)] {
+        assert_eq!(
+            matching_siz,
+            left.iter().filter(|elem| elem.is_some()).count()
+        );
+        for (i, elem) in left.iter().enumerate().filter(|(_, elem)| elem.is_some()) {
+            assert_eq!(Some(i), right[elem.unwrap()]);
+        }
     }
 
-    assert_eq!(
-        matching_siz,
-        mvc_l.iter().filter(|&&elem| elem).count() + mvc_r.iter().filter(|&&elem| elem).count()
-    );
+    fn count_true(a: &[bool]) -> usize {
+        a.iter().filter(|&&elem| elem).count()
+    }
+    assert_eq!(matching_siz, count_true(mvc_l) + count_true(mvc_r));
+
     for &(u, v) in edge_list.iter() {
         // this might look weird, but it's done so that code coverage passes:
         //
