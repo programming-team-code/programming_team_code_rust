@@ -9,10 +9,9 @@
 ///
 /// // move closures are okay
 /// let mut fib = unsafe_recursive_closure!(move |fib, i: u32| -> u32 {
-///    if i <= 1 {
-///       i
-///    } else {
-///       fib(i - 1) + fib(i - 2)
+///    match i {
+///       0 | 1 => i,
+///       _ => fib(i - 1) + fib(i - 2)
 ///    }
 /// });
 /// assert_eq!(fib(7), 13);
