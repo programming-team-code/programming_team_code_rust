@@ -128,6 +128,14 @@ name = "hld_jump_on_tree_edges"
 path = "examples/graphs/hld_jump_on_tree_edges.rs"
 
 [[example]]
+name = "hopcroft_karp_yosupo"
+path = "examples/graphs/hopcroft_karp_yosupo.rs"
+
+[[example]]
+name = "hopcroft_karp_aizu"
+path = "examples/graphs/hopcroft_karp_aizu.rs"
+
+[[example]]
 name = "lcp_query_yosupo_zfunc"
 path = "examples/strings/lcp_query_yosupo_zfunc.rs"
 
