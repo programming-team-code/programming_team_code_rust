@@ -16,14 +16,6 @@ name = "binary_trie"
 path = "examples/data_structures/binary_trie.rs"
 
 [[example]]
-name = "dsu_aizu"
-path = "examples/data_structures/dsu_aizu.rs"
-
-[[example]]
-name = "dsu_yosupo"
-path = "examples/data_structures/dsu_yosupo.rs"
-
-[[example]]
 name = "fenwick_aizu"
 path = "examples/data_structures/fenwick_aizu.rs"
 
@@ -134,6 +126,14 @@ path = "examples/graphs/hld_jump_on_tree_nodes.rs"
 [[example]]
 name = "hld_jump_on_tree_edges"
 path = "examples/graphs/hld_jump_on_tree_edges.rs"
+
+[[example]]
+name = "hopcroft_karp_yosupo"
+path = "examples/graphs/hopcroft_karp_yosupo.rs"
+
+[[example]]
+name = "hopcroft_karp_aizu"
+path = "examples/graphs/hopcroft_karp_aizu.rs"
 
 [[example]]
 name = "lcp_query_yosupo_zfunc"
