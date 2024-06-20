@@ -41,12 +41,12 @@ fn main() {
 
     let mut st_forwards = SegTree::<(u64, u64)>::build_on_array(
         &input_a,
-        move |x, y| (x.0 * y.0 % MOD, (y.0 * x.1 + y.1) % MOD),
+        |x, y| (x.0 * y.0 % MOD, (y.0 * x.1 + y.1) % MOD),
         (1, 0),
     );
     let mut st_backwards = SegTree::<(u64, u64)>::build_on_array(
         &input_a,
-        move |x, y| (x.0 * y.0 % MOD, (x.0 * y.1 + x.1) % MOD),
+        |x, y| (x.0 * y.0 % MOD, (x.0 * y.1 + x.1) % MOD),
         (1, 0),
     );
 
