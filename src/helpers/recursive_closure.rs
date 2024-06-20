@@ -1,5 +1,8 @@
 //! # Recursive Closure
 
+/// - see https://github.com/EgorKulikov/rust_algo/blob/master/algo_lib/src/misc/recursive_function.rs
+/// - see https://github.com/SrTobi/fix_fn
+///
 /// # Example
 /// ```
 /// use programming_team_code_rust::helpers::recursive_closure::recursive_closure;
