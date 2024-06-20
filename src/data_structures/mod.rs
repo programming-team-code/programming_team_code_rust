@@ -1,6 +1,5 @@
 //! # Data Structures
 pub mod binary_trie;
-pub mod dsu;
 pub mod fenwick;
 pub mod lazy_seg_tree;
 pub mod rmq;
