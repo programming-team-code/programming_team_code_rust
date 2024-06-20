@@ -26,8 +26,15 @@ use crate::helpers::recursive_fnmut::recursive_fnmut;
 /// - Time: O(V + E)
 /// - Space: O(V)
 pub fn get_bridges(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, Vec<usize>) {
-    let (n, mut timer, mut num_2_edge_ccs, mut is_bridge) = (adj.len(), 1, 0, vec![false; m]);
-    let (mut tin, mut two_edge_ccid, mut st) = (vec![0; n], vec![0; n], Vec::with_capacity(n));
+    let n = adj.len();
+    let mut timer = 1;
+    let mut tin = vec![0; n];
+    let mut st = Vec::with_capacity(n);
+
+    let mut num_2_edge_ccs = 0;
+    let mut is_bridge = vec![false; m];
+    let mut two_edge_ccid = vec![0; n];
+
     for i in 0..n {
         if tin[i] == 0 {
             let mut dfs = recursive_fnmut!(|dfs, u: usize, p_id: Option<usize>| -> usize {
