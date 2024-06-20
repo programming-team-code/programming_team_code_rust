@@ -1,4 +1,4 @@
-//! # Recursive Closure
+//! # Recursive Closure which can mutate vars in surrounding scope
 
 /// - see https://github.com/EgorKulikov/rust_algo/blob/master/algo_lib/src/misc/recursive_function.rs
 /// - see https://github.com/SrTobi/fix_fn
