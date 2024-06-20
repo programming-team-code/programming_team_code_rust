@@ -68,8 +68,7 @@ macro_rules! unsafe_recursive_closure {
 
         let mut inner = HideFnImpl::new(
             #[inline]
-            $($mov)?
-            |$self_arg, $($arg_name : $arg_type ,)*| $(-> $ret_type)? {
+            $($mov)? |$self_arg, $($arg_name : $arg_type ,)*| $(-> $ret_type)? {
                 let mut $self_arg = |$($arg_name : $arg_type ),*| $self_arg.call($($arg_name ,)*);
                 {
                     $body
