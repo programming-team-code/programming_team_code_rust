@@ -23,7 +23,7 @@ fn main() {
 
     let mut seg_tree = SegTree::<(u64, u64)>::build_on_array(
         &a,
-        move |x, y| (x.0 * y.0 % MOD, (y.0 * x.1 + y.1) % MOD),
+        |x, y| (x.0 * y.0 % MOD, (y.0 * x.1 + y.1) % MOD),
         (1, 0),
     );
 
