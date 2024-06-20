@@ -17,7 +17,6 @@
 /// });
 /// assert_eq!(fib(7), 13);
 ///
-///
 /// // closures with no return type are okay
 /// let n = 5;
 /// let mut adj = vec![vec![]; n];
