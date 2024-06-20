@@ -16,14 +16,6 @@ name = "binary_trie"
 path = "examples/data_structures/binary_trie.rs"
 
 [[example]]
-name = "dsu_aizu"
-path = "examples/data_structures/dsu_aizu.rs"
-
-[[example]]
-name = "dsu_yosupo"
-path = "examples/data_structures/dsu_yosupo.rs"
-
-[[example]]
 name = "fenwick_aizu"
 path = "examples/data_structures/fenwick_aizu.rs"
 
