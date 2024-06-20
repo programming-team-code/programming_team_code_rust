@@ -1,14 +1,13 @@
-//! # Recursive Closure which can mutate vars in surrounding scope
+//! # Unsafe Recursive Closure which can mutate vars in surrounding scope
 
 /// - see https://github.com/EgorKulikov/rust_algo/blob/master/algo_lib/src/misc/recursive_function.rs
 /// - see https://github.com/SrTobi/fix_fn
 ///
 /// # Example
 /// ```
-/// use programming_team_code_rust::helpers::recursive_closure::recursive_closure;
-/// //use helpers::recursive_closure::recursive_closure;
+/// use programming_team_code_rust::unsafe_recursive_closure;
 ///
-/// let fib = recursive_closure!(|fib, i: u32| -> u32 {
+/// let mut fib = unsafe_recursive_closure!(|fib, i: u32| -> u32 {
 ///    if i <= 1 {
 ///       i
 ///    } else {
@@ -20,7 +19,7 @@
 /// assert_eq!(fib(7), 13);
 /// ```
 #[macro_export]
-macro_rules! recursive_closure {
+macro_rules! unsafe_recursive_closure {
     (
         $($mov:ident)? |$self_arg:ident $(, $arg_name:ident : $arg_type:ty)* $(,)? | $(-> $ret_type:ty)?
         $body:block
@@ -81,4 +80,3 @@ macro_rules! recursive_closure {
         compile_error!("All parameters except first need to have an explicit type annotation!");
     };
 }
-pub(crate) use recursive_closure;

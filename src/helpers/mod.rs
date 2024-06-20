@@ -1,3 +1,3 @@
 //! # Helpers
 pub mod compress;
-pub mod recursive_closure;
+pub mod unsafe_recursive_closure;
