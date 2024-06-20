@@ -1,6 +1,6 @@
 //! # Heavy Light Decomposition
 
-use crate::graphs::dfs_order::{get_dfs_postorder, get_dfs_preorder};
+use crate::helpers::recursive_closure::recursive_closure;
 use std::ops::Range;
 
 /// # Example
@@ -51,26 +51,34 @@ impl HLD {
     pub fn new(adj: &mut [Vec<usize>], vals_edges: bool) -> Self {
         let n = adj.len();
         let mut p = vec![None; n];
-        let mut siz = vec![0; n];
-        for &u in get_dfs_postorder(adj).iter() {
-            adj[u].retain(|&v| siz[v] > 0);
-            siz[u] = 1;
-            for i in 0..adj[u].len() {
-                let v = adj[u][i];
-                p[v] = Some(u);
-                siz[u] += siz[v];
-                if siz[v] > siz[adj[u][0]] {
-                    adj[u].swap(0, i);
-                }
-            }
-        }
+        let mut siz = vec![1; n];
         let mut tin = vec![0; n];
         let mut head = vec![0; n];
-        let ord = get_dfs_preorder(adj);
-        for (i, &u) in ord.iter().enumerate() {
-            tin[u] = i;
-            for &v in &adj[u] {
-                head[v] = if v == adj[u][0] { head[u] } else { v };
+        let mut ord = Vec::with_capacity(n);
+        for i in 0..n {
+            if p[i].is_none() {
+                let mut dfs1 = recursive_closure!(|dfs1, u: usize| {
+                    adj[u].retain(|&v| Some(v) != p[u]);
+                    for i in 0..adj[u].len() {
+                        let v = adj[u][i];
+                        p[v] = Some(u);
+                        dfs1(v);
+                        siz[u] += siz[v];
+                        if siz[v] > siz[adj[u][0]] {
+                            adj[u].swap(0, i);
+                        }
+                    }
+                });
+                dfs1(i);
+                let mut dfs2 = recursive_closure!(|dfs2, u: usize| {
+                    tin[u] = ord.len();
+                    ord.push(u);
+                    for &v in &adj[u] {
+                        head[v] = if v == adj[u][0] { head[u] } else { v };
+                        dfs2(v);
+                    }
+                });
+                dfs2(i);
             }
         }
         HLD {
