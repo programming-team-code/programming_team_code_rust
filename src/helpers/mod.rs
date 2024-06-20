@@ -1,3 +1,3 @@
 //! # Helpers
 pub mod compress;
-pub mod recursive_fnmut;
+pub mod recursive_closure;

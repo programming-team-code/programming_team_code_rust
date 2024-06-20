@@ -1,6 +1,6 @@
 //! # Bridge Edges
 
-use crate::helpers::recursive_fnmut::recursive_fnmut;
+use crate::helpers::recursive_closure::recursive_closure;
 
 /// # Guarantees
 /// - 0 <= two_edge_ccid\[u\] < num_2_edge_ccs
@@ -37,7 +37,7 @@ pub fn get_bridges(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, 
 
     for i in 0..n {
         if tin[i] == 0 {
-            let mut dfs = recursive_fnmut!(|dfs, u: usize, p_id: Option<usize>| -> usize {
+            let mut dfs = recursive_closure!(|dfs, u: usize, p_id: Option<usize>| -> usize {
                 tin[u] = timer;
                 let (mut low, st_sz) = (timer, st.len());
                 timer += 1;

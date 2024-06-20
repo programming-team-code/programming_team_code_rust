@@ -1,4 +1,4 @@
-macro_rules! recursive_fnmut {
+macro_rules! recursive_closure {
     (
         $($mov:ident)? |$self_arg:ident $(, $arg_name:ident : $arg_type:ty)* $(,)? |
             -> $ret_type:ty
@@ -68,4 +68,4 @@ macro_rules! recursive_fnmut {
         compile_error!("All parameters except first need to have an explicit type annotation!");
     };
 }
-pub(crate) use recursive_fnmut;
+pub(crate) use recursive_closure;
