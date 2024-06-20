@@ -50,16 +50,35 @@ impl HLD {
     /// - Space: O(n)
     pub fn new(adj: &mut [Vec<usize>], vals_edges: bool) -> Self {
         let n = adj.len();
-        let mut p = vec![None; n];
-        let mut siz = vec![0; n];
-        for &u in get_dfs_postorder(adj).iter() {
-            adj[u].retain(|&v| siz[v] > 0);
-            siz[u] = 1;
+        struct Env {
+            p: Vec<Option<usize>>,
+            siz: Vec<usize>,
+        }
+        let mut e = Env {
+            p: vec![None; n],
+            siz: vec![0; n],
+        };
+        fn dfs(u: usize, adj: &mut [Vec<usize>], e: &mut Env) {
+            adj[u].retain(|&v| Some(v) != e.p[u]);
             for i in 0..adj[u].len() {
                 let v = adj[u][i];
-                p[v] = Some(u);
-                siz[u] += siz[v];
-                if siz[v] > siz[adj[u][0]] {
+                e.p[v] = Some(u);
+                dfs(v, adj, e);
+                e.siz[u] += e.siz[v];
+                if e.siz[v] > e.siz[adj[u][0]] {
+                    adj[u].swap(0, i);
+                }
+            }
+        }
+        dfs(0, adj, &mut e);
+        for &u in get_dfs_postorder(adj).iter() {
+            adj[u].retain(|&v| e.siz[v] > 0);
+            e.siz[u] = 1;
+            for i in 0..adj[u].len() {
+                let v = adj[u][i];
+                e.p[v] = Some(u);
+                e.siz[u] += e.siz[v];
+                if e.siz[v] > e.siz[adj[u][0]] {
                     adj[u].swap(0, i);
                 }
             }
@@ -74,8 +93,8 @@ impl HLD {
             }
         }
         HLD {
-            p,
-            siz,
+            p: e.p,
+            siz: e.siz,
             ord,
             tin,
             head,
