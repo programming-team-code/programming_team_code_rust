@@ -25,68 +25,76 @@ use std::collections::VecDeque;
 /// - E: number of edges
 /// - Time: O(V + E * sqrt(v))
 /// - Space: O(V)
-#[allow(clippy::type_complexity)]
-pub fn hopcroft_karp(
-    adj: &[Vec<usize>],
-    rsz: usize,
-) -> (
-    usize,
-    Vec<Option<usize>>,
-    Vec<Option<usize>>,
-    Vec<bool>,
-    Vec<bool>,
-) {
-    fn dfs(
-        u: usize,
-        adj: &[Vec<usize>],
-        dist: &mut [usize],
-        l_to_r: &mut [Option<usize>],
-        r_to_l: &mut [Option<usize>],
-    ) -> bool {
-        for &v in &adj[u] {
-            let w = r_to_l[v];
-            if w.is_none()
-                || dist[u] + 1 == dist[w.unwrap()] && dfs(w.unwrap(), adj, dist, l_to_r, r_to_l)
+pub struct HopcroftKarp {
+    pub matching_siz: usize,
+    pub l_to_r: Vec<Option<usize>>,
+    pub r_to_l: Vec<Option<usize>>,
+    pub mvc_l: Vec<bool>,
+    pub mvc_r: Vec<bool>,
+}
+
+impl HopcroftKarp {
+    pub fn new(adj: &[Vec<usize>], rsz: usize) -> Self {
+        let lsz = adj.len();
+        let mut e = HopcroftKarp {
+            matching_siz: 0,
+            l_to_r: vec![None; lsz],
+            r_to_l: vec![None; rsz],
+            mvc_l: vec![false; lsz],
+            mvc_r: vec![false; rsz],
+        };
+        loop {
+            let mut dist = vec![usize::MAX; lsz];
+            let mut q = VecDeque::new();
+            for (i, _) in e
+                .l_to_r
+                .iter()
+                .enumerate()
+                .filter(|&(_, elem)| elem.is_none())
             {
-                (l_to_r[u], r_to_l[v]) = (Some(v), Some(u));
-                return true;
+                dist[i] = 0;
+                q.push_back(i);
             }
-        }
-        dist[u] = usize::MAX;
-        false
-    }
-    let (lsz, mut matching_siz) = (adj.len(), 0);
-    let (mut l_to_r, mut r_to_l) = (vec![None; lsz], vec![None; rsz]);
-    loop {
-        let (mut dist, mut q) = (vec![usize::MAX; lsz], VecDeque::new());
-        for (i, _) in l_to_r
-            .iter()
-            .enumerate()
-            .filter(|&(_, elem)| elem.is_none())
-        {
-            dist[i] = 0;
-            q.push_back(i);
-        }
-        let (mut found, mut mvc_l, mut mvc_r) = (false, vec![true; lsz], vec![false; rsz]);
-        while let Some(u) = q.pop_front() {
-            mvc_l[u] = false;
-            for &v in &adj[u] {
-                mvc_r[v] = true;
-                if let Some(w) = r_to_l[v] {
-                    if dist[w] > 1 + dist[u] {
-                        dist[w] = 1 + dist[u];
-                        q.push_back(w);
+            let mut found = false;
+            for v in &mut e.mvc_l {
+                *v = true;
+            }
+            for v in &mut e.mvc_r {
+                *v = false;
+            }
+            while let Some(u) = q.pop_front() {
+                e.mvc_l[u] = false;
+                for &v in &adj[u] {
+                    e.mvc_r[v] = true;
+                    if let Some(w) = e.r_to_l[v] {
+                        if dist[w] > 1 + dist[u] {
+                            dist[w] = 1 + dist[u];
+                            q.push_back(w);
+                        }
+                    } else {
+                        found = true;
                     }
-                } else {
-                    found = true;
                 }
             }
+            if !found {
+                return e;
+            }
+            fn dfs(u: usize, adj: &[Vec<usize>], dist: &mut [usize], e: &mut HopcroftKarp) -> bool {
+                for &v in &adj[u] {
+                    let w = e.r_to_l[v];
+                    if w.is_none()
+                        || dist[u] + 1 == dist[w.unwrap()] && dfs(w.unwrap(), adj, dist, e)
+                    {
+                        (e.l_to_r[u], e.r_to_l[v]) = (Some(v), Some(u));
+                        return true;
+                    }
+                }
+                dist[u] = usize::MAX;
+                false
+            }
+            e.matching_siz += (0..lsz)
+                .filter(|&i| e.l_to_r[i].is_none() && dfs(i, adj, &mut dist, &mut e))
+                .count();
         }
-        if !found {
-            return (matching_siz, l_to_r, r_to_l, mvc_l, mvc_r);
-        }
-        matching_siz += (0..lsz)
-            .filter(|&i| l_to_r[i].is_none() && dfs(i, adj, &mut dist, &mut l_to_r, &mut r_to_l))
-            .count();
     }
 }

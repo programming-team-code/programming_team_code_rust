@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/bipartitematching
 
 use proconio::input;
-use programming_team_code_rust::graphs::hopcroft_karp::hopcroft_karp;
+use programming_team_code_rust::graphs::hopcroft_karp::HopcroftKarp;
 
 mod hopcroft_karp_asserts;
 use hopcroft_karp_asserts::hopcroft_karp_asserts;
@@ -19,7 +19,13 @@ fn main() {
         adj[u].push(v);
     }
 
-    let (matching_siz, l_to_r, r_to_l, mvc_l, mvc_r) = hopcroft_karp(&adj, rsz);
+    let HopcroftKarp {
+        matching_siz,
+        l_to_r,
+        r_to_l,
+        mvc_l,
+        mvc_r,
+    } = HopcroftKarp::new(&adj, rsz);
 
     hopcroft_karp_asserts(matching_siz, &l_to_r, &r_to_l, &mvc_l, &mvc_r, &edge_list);
 
