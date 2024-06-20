@@ -7,8 +7,8 @@
 /// ```
 /// use programming_team_code_rust::unsafe_recursive_closure;
 ///
-///
-/// let mut fib = unsafe_recursive_closure!(|fib, i: u32| -> u32 {
+/// // move closures are okay
+/// let mut fib = unsafe_recursive_closure!(move |fib, i: u32| -> u32 {
 ///    if i <= 1 {
 ///       i
 ///    } else {
@@ -18,6 +18,7 @@
 /// assert_eq!(fib(7), 13);
 ///
 ///
+/// // closures with no return type are okay
 /// let n = 5;
 /// let mut adj = vec![vec![]; n];
 /// for i in 1..n {
@@ -25,7 +26,6 @@
 ///    adj[i].push(i / 2);
 /// }
 /// assert_eq!(2 * (n - 1), adj.iter().map(|elem| elem.len()).sum());
-/// // closure with no return type is okay
 /// let mut dfs = unsafe_recursive_closure!(|dfs, u: usize, p: Option<usize>| {
 ///    adj[u].retain(|&v| Some(v) != p);
 ///    for &v in &adj[u] {
@@ -34,8 +34,6 @@
 /// });
 /// dfs(0, None);
 /// assert_eq!(n - 1, adj.iter().map(|elem| elem.len()).sum());
-///
-///
 /// ```
 #[macro_export]
 macro_rules! unsafe_recursive_closure {
