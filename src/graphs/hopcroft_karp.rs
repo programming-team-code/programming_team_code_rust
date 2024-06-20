@@ -32,14 +32,20 @@ use std::collections::VecDeque;
 /// - Time: O(V + E * sqrt(v))
 /// - Space: O(V)
 pub struct HopcroftKarp {
+    /// number of edges in matching
     pub matching_siz: usize,
+    /// l_to_r\[u_left_side\] = Some(v_right_side) iff edge u_left_side <=> v_right_side is in matching
     pub l_to_r: Vec<Option<usize>>,
+    /// r_to_l\[v_right_side\] = Some(u_left_side) iff edge u_left_side <=> v_right_side is in matching
     pub r_to_l: Vec<Option<usize>>,
+    /// mvc_l\[u_left_side\] = true iff u_left_side is in min vertex cover
     pub mvc_l: Vec<bool>,
+    /// mvc_r\[v_right_side\] = true iff v_right_side is in min vertex cover
     pub mvc_r: Vec<bool>,
 }
 
 impl HopcroftKarp {
+    /// Calculates a max matching and min vertex cover
     pub fn new(adj: &[Vec<usize>], rsz: usize) -> Self {
         let lsz = adj.len();
         let mut e = HopcroftKarp {
