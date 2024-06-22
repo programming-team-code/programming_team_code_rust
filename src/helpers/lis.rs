@@ -5,12 +5,11 @@ pub struct Lis<T> {
     pub a: Vec<(T, usize)>,
 }
 
-//TODO: see if you can remove this cuz each member is initialized to their default
-impl<T: Copy + Ord> Default for Lis<T> {
+impl<T> Default for Lis<T> {
     fn default() -> Self {
         Self {
             next_idx: 0,
-            a: vec![],
+            a: Vec::new(),
         }
     }
 }
