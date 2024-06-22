@@ -4,15 +4,20 @@
 /// ```
 /// use programming_team_code_rust::helpers::lis::Lis;
 ///
-/// let a = [3, 3, 2, 3, 1];
+/// let a = [3, 3, 2, 3];
 ///
 /// let mut lis = Lis::default();
-/// let mut prev = vec![None; a.len()];
-/// for (i, &num) in a.iter().enumerate() {
-///    prev[i] = lis.push(num);
+/// for &num in &a {
+///    lis.push(num);
 /// }
 ///
-/// assert_eq!(lis.dp.len(), 2); // length of LIS
+/// assert_eq!(lis.dp.len(), 2);
+/// assert_eq!(lis.get_lis(), [2, 3]);
+///
+/// lis.pop();
+///
+/// assert_eq!(lis.dp.len(), 1);
+/// assert_eq!(lis.get_lis(), [2]);
 /// ```
 pub struct Lis<T> {
     /// dp\[i\].0 = smallest number such that there exists a LIS of length i+1 ending in this number
@@ -32,6 +37,12 @@ impl<T> Default for Lis<T> {
 }
 
 impl<T: Copy + Ord> Lis<T> {
+    /// append new_elem onto back of vec
+    ///
+    /// # Complexity
+    /// - n: length of vec
+    /// - Time: O(log(LIS.len()))
+    /// - Space: O(n) total
     pub fn push(&mut self, new_elem: T) {
         // change to `elem <= new_elem` for longest non-decreasing subsequence
         let idx = self.dp.partition_point(|&(elem, _)| elem < new_elem);
@@ -51,6 +62,11 @@ impl<T: Copy + Ord> Lis<T> {
         ));
     }
 
+    /// pop off back of vec
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn pop(&mut self) {
         let (_, prev) = self.st.pop().unwrap();
         if let Some((idx, prev)) = prev {
@@ -60,6 +76,11 @@ impl<T: Copy + Ord> Lis<T> {
         }
     }
 
+    /// Gets indexes of LIS of vec
+    ///
+    /// # Complexity
+    /// - Time: O(LIS.len())
+    /// - Space: O(LIS.len())
     pub fn get_lis(&self) -> Vec<usize> {
         if self.dp.is_empty() {
             return Vec::new();
