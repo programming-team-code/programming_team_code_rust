@@ -18,6 +18,7 @@ pub struct Lis<T> {
     /// dp\[i\].0 = smallest number such that there exists a LIS of length i+1 ending in this number
     /// dp\[i\].1 = index in original array of dp\[i\].0
     pub dp: Vec<(T, usize)>,
+    #[allow(clippy::type_complexity)]
     st: Vec<(Option<usize>, Option<(usize, (T, usize))>)>,
 }
 
