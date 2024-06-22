@@ -29,7 +29,7 @@ pub struct Lis<T> {
 }
 
 impl<T: Copy + Ord> Lis<T> {
-    /// append new_elem onto back of vec
+    /// Pushes new_elem onto back of vec
     ///
     /// # Complexity
     /// - n: length of vec
