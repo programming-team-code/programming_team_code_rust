@@ -18,7 +18,11 @@ fn main() {
     let idxs = lis.get_lis();
 
     println!("{}", idxs.len());
-    for idx in idxs {
-        print!("{} ", idx);
-    }
+    println!(
+        "{}",
+        idxs.iter()
+            .map(|&x| x.to_string())
+            .collect::<Vec<_>>()
+            .join(" ")
+    );
 }
