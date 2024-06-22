@@ -38,8 +38,7 @@ impl<T: Copy + Ord> Lis<T> {
         let mut prev = None;
         if idx == self.dp.len() {
             self.dp.push((new_elem, self.st.len()));
-        } else if self.dp[idx].0 > new_elem {
-            // TODO fix bug only after test fails
+        } else {
             prev = Some((idx, self.dp[idx]));
             self.dp[idx] = (new_elem, self.st.len());
         }
@@ -62,6 +61,9 @@ impl<T: Copy + Ord> Lis<T> {
     }
 
     pub fn get_lis(&self) -> Vec<usize> {
+        if self.dp.is_empty() {
+            return Vec::new();
+        }
         let mut idxs = Vec::with_capacity(self.dp.len());
         let mut idx = self.dp.last().unwrap().1;
         idxs.push(idx);
