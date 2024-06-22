@@ -27,6 +27,8 @@
 /// ```
 pub struct Lis<T> {
     next_idx: usize,
+    /// dp\[i\].0 = smallest number such that there exists a LIS of length i+1 ending in this number
+    /// dp\[i\].1 = index in original array of dp\[i\].0
     pub dp: Vec<(T, usize)>,
 }
 
@@ -40,6 +42,13 @@ impl<T> Default for Lis<T> {
 }
 
 impl<T: Copy + Ord> Lis<T> {
+    /// append new_elem onto back of sequence
+    /// returns the index of previous element in the LIS where new_elem is the last element
+    ///
+    /// # Complexity
+    /// - n: length of LIS
+    /// - Time: O(log n) for a single call
+    /// - Space: O(1) for a single call; O(n) total
     pub fn push(&mut self, new_elem: T) -> Option<usize> {
         // change to `elem <= new_elem` for longest non-decreasing subsequence
         let idx = self.dp.partition_point(|&(elem, _)| elem < new_elem);
