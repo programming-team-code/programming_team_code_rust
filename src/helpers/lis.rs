@@ -16,6 +16,7 @@ impl<T> Default for Lis<T> {
 
 impl<T: Copy + Ord> Lis<T> {
     pub fn push(&mut self, new_elem: T) -> Option<usize> {
+        // change to `elem <= new_elem` for longest non-decreasing subsequence
         let idx = self.a.partition_point(|&(elem, _)| elem < new_elem);
         if idx == self.a.len() {
             self.a.push((new_elem, self.next_idx));
