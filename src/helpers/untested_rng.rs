@@ -1,5 +1,7 @@
 //! # Random Number Generator
 
+/// see <https://en.wikipedia.org/wiki/Xorshift>
+///
 /// # Example
 /// ```
 /// use std::time::{SystemTime, UNIX_EPOCH};
