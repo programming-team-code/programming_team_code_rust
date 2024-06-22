@@ -7,7 +7,9 @@
 /// let primes = Primes::new(100);
 /// assert_eq!(primes.is_prime(2), true);
 /// assert_eq!(primes.is_prime(4), false);
-/// assert_eq!(primes.factorize(12), vec![2, 2, 3]);
+/// let mut factors = vec![];
+/// primes.factorize(12, |factor| factors.push(factor));
+/// assert_eq!(factors, vec![2, 2, 3]);
 /// ```
 pub struct Primes {
     min_fact: Vec<usize>,
@@ -44,19 +46,16 @@ impl Primes {
         x >= 2 && self.min_fact[x] == x
     }
 
-    /// Returns a vector of prime factors of the given number
-    /// The factors are sorted in ascending order
+    /// Calls closure on each prime factor in ascending order
     ///
     /// # Complexity
     /// - Time: O(log x)
     /// - Space: O(log x)
-    pub fn factorize(&self, mut x: usize) -> Vec<usize> {
-        let mut facts = vec![];
+    pub fn factorize(&self, mut x: usize, mut f: impl FnMut(usize)) {
         while x > 1 {
             let p = self.min_fact[x];
-            facts.push(p);
+            f(p);
             x /= p;
         }
-        facts
     }
 }
