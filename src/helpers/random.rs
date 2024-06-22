@@ -18,7 +18,7 @@
 /// assert_eq!(rng1.get(), 13289605635609);
 /// assert_eq!(rng1.get_in_range(-3..4), 0);
 /// ```
-pub struct Random {
+struct Random {
     state: u64,
 }
 
@@ -28,7 +28,7 @@ impl Random {
     /// # Complexity
     /// - Time: O(1)
     /// - Space: O(1)
-    pub fn new(seed: u64) -> Self {
+    fn new(seed: u64) -> Self {
         assert_ne!(seed, 0);
         Self { state: seed }
     }
@@ -38,7 +38,7 @@ impl Random {
     /// # Complexity
     /// - Time: O(1)
     /// - Space: O(1)
-    pub fn get(&mut self) -> u64 {
+    fn get(&mut self) -> u64 {
         let mut x = self.state;
         x ^= x << 13;
         x ^= x >> 7;
@@ -52,7 +52,7 @@ impl Random {
     /// # Complexity
     /// - Time: O(1)
     /// - Space: O(1)
-    pub fn get_in_range(&mut self, range: std::ops::Range<i64>) -> i64 {
+    fn get_in_range(&mut self, range: std::ops::Range<i64>) -> i64 {
         range.start + (self.get() % (range.end - range.start) as u64) as i64
     }
 }
