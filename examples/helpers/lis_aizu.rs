@@ -15,5 +15,5 @@ fn main() {
         lis.push(elem);
     }
 
-    println!("{}", lis.a.len());
+    println!("{}", lis.dp.len());
 }

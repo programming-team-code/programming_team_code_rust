@@ -16,9 +16,10 @@ fn main() {
         prev[i] = lis.push(elem);
     }
 
-    println!("{}", lis.a.len());
-    let mut idx = lis.a.last().unwrap().1;
-    let mut res = vec![idx];
+    println!("{}", lis.dp.len());
+    let mut idx = lis.dp.last().unwrap().1;
+    let mut res = Vec::with_capacity(lis.dp.len());
+    res.push(idx);
     while let Some(prev_idx) = prev[idx] {
         idx = prev_idx;
         res.push(idx);
