@@ -19,21 +19,13 @@
 /// assert_eq!(lis.dp.len(), 1);
 /// assert_eq!(lis.get_lis(), [2]);
 /// ```
+#[derive(Default)]
 pub struct Lis<T> {
     /// dp\[i\].0 = smallest number such that there exists a LIS of length i+1 ending in this number
     /// dp\[i\].1 = index in original array of dp\[i\].0
     pub dp: Vec<(T, usize)>,
     #[allow(clippy::type_complexity)]
     st: Vec<(Option<usize>, Option<(usize, (T, usize))>)>,
-}
-
-impl<T> Default for Lis<T> {
-    fn default() -> Self {
-        Self {
-            dp: Vec::new(),
-            st: Vec::new(),
-        }
-    }
 }
 
 impl<T: Copy + Ord> Lis<T> {
@@ -62,7 +54,7 @@ impl<T: Copy + Ord> Lis<T> {
         ));
     }
 
-    /// pop off back of vec
+    /// Pop off back of vec
     ///
     /// # Complexity
     /// - Time: O(1)
