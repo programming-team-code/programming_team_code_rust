@@ -2,11 +2,21 @@
 
 /// # Example
 /// ```
+/// use std::time::{SystemTime, UNIX_EPOCH};
 /// use programming_team_code_rust::helpers::random::Random;
 ///
-/// let mut rng = Random::new(12345);
-/// assert_eq!(rng.get(), 13289605635609);
-/// assert_eq!(rng.get_in_range(-3..4), 0);
+/// // fixed seed for debugging
+/// let mut rng1 = Random::new(12345);
+/// // for submitting
+/// let mut rng2 = Random::new(
+///     SystemTime::now()
+///         .duration_since(UNIX_EPOCH)
+///         .unwrap()
+///         .subsec_nanos() as u64,
+/// );
+///
+/// assert_eq!(rng1.get(), 13289605635609);
+/// assert_eq!(rng1.get_in_range(-3..4), 0);
 /// ```
 pub struct Random {
     state: u64,
