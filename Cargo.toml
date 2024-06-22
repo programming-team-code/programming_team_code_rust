@@ -186,3 +186,7 @@ path = "examples/graphs/bridges_aizu.rs"
 [[example]]
 name = "ext_gcd"
 path = "examples/numbers/ext_gcd.rs"
+
+[[example]]
+name = "lis_aizu"
+path = "examples/helpers/lis_aizu.rs"
