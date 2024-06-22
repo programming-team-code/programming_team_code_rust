@@ -4,7 +4,7 @@
 /// ```
 /// use programming_team_code_rust::helpers::lis::Lis;
 ///
-/// let a = [3, 3, 2, 3];
+/// let a = [1, 1, -2, 1];
 ///
 /// let mut lis = Lis::default();
 /// for &num in &a {
