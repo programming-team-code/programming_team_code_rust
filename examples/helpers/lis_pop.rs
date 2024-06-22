@@ -25,9 +25,9 @@ fn main() {
         let mut lis = Lis::default();
         let mut a = Vec::new();
         for _ in 0..100 {
-            match rng.next_in_range(0..3) {
+            match rng.get_in_range(0..3) {
                 0 => {
-                    let new_num = rng.next_in_range(-10..10);
+                    let new_num = rng.get_in_range(-10..10);
                     lis.push(new_num);
                     a.push(new_num);
                 }

@@ -10,7 +10,7 @@ impl Random {
         Self { state: seed }
     }
 
-    pub fn next(&mut self) -> u64 {
+    pub fn get(&mut self) -> u64 {
         let mut x = self.state;
         x ^= x << 13;
         x ^= x >> 7;
@@ -19,7 +19,7 @@ impl Random {
         x
     }
 
-    pub fn next_in_range(&mut self, range: std::ops::Range<i64>) -> i64 {
-        range.start + (self.next() % (range.end - range.start) as u64) as i64
+    pub fn get_in_range(&mut self, range: std::ops::Range<i64>) -> i64 {
+        range.start + (self.get() % (range.end - range.start) as u64) as i64
     }
 }
