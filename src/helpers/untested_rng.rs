@@ -3,12 +3,12 @@
 /// # Example
 /// ```
 /// use std::time::{SystemTime, UNIX_EPOCH};
-/// use programming_team_code_rust::helpers::random::Random;
+/// use programming_team_code_rust::helpers::random::UntestedRNG;
 ///
 /// // fixed seed for debugging
-/// let mut rng1 = Random::new(12345);
+/// let mut rng1 = UntestedRNG::new(12345);
 /// // for submitting
-/// let mut rng2 = Random::new(
+/// let mut rng2 = UntestedRNG::new(
 ///     SystemTime::now()
 ///         .duration_since(UNIX_EPOCH)
 ///         .unwrap()
@@ -18,11 +18,11 @@
 /// assert_eq!(rng1.get(), 13289605635609);
 /// assert_eq!(rng1.get_in_range(-3..4), 0);
 /// ```
-struct Random {
+struct UntestedRNG {
     state: u64,
 }
 
-impl Random {
+impl UntestedRNG {
     /// Creates a new RNG
     ///
     /// # Complexity
