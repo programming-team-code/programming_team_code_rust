@@ -1,9 +1,8 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/lesson/2/ITP1/all/ITP1_1_A
 
 use programming_team_code_rust::helpers::lis::Lis;
-use programming_team_code_rust::helpers::random::Random;
 
-fn lis_quadratic(a: &[i64]) -> usize {
+fn lis_quadratic(a: &[i32]) -> usize {
     let n = a.len();
     if n == 0 {
         return 0;
@@ -20,14 +19,13 @@ fn lis_quadratic(a: &[i64]) -> usize {
 }
 
 fn main() {
-    let mut rng = Random::new(12345);
-    for _ in 0..10 {
+    for _ in 0..100 {
         let mut lis = Lis::default();
         let mut a = Vec::new();
-        for _ in 0..100 {
-            match rng.get_in_range(0..3) {
+        for _ in 0..1000 {
+            match rand::random::<u8>() % 3 {
                 0 => {
-                    let new_num = rng.get_in_range(-10..10);
+                    let new_num = rand::random::<i32>() % 100 - 50;
                     lis.push(new_num);
                     a.push(new_num);
                 }
