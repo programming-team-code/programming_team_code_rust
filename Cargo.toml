@@ -194,3 +194,7 @@ path = "examples/helpers/lis_aizu.rs"
 [[example]]
 name = "lis_yosupo"
 path = "examples/helpers/lis_yosupo.rs"
+
+[[example]]
+name = "lis_pop"
+path = "examples/helpers/lis_pop.rs"
