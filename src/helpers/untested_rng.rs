@@ -5,7 +5,7 @@
 /// # Example
 /// ```
 /// use std::time::{SystemTime, UNIX_EPOCH};
-/// use programming_team_code_rust::helpers::random::UntestedRNG;
+/// use programming_team_code_rust::helpers::untested_rng::UntestedRNG;
 ///
 /// // fixed seed for debugging
 /// let mut rng1 = UntestedRNG::new(12345);
