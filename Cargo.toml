@@ -190,3 +190,7 @@ path = "examples/numbers/ext_gcd.rs"
 [[example]]
 name = "lis_aizu"
 path = "examples/helpers/lis_aizu.rs"
+
+[[example]]
+name = "lis_yosupo"
+path = "examples/helpers/lis_yosupo.rs"

@@ -22,6 +22,7 @@ impl<T: Copy + Ord> Lis<T> {
         } else if self.a[idx].0 > new_elem {
             self.a[idx] = (new_elem, self.next_idx);
         }
+        self.next_idx += 1;
         match idx {
             0 => None,
             _ => Some(self.a[idx - 1].1),
