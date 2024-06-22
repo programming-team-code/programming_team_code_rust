@@ -25,7 +25,7 @@ fn main() {
         for _ in 0..1000 {
             match rand::random::<u8>() % 3 {
                 0 => {
-                    let new_num = rand::random::<i32>() % 100 - 50;
+                    let new_num = rand::random::<i32>();
                     lis.push(new_num);
                     a.push(new_num);
                 }
