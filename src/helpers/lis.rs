@@ -13,54 +13,62 @@
 /// }
 ///
 /// assert_eq!(lis.dp.len(), 2); // length of LIS
-///
-/// // Get indexes of LIS
-/// let mut idx = lis.dp.last().unwrap().1;
-/// let mut idxs = Vec::with_capacity(lis.dp.len());
-/// idxs.push(idx);
-/// while let Some(prev_idx) = prev[idx] {
-///    idx = prev_idx;
-///    idxs.push(idx);
-/// }
-/// idxs.reverse();
-/// assert_eq!(idxs, [2, 3]);
 /// ```
 pub struct Lis<T> {
-    next_idx: usize,
     /// dp\[i\].0 = smallest number such that there exists a LIS of length i+1 ending in this number
     /// dp\[i\].1 = index in original array of dp\[i\].0
     pub dp: Vec<(T, usize)>,
+    st: Vec<(Option<usize>, Option<(usize, (T, usize))>)>,
 }
 
 impl<T> Default for Lis<T> {
     fn default() -> Self {
         Self {
-            next_idx: 0,
             dp: Vec::new(),
+            st: Vec::new(),
         }
     }
 }
 
 impl<T: Copy + Ord> Lis<T> {
-    /// append new_elem onto back of sequence
-    /// returns the index of previous element in the LIS where new_elem is the last element
-    ///
-    /// # Complexity
-    /// - n: length of LIS
-    /// - Time: O(log n) for a single call
-    /// - Space: O(1) for a single call; O(n) total
-    pub fn push(&mut self, new_elem: T) -> Option<usize> {
+    pub fn push(&mut self, new_elem: T) {
         // change to `elem <= new_elem` for longest non-decreasing subsequence
         let idx = self.dp.partition_point(|&(elem, _)| elem < new_elem);
+        let mut prev = None;
         if idx == self.dp.len() {
-            self.dp.push((new_elem, self.next_idx));
+            self.dp.push((new_elem, self.st.len()));
         } else if self.dp[idx].0 > new_elem {
-            self.dp[idx] = (new_elem, self.next_idx);
+            // TODO fix bug only after test fails
+            prev = Some((idx, self.dp[idx]));
+            self.dp[idx] = (new_elem, self.st.len());
         }
-        self.next_idx += 1;
-        match idx {
-            0 => None,
-            _ => Some(self.dp[idx - 1].1),
+        self.st.push((
+            match idx {
+                0 => None,
+                _ => Some(self.dp[idx - 1].1),
+            },
+            prev,
+        ));
+    }
+
+    pub fn pop(&mut self) {
+        let (_, prev) = self.st.pop().unwrap();
+        if let Some((idx, prev)) = prev {
+            self.dp[idx] = prev;
+        } else {
+            self.dp.pop();
         }
+    }
+
+    pub fn get_lis(&self) -> Vec<usize> {
+        let mut idxs = Vec::with_capacity(self.dp.len());
+        let mut idx = self.dp.last().unwrap().1;
+        idxs.push(idx);
+        while let Some(prev) = self.st[idx].0 {
+            idx = prev;
+            idxs.push(idx);
+        }
+        idxs.reverse();
+        idxs
     }
 }
