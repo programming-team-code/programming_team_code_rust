@@ -71,8 +71,7 @@ impl Primes {
         assert_ne!(x, 0);
         let mut divs = vec![1];
         while x > 1 {
-            let len1 = divs.len();
-            let p = self.min_fact[x];
+            let (p, len1) = (self.min_fact[x], divs.len());
             while self.min_fact[x] == p {
                 let len2 = divs.len();
                 for i in len2 - len1..len2 {
