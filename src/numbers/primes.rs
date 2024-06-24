@@ -7,9 +7,9 @@
 /// let primes = Primes::new(100);
 /// assert_eq!(primes.is_prime(2), true);
 /// assert_eq!(primes.is_prime(4), false);
-/// let mut factors = vec![];
-/// primes.factorize(12, |factor| factors.push(factor));
-/// assert_eq!(factors, vec![2, 2, 3]);
+/// assert_eq!(primes.factorize(12), [2, 2, 3]);
+/// assert_eq!(primes.divisorize(12), [1, 2, 4, 3, 6, 12]);
+/// assert!(std::panic::catch_unwind(|| primes.divisorize(0)).is_err());
 /// ```
 pub struct Primes {
     min_fact: Vec<usize>,
@@ -46,16 +46,40 @@ impl Primes {
         x >= 2 && self.min_fact[x] == x
     }
 
-    /// Calls closure on each prime factor in ascending order
+    /// Returns a vector of prime factors of the given number
+    /// The factors are sorted in ascending order
     ///
     /// # Complexity
     /// - Time: O(log x)
     /// - Space: O(log x)
-    pub fn factorize(&self, mut x: usize, mut f: impl FnMut(usize)) {
+    pub fn factorize(&self, mut x: usize) -> Vec<usize> {
+        let mut facts = vec![];
         while x > 1 {
             let p = self.min_fact[x];
-            f(p);
+            facts.push(p);
             x /= p;
         }
+        facts
+    }
+
+    /// Returns a vector of all divisors of the given number
+    ///
+    /// # Complexity
+    /// - Time: O(number_of_divisors(x))
+    /// - Space: O(number_of_divisors(x))
+    pub fn divisorize(&self, mut x: usize) -> Vec<usize> {
+        assert_ne!(x, 0);
+        let mut divs = vec![1];
+        while x > 1 {
+            let (p, len1) = (self.min_fact[x], divs.len());
+            while self.min_fact[x] == p {
+                let len2 = divs.len();
+                for i in len2 - len1..len2 {
+                    divs.push(divs[i] * p);
+                }
+                x /= p;
+            }
+        }
+        divs
     }
 }
