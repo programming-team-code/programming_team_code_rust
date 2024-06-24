@@ -14,7 +14,6 @@
 pub struct Primes {
     min_fact: Vec<usize>,
 }
-
 impl Primes {
     /// Constructs a new Primes instance with the given size
     ///
@@ -46,16 +45,35 @@ impl Primes {
         x >= 2 && self.min_fact[x] == x
     }
 
-    /// Calls closure on each prime factor in ascending order
+    /// Returns a vector of prime factors of the given number
+    /// The factors are sorted in ascending order
     ///
     /// # Complexity
     /// - Time: O(log x)
     /// - Space: O(log x)
-    pub fn factorize(&self, mut x: usize, mut f: impl FnMut(usize)) {
+    pub fn factorize(&self, mut x: usize) -> Vec<usize> {
+        let mut facts = vec![];
         while x > 1 {
             let p = self.min_fact[x];
-            f(p);
+            facts.push(p);
             x /= p;
         }
+        facts
+    }
+
+    pub fn divisorize(&self, mut x: usize) -> Vec<usize> {
+        let mut divs = vec![1];
+        while x > 1 {
+            let mut new_divs = divs.clone();
+            let prime = self.min_fact[x];
+            while self.min_fact[x] == prime {
+                for i in new_divs.len() - divs.len()..new_divs.len() {
+                    new_divs.push(new_divs[i] * prime);
+                }
+                x /= prime;
+            }
+            divs = new_divs;
+        }
+        divs
     }
 }
