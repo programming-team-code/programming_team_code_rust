@@ -7,9 +7,9 @@
 /// let primes = Primes::new(100);
 /// assert_eq!(primes.is_prime(2), true);
 /// assert_eq!(primes.is_prime(4), false);
-/// let mut factors = vec![];
-/// primes.factorize(12, |factor| factors.push(factor));
-/// assert_eq!(factors, vec![2, 2, 3]);
+/// assert_eq!(primes.factorize(12), [2, 2, 3]);
+/// assert_eq!(primes.divisorize(12), [1, 2, 4, 3, 6, 12]);
+/// assert!(std::panic::catch_unwind(|| primes.divisorize(0)).is_err());
 /// ```
 pub struct Primes {
     min_fact: Vec<usize>,
@@ -61,7 +61,13 @@ impl Primes {
         facts
     }
 
+    /// Returns a vector of all divisors of the given number
+    ///
+    /// # Complexity
+    /// - Time: O(x ^ (1/3))
+    /// - Space: O(x ^ (1/3))
     pub fn divisorize(&self, mut x: usize) -> Vec<usize> {
+        assert_ne!(x, 0);
         let mut divs = vec![1];
         while x > 1 {
             let mut new_divs = divs.clone();

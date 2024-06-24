@@ -13,6 +13,7 @@ fn main() {
 
     let primes = Primes::new(n + 1);
 
+    #[allow(clippy::needless_range_loop)]
     for i in 1..=n {
         let mut all_divisors = primes.divisorize(i);
         all_divisors.sort();
