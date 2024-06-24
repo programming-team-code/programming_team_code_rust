@@ -14,6 +14,7 @@
 pub struct Primes {
     min_fact: Vec<usize>,
 }
+
 impl Primes {
     /// Constructs a new Primes instance with the given size
     ///
