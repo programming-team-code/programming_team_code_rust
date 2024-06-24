@@ -72,12 +72,12 @@ impl Primes {
         let mut divs = vec![1];
         while x > 1 {
             let mut new_divs = divs.clone();
-            let prime = self.min_fact[x];
-            while self.min_fact[x] == prime {
+            let p = self.min_fact[x];
+            while self.min_fact[x] == p {
                 for i in new_divs.len() - divs.len()..new_divs.len() {
-                    new_divs.push(new_divs[i] * prime);
+                    new_divs.push(new_divs[i] * p);
                 }
-                x /= prime;
+                x /= p;
             }
             divs = new_divs;
         }
