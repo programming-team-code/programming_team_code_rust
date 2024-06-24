@@ -81,6 +81,10 @@ name = "primes_is_prime"
 path = "examples/numbers/primes_is_prime.rs"
 
 [[example]]
+name = "primes_divisorize"
+path = "examples/numbers/primes_divisorize.rs"
+
+[[example]]
 name = "manacher"
 path = "examples/strings/manacher.rs"
 
