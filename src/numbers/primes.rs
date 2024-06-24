@@ -71,15 +71,15 @@ impl Primes {
         assert_ne!(x, 0);
         let mut divs = vec![1];
         while x > 1 {
-            let mut new_divs = divs.clone();
+            let len = divs.len();
             let p = self.min_fact[x];
             while self.min_fact[x] == p {
-                for i in new_divs.len() - divs.len()..new_divs.len() {
-                    new_divs.push(new_divs[i] * p);
+                let curr_len = divs.len();
+                for i in curr_len - len..curr_len {
+                    divs.push(divs[i] * p);
                 }
                 x /= p;
             }
-            divs = new_divs;
         }
         divs
     }
