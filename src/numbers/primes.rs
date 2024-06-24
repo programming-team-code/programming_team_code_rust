@@ -65,17 +65,17 @@ impl Primes {
     /// Returns a vector of all divisors of the given number
     ///
     /// # Complexity
-    /// - Time: O(x ^ (1/3))
-    /// - Space: O(x ^ (1/3))
+    /// - Time: O(number_of_divisors(x))
+    /// - Space: O(number_of_divisors(x))
     pub fn divisorize(&self, mut x: usize) -> Vec<usize> {
         assert_ne!(x, 0);
         let mut divs = vec![1];
         while x > 1 {
-            let len = divs.len();
+            let len1 = divs.len();
             let p = self.min_fact[x];
             while self.min_fact[x] == p {
-                let curr_len = divs.len();
-                for i in curr_len - len..curr_len {
+                let len2 = divs.len();
+                for i in len2 - len1..len2 {
                     divs.push(divs[i] * p);
                 }
                 x /= p;
