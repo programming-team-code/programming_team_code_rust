@@ -135,7 +135,7 @@ impl SufAry {
         }
     }
 
-    pub fn push_char(&self, c: usize, sa_range: Range<usize>, lcp_len: usize) -> Range<usize> {
+    pub fn push_back_char(&self, c: usize, sa_range: Range<usize>, lcp_len: usize) -> Range<usize> {
         if !sa_range.is_empty() {
             assert!(lcp_len <= self.len_lcp(self.sa[sa_range.start], self.sa[sa_range.end - 1]));
         }
