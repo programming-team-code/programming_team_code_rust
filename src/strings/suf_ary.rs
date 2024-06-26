@@ -69,6 +69,7 @@ pub struct SufAry {
     /// longest common prefix array
     pub lcp: Vec<usize>,
     rmq: RMQ<usize, fn(usize, usize) -> usize>,
+    cnt: Vec<usize>,
 }
 
 impl SufAry {
@@ -87,6 +88,13 @@ impl SufAry {
         for (i, &elem) in sa.iter().enumerate() {
             sa_inv[elem] = i;
         }
+        let mut cnt = vec![0; max_val + 1];
+        for &c in s {
+            cnt[c + 1] += 1;
+        }
+        for i in 1..cnt.len() {
+            cnt[i] += cnt[i - 1];
+        }
         Self {
             n: sa.len(),
             s: s.to_vec(),
@@ -94,6 +102,7 @@ impl SufAry {
             rmq: RMQ::new(&lcp, std::cmp::min),
             lcp,
             sa,
+            cnt,
         }
     }
 
@@ -146,18 +155,59 @@ impl SufAry {
         le..ri
     }
 
+    pub fn push_front_char(
+        &self,
+        c: usize,
+        sa_range: Range<usize>,
+        lcp_len: usize,
+    ) -> Range<usize> {
+        if !sa_range.is_empty() {
+            assert!(lcp_len <= self.len_lcp(self.sa[sa_range.start], self.sa[sa_range.end - 1]));
+        }
+        if sa_range.is_empty() {
+            sa_range
+        } else {
+            self.push_back_substr(
+                sa_range.start..sa_range.start + lcp_len,
+                self.cnt[c]..self.cnt[c + 1],
+                1,
+            )
+        }
+    }
+
+    pub fn push_back_substr(
+        &self,
+        s_substr: Range<usize>,
+        sa_range: Range<usize>,
+        lcp_len: usize,
+    ) -> Range<usize> {
+        if !sa_range.is_empty() {
+            assert!(lcp_len <= self.len_lcp(self.sa[sa_range.start], self.sa[sa_range.end - 1]));
+        }
+        if s_substr.is_empty() {
+            sa_range
+        } else {
+            let le = self.sa[sa_range.clone()].partition_point(|&i| {
+                self.cmp_substrs(i + lcp_len..i + lcp_len + s_substr.len(), s_substr.clone())
+                    == Ordering::Less
+            }) - sa_range.start;
+            //let ri =
+            le..le
+        }
+    }
+
     /// Gets range r such that:
-    ///   - for all i in sa\[r\] s\[i..i + substr.len()\] == s\[substr\]
-    ///   - r.len() is the number of matches of s\[substr\] in s
+    ///   - for all i in sa\[r\] s\[i..i + s_substr.len()\] == s\[s_substr\]
+    ///   - r.len() is the number of matches of s\[s_substr\] in s
     ///
     /// # Complexity
     /// - Time: O(log(|s|))
     /// - Space: O(1)
-    pub fn find_substr(&self, substr: Range<usize>) -> Range<usize> {
+    pub fn find_substr(&self, s_substr: Range<usize>) -> Range<usize> {
         let cmp = |i: usize, flip: bool| -> bool {
-            flip ^ (self.len_lcp(i, substr.start) < substr.len())
+            flip ^ (self.len_lcp(i, s_substr.start) < s_substr.len())
         };
-        let idx = self.sa_inv[substr.start];
+        let idx = self.sa_inv[s_substr.start];
         let le = self.sa[..idx].partition_point(|&i| cmp(i, false));
         let ri = self.sa[idx + 1..].partition_point(|&i| cmp(i, true)) + idx + 1;
         le..ri
