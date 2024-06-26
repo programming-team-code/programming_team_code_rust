@@ -135,17 +135,14 @@ impl SufAry {
         }
     }
 
-    /// Gets range r such that:
-    ///   - for all i in sa\[r\] s\[i..i + t.len()\] == t
-    ///   - r.len() is the number of matches of t in s
-    ///
-    /// # Complexity
-    /// - Time: O(|t| * log(|s|))
-    /// - Space: O(1)
-    pub fn find_str(&self, t: &[usize]) -> Range<usize> {
-        let le = self.sa.partition_point(|&i| &self.s[i..] < t);
-        let ri =
-            self.sa[le..].partition_point(|&i| &self.s[i..(i + t.len()).min(self.n)] == t) + le;
+    pub fn push_char(&self, c: usize, sa_range: Range<usize>, lcp_len: usize) -> Range<usize> {
+        if !sa_range.is_empty() {
+            assert!(lcp_len <= self.len_lcp(self.sa[sa_range.start], self.sa[sa_range.end - 1]));
+        }
+        let le = self.sa[sa_range.clone()]
+            .partition_point(|&i| i + lcp_len == self.n || self.s[i + lcp_len] < c)
+            + sa_range.start;
+        let ri = self.sa[le..sa_range.end].partition_point(|&i| self.s[i + lcp_len] == c) + le;
         le..ri
     }
 
