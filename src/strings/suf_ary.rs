@@ -144,6 +144,37 @@ impl SufAry {
         }
     }
 
+    /// Gets range r such that:
+    ///   - for all i in sa\[r\] s\[i..i + t.len()\] == t
+    ///   - r.len() is the number of matches of t in s
+    ///
+    /// # Complexity
+    /// - Time: O(|t| * log(|s|))
+    /// - Space: O(1)
+    pub fn find_str(&self, t: &[usize]) -> Range<usize> {
+        let le = self.sa.partition_point(|&i| &self.s[i..] < t);
+        let ri =
+            self.sa[le..].partition_point(|&i| &self.s[i..(i + t.len()).min(self.n)] == t) + le;
+        le..ri
+    }
+
+    /// Gets range r such that:
+    ///   - for all i in sa\[r\] s\[i..i + s_substr.len()\] == s\[s_substr\]
+    ///   - r.len() is the number of matches of s\[s_substr\] in s
+    ///
+    /// # Complexity
+    /// - Time: O(log(|s|))
+    /// - Space: O(1)
+    pub fn find_substr(&self, s_substr: Range<usize>) -> Range<usize> {
+        let cmp = |i: usize, flip: bool| -> bool {
+            flip ^ (self.len_lcp(i, s_substr.start) < s_substr.len())
+        };
+        let idx = self.sa_inv[s_substr.start];
+        let le = self.sa[..idx].partition_point(|&i| cmp(i, false));
+        let ri = self.sa[idx + 1..].partition_point(|&i| cmp(i, true)) + idx + 1;
+        le..ri
+    }
+
     pub fn push_back_char(&self, c: usize, sa_range: Range<usize>, lcp_len: usize) -> Range<usize> {
         if !sa_range.is_empty() {
             assert!(lcp_len <= self.len_lcp(self.sa[sa_range.start], self.sa[sa_range.end - 1]));
@@ -184,32 +215,32 @@ impl SufAry {
         if !sa_range.is_empty() {
             assert!(lcp_len <= self.len_lcp(self.sa[sa_range.start], self.sa[sa_range.end - 1]));
         }
-        if s_substr.is_empty() {
-            sa_range
-        } else {
-            let le = self.sa[sa_range.clone()].partition_point(|&i| {
-                self.cmp_substrs(i + lcp_len..i + lcp_len + s_substr.len(), s_substr.clone())
-                    == Ordering::Less
-            }) - sa_range.start;
-            //let ri =
-            le..le
-        }
+        let cmp = |i: usize| -> Ordering {
+            self.cmp_substrs(
+                i + lcp_len..(i + lcp_len + s_substr.len()).min(self.n),
+                s_substr.clone(),
+            )
+        };
+        let le = self.sa[sa_range.clone()].partition_point(|&i| cmp(i) == Ordering::Less)
+            - sa_range.start;
+        let ri = self.sa[le..sa_range.end].partition_point(|&i| cmp(i) == Ordering::Equal) - le;
+        le..ri
     }
 
-    /// Gets range r such that:
-    ///   - for all i in sa\[r\] s\[i..i + s_substr.len()\] == s\[s_substr\]
-    ///   - r.len() is the number of matches of s\[s_substr\] in s
-    ///
-    /// # Complexity
-    /// - Time: O(log(|s|))
-    /// - Space: O(1)
-    pub fn find_substr(&self, s_substr: Range<usize>) -> Range<usize> {
-        let cmp = |i: usize, flip: bool| -> bool {
-            flip ^ (self.len_lcp(i, s_substr.start) < s_substr.len())
-        };
-        let idx = self.sa_inv[s_substr.start];
-        let le = self.sa[..idx].partition_point(|&i| cmp(i, false));
-        let ri = self.sa[idx + 1..].partition_point(|&i| cmp(i, true)) + idx + 1;
-        le..ri
+    pub fn push_front_substr(
+        &self,
+        s_substr: Range<usize>,
+        sa_range: Range<usize>,
+        lcp_len: usize,
+    ) -> Range<usize> {
+        if !sa_range.is_empty() {
+            assert!(lcp_len <= self.len_lcp(self.sa[sa_range.start], self.sa[sa_range.end - 1]));
+        }
+        //TODO: maybe special case when sa_range is empty
+        self.push_back_substr(
+            self.sa[sa_range.start]..self.sa[sa_range.start] + lcp_len,
+            self.find_substr(s_substr.clone()),
+            s_substr.len(),
+        )
     }
 }

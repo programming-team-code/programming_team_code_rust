@@ -9,18 +9,11 @@ fn main() {
         t: String
     }
 
-    let s = s.chars().map(|x| x as usize).collect::<Vec<usize>>();
-    let t = t.chars().map(|x| x as usize).collect::<Vec<usize>>();
+    let s_vec = s.chars().map(|x| x as usize).collect::<Vec<usize>>();
+    let t_vec = t.chars().map(|x| x as usize).collect::<Vec<usize>>();
 
-    let suf_ary = SufAry::new(&s, 255);
-
-    let mut range = 0..s.len();
-    for (i, &c) in t.iter().enumerate() {
-        range = suf_ary.push_back_char(c, range, i);
-        if range.is_empty() {
-            break;
-        }
-    }
+    let suf_ary = SufAry::new(&s_vec, 255);
+    let range = suf_ary.find_str(&t_vec);
     let mut res: Vec<usize> = Vec::new();
     res.extend_from_slice(&suf_ary.sa[range]);
     res.sort();
