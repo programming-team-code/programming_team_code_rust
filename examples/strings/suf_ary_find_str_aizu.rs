@@ -16,7 +16,7 @@ fn main() {
 
     let mut range = 0..s.len();
     for (i, &c) in t.iter().enumerate() {
-        range = suf_ary.push_char(c, range, i);
+        range = suf_ary.push_back_char(c, range, i);
         if range.is_empty() {
             break;
         }
