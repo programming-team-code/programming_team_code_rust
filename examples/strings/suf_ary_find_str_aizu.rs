@@ -16,9 +16,7 @@ fn main() {
     let range = suf_ary.find_str(&t);
 
     let mut push_pop_sa_range = 0..s.len();
-    //let mut push_pop_t_range = t.len() / 2..t.len() / 2; //TODO: revert
-    let mut push_pop_t_range = 0..0;
-    //let mut push_pop_t_range = 0..0; // this AC's
+    let mut push_pop_t_range = t.len() / 2..t.len() / 2;
     loop {
         let mut found = false;
 
@@ -40,8 +38,10 @@ fn main() {
             push_pop_t_range.end += 1;
         }
 
-        assert!(push_pop_sa_range.start <= range.start);
-        assert!(range.end <= push_pop_sa_range.end);
+        if !range.is_empty() {
+            assert!(push_pop_sa_range.start <= range.start);
+            assert!(range.end <= push_pop_sa_range.end);
+        }
 
         if !found {
             break;
