@@ -186,6 +186,15 @@ impl SufAry {
         le..ri
     }
 
+    /// let t = s[sa[sa_range.start]..sa[sa_range.start] + lcp_len] + c
+    ///
+    /// Gets range r such that:
+    ///   - for all i in sa\[r\] s\[i..i + t.len()\] == t
+    ///   - r.len() is the number of matches of t in s
+    ///
+    /// # Complexity
+    /// - Time: O(log(|s|))
+    /// - Space: O(1)
     pub fn push_back_char(&self, c: usize, sa_range: Range<usize>, lcp_len: usize) -> Range<usize> {
         if !sa_range.is_empty() {
             assert!(lcp_len <= self.len_lcp(self.sa[sa_range.start], self.sa[sa_range.end - 1]));
@@ -197,6 +206,15 @@ impl SufAry {
         le..ri
     }
 
+    /// let t = c + s[sa[sa_range.start]..sa[sa_range.start] + lcp_len]
+    ///
+    /// Gets range r such that:
+    ///   - for all i in sa\[r\] s\[i..i + t.len()\] == t
+    ///   - r.len() is the number of matches of t in s
+    ///
+    /// # Complexity
+    /// - Time: O(log(|s|))
+    /// - Space: O(1)
     pub fn push_front_char(
         &self,
         c: usize,
@@ -214,6 +232,15 @@ impl SufAry {
         }
     }
 
+    /// let t = s[sa[sa_range.start]..sa[sa_range.start] + lcp_len] + s[s_substr]
+    ///
+    /// Gets range r such that:
+    ///   - for all i in sa\[r\] s\[i..i + t.len()\] == t
+    ///   - r.len() is the number of matches of t in s
+    ///
+    /// # Complexity
+    /// - Time: O(log(|s|))
+    /// - Space: O(1)
     pub fn push_back_substr(
         &self,
         s_substr: Range<usize>,
@@ -233,6 +260,15 @@ impl SufAry {
         le..ri
     }
 
+    /// let t = s[s_substr] + s[sa[sa_range.start]..sa[sa_range.start] + lcp_len]
+    ///
+    /// Gets range r such that:
+    ///   - for all i in sa\[r\] s\[i..i + t.len()\] == t
+    ///   - r.len() is the number of matches of t in s
+    ///
+    /// # Complexity
+    /// - Time: O(log(|s|))
+    /// - Space: O(1)
     pub fn push_front_substr(
         &self,
         s_substr: Range<usize>,
