@@ -6,6 +6,10 @@ pub fn suf_ary_push_pop_substr_asserts(
     range: &Range<usize>,
     s_to_look_for_range: &Range<usize>,
 ) {
+    assert_eq!(
+        suf_ary.push_front_substr(0..tot_len, tot_len..tot_len, 0),
+        tot_len..tot_len
+    );
     let mut splits = (0..6)
         .map(|_| {
             s_to_look_for_range.start + (rand::random::<usize>() % (s_to_look_for_range.len() + 1))
