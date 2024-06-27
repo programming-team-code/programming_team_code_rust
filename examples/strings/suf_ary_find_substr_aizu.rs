@@ -57,10 +57,7 @@ fn main() {
                 break;
             }
         }
-        assert_eq!(range.is_empty(), push_pop_range.is_empty());
-        if !range.is_empty() {
-            assert_eq!(range, push_pop_range);
-        }
+        assert_eq!(range, push_pop_range);
     }
 
     let mut res = suf_ary.sa[range]
