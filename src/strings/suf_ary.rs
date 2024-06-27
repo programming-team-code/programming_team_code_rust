@@ -112,8 +112,9 @@ impl SufAry {
     /// - Time: O(1)
     /// - Space: O(1)
     pub fn len_lcp(&self, i1: usize, i2: usize) -> usize {
-        if i1 == i2 {
-            return self.n - i1;
+        let mx = std::cmp::max(i1, i2);
+        if i1 == i2 || mx == self.n {
+            return self.n - mx;
         }
         let (mut le, mut ri) = (self.sa_inv[i1], self.sa_inv[i2]);
         if le > ri {
@@ -198,11 +199,8 @@ impl SufAry {
         if sa_range.is_empty() {
             sa_range
         } else {
-            self.push_back_substr(
-                sa_range.start..sa_range.start + lcp_len,
-                self.cnt[c]..self.cnt[c + 1],
-                1,
-            )
+            let i = self.sa[sa_range.start];
+            self.push_back_substr(i..i + lcp_len, self.cnt[c]..self.cnt[c + 1], 1)
         }
     }
 
@@ -215,15 +213,13 @@ impl SufAry {
         if !sa_range.is_empty() {
             assert!(lcp_len <= self.len_lcp(self.sa[sa_range.start], self.sa[sa_range.end - 1]));
         }
-        let cmp = |i: usize| -> Ordering {
-            self.cmp_substrs(
-                i + lcp_len..(i + lcp_len + s_substr.len()).min(self.n),
-                s_substr.clone(),
-            )
+        let cmp = |mut i: usize| -> Ordering {
+            i += lcp_len;
+            self.cmp_substrs(i..(i + s_substr.len()).min(self.n), s_substr.clone())
         };
         let le = self.sa[sa_range.clone()].partition_point(|&i| cmp(i) == Ordering::Less)
-            - sa_range.start;
-        let ri = self.sa[le..sa_range.end].partition_point(|&i| cmp(i) == Ordering::Equal) - le;
+            + sa_range.start;
+        let ri = self.sa[le..sa_range.end].partition_point(|&i| cmp(i) == Ordering::Equal) + le;
         le..ri
     }
 
