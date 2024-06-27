@@ -13,7 +13,7 @@ fn main() {
         q: usize
     }
 
-    let num_queries_find_substr = q.min(100);
+    let num_queries_find_substr = q.min(50);
 
     let mut s = s.chars().map(|x| x as usize).collect::<Vec<usize>>();
 
