@@ -3,6 +3,9 @@
 use proconio::input;
 use programming_team_code_rust::strings::suf_ary::SufAry;
 
+mod suf_ary_push_pop_char_asserts;
+use suf_ary_push_pop_char_asserts::suf_ary_push_pop_char_asserts;
+
 fn main() {
     input! {
         s: String,
@@ -16,8 +19,9 @@ fn main() {
         input! {
             t: String
         }
-        let t_vec = t.chars().map(|x| x as usize).collect::<Vec<usize>>();
-        let range = suf_ary.find_str(&t_vec);
+        let t = t.chars().map(|x| x as usize).collect::<Vec<usize>>();
+        let range = suf_ary.find_str(&t);
+        suf_ary_push_pop_char_asserts(s.len(), &suf_ary, &range, &t);
         println!("{}", !range.is_empty() as usize);
     }
 }

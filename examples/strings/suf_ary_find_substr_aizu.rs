@@ -3,6 +3,9 @@
 use proconio::input;
 use programming_team_code_rust::strings::suf_ary::SufAry;
 
+mod suf_ary_push_pop_substr_asserts;
+use suf_ary_push_pop_substr_asserts::suf_ary_push_pop_substr_asserts;
+
 fn main() {
     input! {
         s: String,
@@ -14,7 +17,11 @@ fn main() {
     both.extend(s.chars().map(|x| x as usize).collect::<Vec<usize>>());
 
     let suf_ary = SufAry::new(&both, 255);
-    let mut res = suf_ary.sa[suf_ary.find_substr(0..m)]
+    let range = suf_ary.find_substr(0..m);
+
+    suf_ary_push_pop_substr_asserts(both.len(), &suf_ary, &range, &(0..m));
+
+    let mut res = suf_ary.sa[range]
         .iter()
         .copied()
         .filter(|&i| i >= m)
