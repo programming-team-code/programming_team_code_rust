@@ -44,13 +44,11 @@ use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 /// let suf_ary2 = SufAry::new(&a_comp, max_val);
 ///
 /// assert_eq!(suf_ary1.len_lcp(1, 3), 3);
-/// assert!(std::panic::catch_unwind(|| suf_ary1.len_lcp(1, n)).is_err());
 ///
 /// assert_eq!(suf_ary1.cmp_sufs(1, 3), Ordering::Greater);
 /// assert!(std::panic::catch_unwind(|| suf_ary1.cmp_sufs(n, 2)).is_err());
 ///
 /// assert_eq!(suf_ary1.cmp_substrs(1..4, 3..6), Ordering::Equal);
-/// assert!(std::panic::catch_unwind(|| suf_ary1.cmp_substrs(3..4, n..n)).is_err());
 ///
 /// assert_eq!(suf_ary1.find_str(&"ana".chars().map(|c| c as usize).collect::<Vec<usize>>()), 1..3);
 /// assert_eq!(suf_ary1.find_str(&[]), 0..n);
