@@ -186,7 +186,7 @@ impl SufAry {
         le..ri
     }
 
-    /// let t = s[sa[sa_range.start]..sa[sa_range.start] + lcp_len] + c
+    /// let t = s\[sa\[sa_range.start\]..sa\[sa_range.start\] + lcp_len\] + c
     ///
     /// Gets range r such that:
     ///   - for all i in sa\[r\] s\[i..i + t.len()\] == t
@@ -206,7 +206,7 @@ impl SufAry {
         le..ri
     }
 
-    /// let t = c + s[sa[sa_range.start]..sa[sa_range.start] + lcp_len]
+    /// let t = c + s\[sa\[sa_range.start\]..sa\[sa_range.start\] + lcp_len\]
     ///
     /// Gets range r such that:
     ///   - for all i in sa\[r\] s\[i..i + t.len()\] == t
@@ -232,7 +232,7 @@ impl SufAry {
         }
     }
 
-    /// let t = s[sa[sa_range.start]..sa[sa_range.start] + lcp_len] + s[s_substr]
+    /// let t = s\[sa\[sa_range.start\]..sa\[sa_range.start\] + lcp_len\] + s\[s_substr\]
     ///
     /// Gets range r such that:
     ///   - for all i in sa\[r\] s\[i..i + t.len()\] == t
@@ -260,7 +260,7 @@ impl SufAry {
         le..ri
     }
 
-    /// let t = s[s_substr] + s[sa[sa_range.start]..sa[sa_range.start] + lcp_len]
+    /// let t = s\[s_substr\] + s\[sa\[sa_range.start\]..sa\[sa_range.start\] + lcp_len\]
     ///
     /// Gets range r such that:
     ///   - for all i in sa\[r\] s\[i..i + t.len()\] == t
