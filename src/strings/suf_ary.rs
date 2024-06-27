@@ -33,7 +33,7 @@ use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 /// //   ||
 /// // 2 nana   5
 ///
-/// let suf_ary1 = SufAry::new(&s.chars().map(|c| c as usize).collect::<Vec<usize>>(), 255);
+/// let suf_ary1 = SufAry::new(&s.chars().map(|c| c as usize).collect::<Vec<_>>(), 255);
 /// let n = suf_ary1.sa.len();
 /// assert_eq!(suf_ary1.sa, [5, 3, 1, 0, 4, 2]);
 /// assert_eq!(suf_ary1.sa_inv, [3, 2, 5, 1, 4, 0]);
@@ -54,8 +54,20 @@ use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 /// assert_eq!(suf_ary1.find_str(&[]), 0..n);
 ///
 /// assert_eq!(suf_ary1.find_substr(1..4), 1..3);
-/// assert_eq!(suf_ary1.find_substr(1..1), 0..n);
+/// assert_eq!(suf_ary1.find_substr(2..2), 0..n);
 /// assert!(std::panic::catch_unwind(|| suf_ary1.find_substr(n..n)).is_err());
+///
+/// assert_eq!(suf_ary1.push_back_char('n' as usize, 0..3, 1), 1..3);
+/// assert_eq!(suf_ary1.push_back_char('n' as usize, n..n, 0), n..n);
+///
+/// assert_eq!(suf_ary1.push_front_char('a' as usize, 4..6, 2), 1..3);
+/// assert_eq!(suf_ary1.push_front_char('a' as usize, n..n, 0), n..n);
+///
+/// assert_eq!(suf_ary1.push_back_substr(4..6, 0..3, 1), 1..3);
+/// assert_eq!(suf_ary1.push_back_substr(4..6, n..n, 0), n..n);
+///
+/// assert_eq!(suf_ary1.push_front_substr(3..5, 0..3, 1), 1..3);
+/// assert_eq!(suf_ary1.push_front_substr(3..5, n..n, 0), n..n);
 /// ```
 pub struct SufAry {
     n: usize,
@@ -230,11 +242,15 @@ impl SufAry {
         if !sa_range.is_empty() {
             assert!(lcp_len <= self.len_lcp(self.sa[sa_range.start], self.sa[sa_range.end - 1]));
         }
-        //TODO: maybe special case when sa_range is empty
-        self.push_back_substr(
-            self.sa[sa_range.start]..self.sa[sa_range.start] + lcp_len,
-            self.find_substr(s_substr.clone()),
-            s_substr.len(),
-        )
+        if sa_range.is_empty() {
+            sa_range
+        } else {
+            let i = self.sa[sa_range.start];
+            self.push_back_substr(
+                i..i + lcp_len,
+                self.find_substr(s_substr.clone()),
+                s_substr.len(),
+            )
+        }
     }
 }
