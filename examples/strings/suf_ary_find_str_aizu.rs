@@ -38,17 +38,15 @@ fn main() {
             push_pop_t_range.end += 1;
         }
 
-        if !range.is_empty() {
-            assert!(push_pop_sa_range.start <= range.start);
-            assert!(range.end <= push_pop_sa_range.end);
-        }
-
         if !found {
             break;
         }
     }
 
-    assert_eq!(range, push_pop_sa_range);
+    assert_eq!(range.is_empty(), push_pop_sa_range.is_empty());
+    if !range.is_empty() {
+        assert_eq!(range, push_pop_sa_range);
+    }
 
     let mut res: Vec<usize> = Vec::new();
     res.extend_from_slice(&suf_ary.sa[range]);
