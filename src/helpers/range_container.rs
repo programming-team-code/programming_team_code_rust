@@ -7,12 +7,12 @@ pub type T = i32;
 
 #[derive(Default)]
 pub struct RangeContainer {
-    mp: BTreeMap<T, T>,
+    pub mp: BTreeMap<T, T>,
 }
 
 impl RangeContainer {
-    pub fn insert_range(&mut self, range: Range<T>) {
-        let mut mx_val = range.end;
+    fn remove(&mut self, range: Range<T>) -> Option<T> {
+        let mut last_end = None;
         for (key, val) in self
             .mp
             .range(range.start..=range.end)
@@ -20,9 +20,15 @@ impl RangeContainer {
             .collect::<Vec<_>>()
         {
             self.mp.remove(&key);
-            mx_val = mx_val.max(val);
+            last_end = Some(val);
         }
-        if let Some((key, val)) = self.mp.range_mut(..range.start).next_back() {
+        last_end
+    }
+    pub fn insert_range(&mut self, mut range: Range<T>) {
+        if let Some(last_end) = self.remove(range.clone()) {
+            range.end = std::cmp::max(range.end, last_end);
+        }
+        if let Some((_, val)) = self.mp.range_mut(..range.start).next_back() {
             if *val >= range.start {
                 *val = std::cmp::max(*val, range.end);
                 return;
@@ -31,5 +37,14 @@ impl RangeContainer {
         self.mp.insert(range.start, range.end);
     }
 
-    pub fn remove_range(&mut self, range: Range<T>) {}
+    pub fn remove_range(&mut self, range: Range<T>) {
+        if let Some(last_end) = self.remove(range.clone()) {
+            if range.end < last_end {
+                self.mp.insert(range.end, last_end);
+            }
+        }
+        if let Some((_, val)) = self.mp.range_mut(..range.start).next_back() {
+            *val = std::cmp::min(*val, range.start);
+        }
+    }
 }
