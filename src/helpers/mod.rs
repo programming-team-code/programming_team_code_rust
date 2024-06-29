@@ -1,5 +1,5 @@
 //! # Helpers
 pub mod compress;
-pub mod interval_container;
 pub mod lis;
+pub mod range_container;
 pub mod unsafe_recursive_closure;
