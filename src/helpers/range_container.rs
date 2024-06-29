@@ -24,6 +24,7 @@ impl RangeContainer {
         }
         last_end
     }
+
     pub fn insert_range(&mut self, mut range: Range<T>) {
         if let Some(last_end) = self.remove(range.clone()) {
             range.end = std::cmp::max(range.end, last_end);
@@ -44,7 +45,12 @@ impl RangeContainer {
             }
         }
         if let Some((_, val)) = self.mp.range_mut(..range.start).next_back() {
+            let tmp = *val;
             *val = std::cmp::min(*val, range.start);
+            let val = tmp;
+            if range.end < val {
+                self.mp.insert(range.end, val);
+            }
         }
     }
 }

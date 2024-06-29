@@ -2,7 +2,6 @@
 
 use proconio::input;
 use programming_team_code_rust::helpers::range_container::RangeContainer;
-use std::collections::BTreeMap;
 
 fn main() {
     input! {
@@ -10,9 +9,8 @@ fn main() {
         q: usize,
     }
     let mut rc = RangeContainer::default();
-    let mut to_value = BTreeMap::<i32, u32>::new();
-    rc.insert_range(0..n as i32);
-    to_value.insert(0, 0);
+    let mut to_value = vec![i32::MAX; 2 * n];
+    rc.insert_range(0..2 * n as i32);
 
     for _ in 0..q {
         input! {
@@ -23,18 +21,31 @@ fn main() {
                 input! {
                     le: i32,
                     ri: i32,
-                    x: u32,
+                    x: i32,
                 }
-                rc.remove_range(le - 1..ri + 1);
-                rc.insert_range(le..ri);
-                to_value.insert(le, x);
+                let le = 2 * le;
+                let ri = 2 * ri;
+                let key = rc.mp.range(..=2 * ri).next_back().unwrap().0;
+                let save_value = to_value[*key as usize];
+                rc.remove_range(le - 1..ri + 2);
+                rc.insert_range(le..ri + 1);
+                let key = rc.mp.range(..=2 * ri).next_back().unwrap().0;
+                to_value[*key as usize] = save_value;
+                to_value[le as usize] = x;
+
+                /*
+                println!("hi there");
+                for (key, val) in &rc.mp {
+                    println!("key, val: {} {}", key, val);
+                }
+                */
             }
             _ => {
                 input! {
                     index: i32,
                 }
-                let key = rc.mp.range(..=index).next_back().unwrap().0;
-                println!("{}", to_value.get(key).unwrap());
+                let key = rc.mp.range(..=2 * index).next_back().unwrap().0;
+                println!("{}", to_value[*key as usize]);
             }
         }
     }
