@@ -11,7 +11,7 @@ pub struct RangeContainer {
 }
 
 impl RangeContainer {
-    pub fn add_range(&mut self, range: Range<T>) {
+    pub fn insert_range(&mut self, range: Range<T>) {
         let mut mx_val = range.end;
         for (key, val) in self
             .mp
