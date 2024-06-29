@@ -7,7 +7,7 @@ pub type T = i32;
 
 #[derive(Default)]
 pub struct RangeContainer {
-    pub mp: BTreeMap<T, T>, /*TODO make private if possible*/
+    mp: BTreeMap<T, T>,
 }
 
 impl RangeContainer {
