@@ -13,14 +13,14 @@ pub struct RangeContainer {
 impl RangeContainer {
     fn remove(&mut self, range: Range<T>) -> Option<T> {
         let mut last_end = None;
-        for (key, val) in self
+        for (key, num) in self
             .mp
             .range(range.start..=range.end)
-            .map(|(key, val)| (*key, *val))
+            .map(|(key, num)| (*key, *num))
             .collect::<Vec<_>>()
         {
             self.mp.remove(&key);
-            last_end = Some(val);
+            last_end = Some(num);
         }
         last_end
     }
@@ -29,9 +29,9 @@ impl RangeContainer {
         if let Some(last_end) = self.remove(range.clone()) {
             range.end = std::cmp::max(range.end, last_end);
         }
-        if let Some((_, val)) = self.mp.range_mut(..range.start).next_back() {
-            if *val >= range.start {
-                *val = std::cmp::max(*val, range.end);
+        if let Some((_, num)) = self.mp.range_mut(..range.start).next_back() {
+            if *num >= range.start {
+                *num = std::cmp::max(*num, range.end);
                 return;
             }
         }
@@ -44,18 +44,18 @@ impl RangeContainer {
                 self.mp.insert(range.end, last_end);
             }
         }
-        if let Some((_, val)) = self.mp.range_mut(..range.start).next_back() {
-            let val = std::mem::replace(val, std::cmp::min(*val, range.start));
-            if range.end < val {
-                self.mp.insert(range.end, val);
+        if let Some((_, num)) = self.mp.range_mut(..range.start).next_back() {
+            let num = std::mem::replace(num, std::cmp::min(*num, range.start));
+            if range.end < num {
+                self.mp.insert(range.end, num);
             }
         }
     }
 
     pub fn get_range(&self, idx: T) -> Option<Range<T>> {
-        if let Some((key, val)) = self.mp.range(..=idx).next_back() {
-            if idx < *val {
-                return Some(*key..*val);
+        if let Some((key, num)) = self.mp.range(..=idx).next_back() {
+            if idx < *num {
+                return Some(*key..*num);
             }
         }
         None
