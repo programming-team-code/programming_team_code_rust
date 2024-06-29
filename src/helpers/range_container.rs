@@ -7,7 +7,7 @@ pub type T = i32;
 
 #[derive(Default)]
 pub struct RangeContainer {
-    pub mp: BTreeMap<T, T>,
+    pub mp: BTreeMap<T, T>, /*TODO make private if possible*/
 }
 
 impl RangeContainer {
@@ -52,5 +52,14 @@ impl RangeContainer {
                 self.mp.insert(range.end, val);
             }
         }
+    }
+
+    pub fn get_range(&self, idx: T) -> Option<Range<T>> {
+        if let Some((key, val)) = self.mp.range(..=idx).next_back() {
+            if idx < *val {
+                return Some(*key..*val);
+            }
+        }
+        return None;
     }
 }

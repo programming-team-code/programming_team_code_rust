@@ -9,8 +9,8 @@ fn main() {
         q: usize,
     }
     let mut rc = RangeContainer::default();
-    let mut to_value = vec![i32::MAX; 2 * n];
-    rc.insert_range(0..(2 * n - 1) as i32);
+    let mut to_value = vec![i32::MAX; 2 * n + 2];
+    rc.insert_range(0..(2 * n + 1) as i32);
 
     for _ in 0..q {
         input! {
@@ -25,33 +25,20 @@ fn main() {
                 }
                 let le = 2 * le;
                 let ri = 2 * ri;
-                let key = rc.mp.range(..=ri + 2).next_back().unwrap().0;
-                let save_value = to_value[*key as usize];
-                //println!("hi, save val {}", save_value);
+                let save_range = rc.get_range(ri + 2).unwrap();
+                let save_value = to_value[save_range.start as usize];
                 rc.remove_range(le - 1..ri + 2);
                 rc.insert_range(le..ri + 1);
-                let key = rc.mp.range(..=ri + 2).next_back().unwrap().0;
-                to_value[*key as usize] = save_value;
+                let save_range = rc.get_range(ri + 2).unwrap();
+                to_value[save_range.start as usize] = save_value;
                 to_value[le as usize] = x;
-
-                /*
-                println!("hi there");
-                for (key, val) in &rc.mp {
-                    println!("key, val: {} {}", key, val);
-                }
-                print!(" now the array: ");
-                for &val in &to_value {
-                    print!("{} ", val);
-                }
-                println!();
-                */
             }
             _ => {
                 input! {
                     index: i32,
                 }
-                let key = rc.mp.range(..=2 * index).next_back().unwrap().0;
-                println!("{}", to_value[*key as usize]);
+                let range_containing = rc.get_range(2 * index).unwrap();
+                println!("{}", to_value[range_containing.start as usize]);
             }
         }
     }
