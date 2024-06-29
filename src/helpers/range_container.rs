@@ -45,9 +45,7 @@ impl RangeContainer {
             }
         }
         if let Some((_, val)) = self.mp.range_mut(..range.start).next_back() {
-            let tmp = *val;
-            *val = std::cmp::min(*val, range.start);
-            let val = tmp;
+            let val = std::mem::replace(val, std::cmp::min(*val, range.start));
             if range.end < val {
                 self.mp.insert(range.end, val);
             }
