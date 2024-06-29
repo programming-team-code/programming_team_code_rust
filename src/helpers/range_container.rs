@@ -60,6 +60,6 @@ impl RangeContainer {
                 return Some(*key..*val);
             }
         }
-        return None;
+        None
     }
 }
