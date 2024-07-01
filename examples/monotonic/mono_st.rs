@@ -8,7 +8,7 @@ fn main() {
     input! {
         n: usize,
         q: usize,
-        a: [u32],
+        a: [u32; n],
     }
 
     let le = mono_st(&a);
@@ -23,10 +23,14 @@ fn main() {
 
     for _ in 0..q {
         input! {
-            le: usize,
-            ri: usize,
+            l: usize,
+            r: usize,
         }
-        let idx_min = rmq.query(le..ri);
+        let idx_min = rmq.query(l..r);
+        assert!(le[idx_min] <= l);
+        if le[idx_min] > 0 {
+            assert!(a[le[idx_min] - 1] < a[idx_min]);
+        }
 
         println!("{}", a[idx_min]);
     }
