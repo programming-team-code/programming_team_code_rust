@@ -25,31 +25,29 @@ fn main() {
                                                  //this fail
     let ri = mono_range(&le);
 
-    /*
     {
         let mut iterations = 0;
-        for i in 0..n {
-            let mut j = i;
+        for i in 1..n {
+            let mut j = Some(i - 1);
             while j != le[i] {
                 iterations += 1;
                 //TODO: change these to asserts
                 //assert!(a[rmq.query(le[j - 1]..j)] >= a[j]);
-                if le[j - 1] > 0 {
-                    //assert!(a[le[j - 1] - 1] <= a[j]);
-                }
+                //if le[j - 1] > 0 {
+                //assert!(a[le[j - 1] - 1] <= a[j]);
+                //}
                 // !cmp(a[k], a[j]) is true for all k in [le[j - 1], j)
                 // cmp(a[le[j - 1] - 1], a[j]) is true
-                j = le[j - 1];
+                j = le[j.unwrap()];
             }
         }
-        let mut j = n;
-        while j != 0 {
+        let mut j = Some(n - 1);
+        while j.is_some() {
             iterations += 1;
-            j = le[j - 1];
+            j = le[j.unwrap()];
         }
         assert_eq!(iterations, n);
     }
-    */
 
     for _ in 0..q {
         input! {
