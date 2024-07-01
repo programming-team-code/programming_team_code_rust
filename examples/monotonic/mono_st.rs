@@ -2,6 +2,7 @@
 
 use proconio::input;
 use programming_team_code_rust::data_structures::rmq::RMQ;
+use programming_team_code_rust::monotonic::mono_range::mono_range;
 use programming_team_code_rust::monotonic::mono_st::mono_st;
 
 fn main() {
@@ -12,6 +13,7 @@ fn main() {
     }
 
     let le = mono_st(&a);
+    let ri = mono_range(&le);
 
     let rmq = RMQ::new(&(0..n).collect::<Vec<_>>(), |i1, i2| {
         if a[i1] < a[i2] {
@@ -31,6 +33,8 @@ fn main() {
         if le[idx_min] > 0 {
             assert!(a[le[idx_min] - 1] < a[idx_min]);
         }
+
+        assert!(r <= ri[idx_min]);
 
         println!("{}", a[idx_min]);
     }
