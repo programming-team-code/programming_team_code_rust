@@ -1,9 +1,8 @@
-pub fn mono_st<T: Ord>(a: &[T]) -> Vec<Option<usize>> {
-    let mut le = vec![None; a.len()];
+pub fn mono_st<T: Ord>(a: &[T]) -> Vec<usize> {
+    let mut le = (0..a.len()).collect::<Vec<_>>();
     for (i, num) in a.iter().enumerate() {
-        le[i] = Some(i - 1);
-        while le[i].is_some() && a[le[i].unwrap()] < *num {
-            le[i] = le[le[i].unwrap()];
+        while le[i] > 0 && a[le[i] - 1] < *num {
+            le[i] = le[le[i] - 1];
         }
     }
     le
