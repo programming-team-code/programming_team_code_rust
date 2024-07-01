@@ -28,6 +28,6 @@ fn main() {
         }
         let idx_min = rmq.query(le..ri);
 
-        println!("{}", idx_min);
+        println!("{}", a[idx_min]);
     }
 }
