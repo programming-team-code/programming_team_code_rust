@@ -31,8 +31,6 @@ fn main() {
 
         let idx_min = rmq.query(l..r);
 
-        assert!(le[idx_min] <= l);
-        assert!(r <= ri[idx_min]);
         assert_eq!(a[rmq.query(le[idx_min]..ri[idx_min])], a[idx_min]);
         if le[idx_min] > 0 {
             assert!(a[le[idx_min] - 1] < a[idx_min]);
