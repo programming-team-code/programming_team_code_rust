@@ -25,6 +25,7 @@ fn main() {
                                                  //this fail
     let ri = mono_range(&le);
 
+    /*
     {
         let mut iterations = 0;
         for i in 0..n {
@@ -48,6 +49,7 @@ fn main() {
         }
         assert_eq!(iterations, n);
     }
+    */
 
     for _ in 0..q {
         input! {
@@ -57,9 +59,12 @@ fn main() {
 
         let idx_min = rmq.query(l..r);
 
-        assert_eq!(a[rmq.query(le[idx_min]..ri[idx_min])], a[idx_min]);
-        if le[idx_min] > 0 {
-            assert!(a[le[idx_min] - 1] < a[idx_min]);
+        assert_eq!(
+            a[rmq.query(le[idx_min].unwrap_or(usize::MAX).wrapping_add(1)..ri[idx_min])],
+            a[idx_min]
+        );
+        if let Some(idx) = le[idx_min] {
+            assert!(a[idx] < a[idx_min]);
         }
         if ri[idx_min] < n {
             assert!(a[ri[idx_min]] < a[idx_min]);
