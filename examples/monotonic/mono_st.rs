@@ -35,6 +35,9 @@ fn main() {
         }
 
         assert!(r <= ri[idx_min]);
+        if ri[idx_min] < n {
+            assert!(a[ri[idx_min]] < a[idx_min]);
+        }
 
         println!("{}", a[idx_min]);
     }
