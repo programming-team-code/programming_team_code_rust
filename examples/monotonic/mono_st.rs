@@ -13,8 +13,8 @@ fn main() {
     }
 
     let le = mono_st(&a, |x, y| x.le(y));
-    let le1 = mono_st(&a, |x, y| x.lt(y));
-    assert_eq!(le, le1);
+    assert_eq!(le, mono_st(&a, |x, y| x.lt(y))); //TODO wait till lib checker PR merges and watch
+                                                 //this fail
     let ri = mono_range(&le);
 
     let rmq = RMQ::new(&(0..n).collect::<Vec<_>>(), |i1, i2| {
