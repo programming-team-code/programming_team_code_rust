@@ -12,11 +12,6 @@ fn main() {
         a: [u32; n],
     }
 
-    let le = mono_st(&a, |x, y| x.le(y));
-    assert_eq!(le, mono_st(&a, |x, y| x.lt(y))); //TODO wait till lib checker PR merges and watch
-                                                 //this fail
-    let ri = mono_range(&le);
-
     let rmq = RMQ::new(&(0..n).collect::<Vec<_>>(), |i1, i2| {
         if a[i1] < a[i2] {
             i1
@@ -24,6 +19,35 @@ fn main() {
             i2
         }
     });
+
+    let le = mono_st(&a, |x, y| x.le(y));
+    assert_eq!(le, mono_st(&a, |x, y| x.lt(y))); //TODO wait till lib checker PR merges and watch
+                                                 //this fail
+    let ri = mono_range(&le);
+
+    {
+        let mut iterations = 0;
+        for i in 0..n {
+            let mut j = i;
+            while j != le[i] {
+                iterations += 1;
+                //TODO: change these to asserts
+                //assert!(a[rmq.query(le[j - 1]..j)] >= a[j]);
+                if le[j - 1] > 0 {
+                    //assert!(a[le[j - 1] - 1] <= a[j]);
+                }
+                // !cmp(a[k], a[j]) is true for all k in [le[j - 1], j)
+                // cmp(a[le[j - 1] - 1], a[j]) is true
+                j = le[j - 1];
+            }
+        }
+        let mut j = n;
+        while j != 0 {
+            iterations += 1;
+            j = le[j - 1];
+        }
+        assert_eq!(iterations, n);
+    }
 
     for _ in 0..q {
         input! {
