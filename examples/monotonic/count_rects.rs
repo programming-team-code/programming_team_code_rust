@@ -23,8 +23,8 @@ fn main() {
                     grid[i][j] as i64 + pref_sum[i + 1][j] + pref_sum[i][j + 1] - pref_sum[i][j];
             }
         }
-        for len_i in 1..=10.min(n) {
-            for len_j in 1..10.min(m) {
+        for len_i in 1..=5.min(n) {
+            for len_j in 1..5.min(m) {
                 let mut cnt_good_rects = 0;
                 for i in 0..=n - len_i {
                     for j in 0..=m - len_j {
