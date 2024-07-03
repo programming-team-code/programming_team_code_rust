@@ -61,8 +61,8 @@ fn main() {
             a[rmq.query(le[idx_min].wrapping_add(1)..ri[idx_min])],
             a[idx_min]
         );
-        if let Some(idx) = le[idx_min] {
-            assert!(a[idx] < a[idx_min]);
+        if le[idx_min] != usize::MAX {
+            assert!(a[le[idx_min]] < a[idx_min]);
         }
         if ri[idx_min] < n {
             assert!(a[ri[idx_min]] < a[idx_min]);
