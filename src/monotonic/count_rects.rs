@@ -20,10 +20,10 @@ pub fn count_rects(grid: &[Vec<bool>]) -> Vec<Vec<i64>> {
             cnt[h[j]][cnt_r] -= 1;
         }
     }
-    for i in 1..=n {
+    for row in cnt.iter_mut().skip(1) {
         for _ in 0..2 {
             for j in (2..=m).rev() {
-                cnt[i][j - 1] += cnt[i][j];
+                row[j - 1] += row[j];
             }
         }
     }

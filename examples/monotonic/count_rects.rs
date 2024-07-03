@@ -15,9 +15,9 @@ fn main() {
         .collect::<Vec<_>>();
     let cnt = count_rects(&grid);
     let mut res = 0;
-    for i in 1..=n {
-        for j in 1..=m {
-            if cnt[i][j] > 0 {
+    for (i, row) in cnt.iter().enumerate().skip(1) {
+        for (j, &num) in row.iter().enumerate().skip(1) {
+            if num > 0 {
                 res = res.max(i as u64 * j as u64);
             }
         }
