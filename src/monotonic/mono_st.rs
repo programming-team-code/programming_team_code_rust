@@ -5,28 +5,41 @@
 /// use programming_team_code_rust::monotonic::mono_st::mono_st;
 ///
 /// let a: Vec<u32> = vec![3, 1, 2, 2];
-/// assert_eq!(mono_st(&a, |x, y| x.lt(y)), [0, 0, 2, 2]);
-/// assert_eq!(mono_st(&a, |x, y| x.le(y)), [0, 0, 2, 3]);
-/// assert_eq!(mono_st(&a, |x, y| x.gt(y)), [0, 1, 1, 1]);
-/// assert_eq!(mono_st(&a, |x, y| x.ge(y)), [0, 1, 1, 3]);
+/// let n = a.len();
+/// assert_eq!(mono_st(&a, |x, y| x.lt(y)), [usize::MAX, usize::MAX, 1, 1]);
+/// assert_eq!(mono_st(&a, |x, y| x.le(y)), [usize::MAX, usize::MAX, 1, 2]);
+/// assert_eq!(mono_st(&a, |x, y| x.gt(y)), [usize::MAX, 0, 0, 0]);
+/// assert_eq!(mono_st(&a, |x, y| x.ge(y)), [usize::MAX, 0, 0, 2]);
 ///
 /// let le = mono_st(&a, |x, y| x.lt(y));
 /// let mut iterations = 0;
-/// for i in 0..a.len() {
-///    let mut j = i;
+/// for i in 0..n {
+///    let mut j = i.wrapping_sub(1);
 ///    while j != le[i] {
 ///       iterations += 1;
-///       // !cmp(a[k], a[j]) is true for all k in [le[j - 1], j)
-///       // cmp(a[le[j - 1] - 1], a[j]) is true
-///       j = le[j - 1];
+///       for k in le[j].wrapping_add(1)..j {
+///          assert!(!a[k].lt(&a[j]));
+///       }
+///       if le[j] != usize::MAX {
+///          assert!(a[le[j]].lt(&a[j]));
+///       }
+///       j = le[j];
 ///    }
 /// }
-/// let mut j = n;
-/// while le[i] != le[j] {
+///
+/// // clear the stack at the end
+/// let mut j = n.wrapping_sub(1);
+/// while j != usize::MAX {
 ///    iterations += 1;
-///    j = le[j - 1];
+///    for k in le[j].wrapping_add(1)..j {
+///       assert!(!a[k].lt(&a[j]));
+///    }
+///    if le[j] != usize::MAX {
+///       assert!(a[le[j]].lt(&a[j]));
+///    }
+///    j = le[j];
 /// }
-/// assert_eq!(iterations, a.len());
+/// assert_eq!(iterations, n);
 /// ```
 ///
 /// # Complexity
