@@ -33,10 +33,11 @@
 /// - Time: O(n)
 /// - Space: O(n)
 pub fn mono_st<T: Ord, F: Fn(&T, &T) -> bool>(a: &[T], cmp: F) -> Vec<usize> {
-    let mut le = vec![usize::MAX; a.len()];
-    for (i, num) in a.iter().enumerate().skip(1) {
-        le[i] = i - 1;
-        while le[i] != usize::MAX && !cmp(&a[le[i]], num) {
+    let n = a.len();
+    let mut le = vec![0; n];
+    for i in 0..n {
+        le[i] = i.wrapping_sub(1);
+        while le[i] != usize::MAX && !cmp(&a[le[i]], &a[i]) {
             le[i] = le[le[i]];
         }
     }
