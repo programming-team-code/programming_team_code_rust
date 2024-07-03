@@ -26,27 +26,30 @@ fn main() {
     let ri = mono_range(&le);
 
     {
-        let mut iterations = 0;
+        let mut count_index = vec![0; n];
+        let mut do_asserts = |j: usize| {
+            count_index[j] += 1;
+            let range = le[j].wrapping_add(1)..j;
+            if !range.is_empty() {
+                assert!(a[rmq.query(range)] >= a[j]);
+            }
+            if le[j] != usize::MAX {
+                assert!(a[le[j]] < a[j]);
+            }
+        };
         for i in 0..n {
             let mut j = i.wrapping_sub(1);
             while j != le[i] {
-                iterations += 1;
-                //TODO: change these to asserts
-                //assert!(a[rmq.query(le[j - 1]..j)] >= a[j]);
-                //if le[j - 1] > 0 {
-                //assert!(a[le[j - 1] - 1] <= a[j]);
-                //}
-                // !cmp(a[k], a[j]) is true for all k in [le[j - 1], j)
-                // cmp(a[le[j - 1] - 1], a[j]) is true
+                do_asserts(j);
                 j = le[j];
             }
         }
         let mut j = n.wrapping_sub(1);
         while j != usize::MAX {
-            iterations += 1;
+            do_asserts(j);
             j = le[j];
         }
-        assert_eq!(iterations, n);
+        assert_eq!(count_index, vec![1; n]);
     }
 
     for _ in 0..q {
