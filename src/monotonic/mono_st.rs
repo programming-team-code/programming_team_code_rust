@@ -31,6 +31,7 @@
 ///    seen_index[j] += 1;
 ///    j = le[j];
 /// }
+///
 /// assert_eq!(seen_index, vec![1; n]);
 /// ```
 ///
