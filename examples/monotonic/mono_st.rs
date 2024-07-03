@@ -28,7 +28,7 @@ fn main() {
     {
         let mut iterations = 0;
         for i in 1..n {
-            let mut j = Some(i - 1);
+            let mut j = i - 1;
             while j != le[i] {
                 iterations += 1;
                 //TODO: change these to asserts
@@ -38,13 +38,13 @@ fn main() {
                 //}
                 // !cmp(a[k], a[j]) is true for all k in [le[j - 1], j)
                 // cmp(a[le[j - 1] - 1], a[j]) is true
-                j = le[j.unwrap()];
+                j = le[j];
             }
         }
-        let mut j = Some(n - 1);
-        while j.is_some() {
+        let mut j = n - 1;
+        while j != usize::MAX {
             iterations += 1;
-            j = le[j.unwrap()];
+            j = le[j];
         }
         assert_eq!(iterations, n);
     }
@@ -58,7 +58,7 @@ fn main() {
         let idx_min = rmq.query(l..r);
 
         assert_eq!(
-            a[rmq.query(le[idx_min].unwrap_or(usize::MAX).wrapping_add(1)..ri[idx_min])],
+            a[rmq.query(le[idx_min].wrapping_add(1)..ri[idx_min])],
             a[idx_min]
         );
         if let Some(idx) = le[idx_min] {
