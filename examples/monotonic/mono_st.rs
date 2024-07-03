@@ -27,9 +27,9 @@ fn main() {
 
     {
         let mut iterations = 0;
-        for (i, &num) in le.iter().enumerate().skip(1) {
-            let mut j = i - 1;
-            while j != num {
+        for i in 0..n {
+            let mut j = i.wrapping_sub(1);
+            while j != le[i] {
                 iterations += 1;
                 //TODO: change these to asserts
                 //assert!(a[rmq.query(le[j - 1]..j)] >= a[j]);
@@ -41,7 +41,7 @@ fn main() {
                 j = le[j];
             }
         }
-        let mut j = n - 1;
+        let mut j = n.wrapping_sub(1);
         while j != usize::MAX {
             iterations += 1;
             j = le[j];
