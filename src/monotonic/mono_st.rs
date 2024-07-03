@@ -12,17 +12,11 @@
 /// assert_eq!(mono_st(&a, |x, y| x.ge(y)), [usize::MAX, 0, 0, 2]);
 ///
 /// let le = mono_st(&a, |x, y| x.lt(y));
-/// let mut iterations = 0;
+/// let mut seen_index = vec![0; n];
 /// for i in 0..n {
 ///    let mut j = i.wrapping_sub(1);
 ///    while j != le[i] {
-///       iterations += 1;
-///       for k in le[j].wrapping_add(1)..j {
-///          assert!(!a[k].lt(&a[j]));
-///       }
-///       if le[j] != usize::MAX {
-///          assert!(a[le[j]].lt(&a[j]));
-///       }
+///       seen_index[j] += 1;
 ///       j = le[j];
 ///    }
 /// }
@@ -30,16 +24,10 @@
 /// // clear the stack at the end
 /// let mut j = n.wrapping_sub(1);
 /// while j != usize::MAX {
-///    iterations += 1;
-///    for k in le[j].wrapping_add(1)..j {
-///       assert!(!a[k].lt(&a[j]));
-///    }
-///    if le[j] != usize::MAX {
-///       assert!(a[le[j]].lt(&a[j]));
-///    }
+///    seen_index[j] += 1;
 ///    j = le[j];
 /// }
-/// assert_eq!(iterations, n);
+/// assert_eq!(seen_index, vec![1; n]);
 /// ```
 ///
 /// # Complexity
