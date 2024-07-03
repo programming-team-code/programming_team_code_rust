@@ -3,6 +3,31 @@
 use crate::monotonic::mono_range::mono_range;
 use crate::monotonic::mono_st::mono_st;
 
+/// grid is a n-by-m boolean array
+///
+/// Gets an (n+1)-by-(m+1) vec cnt where cnt[i][j] = the number of times an i-by-j subrectangle
+/// appears in the grid such that all i*j cells in the subrectangle are true.
+///
+/// cnt[i][0] and cnt[0][j] will contain garbage numbers.
+///
+/// # Example
+/// ```
+/// use programming_team_code_rust::monotonic::count_rects::count_rects;
+///
+/// let grid = [vec![true, true, false], vec![true, true, true]];
+///
+/// // remove garbage values
+/// let mut cnt = count_rects(&grid);
+/// cnt.drain(0..1);
+/// for i in 0..2 {
+///    cnt[i].drain(0..1);
+/// }
+/// assert_eq!(cnt, [[5, 3, 1], [2, 1, 0]]);
+/// ```
+///
+/// # Complexity
+/// - Time: O(n * m)
+/// - Space: O(n * m)
 pub fn count_rects(grid: &[Vec<bool>]) -> Vec<Vec<i64>> {
     let (n, m) = (grid.len(), grid[0].len());
     let mut cnt = vec![vec![0; m + 1]; n + 1];
