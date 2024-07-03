@@ -1,6 +1,6 @@
 //! # Monotonic Stack
 
-/// Gets vec le where le[i] = largest index such that le[i] < i && a[le[i]].cmp(&a[i]), or usize::MAX
+/// Gets vec le where le\[i\] = largest index such that le\[i\] < i && a\[le\[i\]\].cmp(&a\[i\]), or usize::MAX
 ///
 /// # Example
 /// ```

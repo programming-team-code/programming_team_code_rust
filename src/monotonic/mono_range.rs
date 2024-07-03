@@ -1,6 +1,6 @@
 //! # Monotonic Range
 
-/// Gets vec ri where ri[i] = smallest index such that i < ri[i] && !a[i].cmp(&a[ri[i]]), or n
+/// Gets vec ri where ri\[i\] = smallest index such that i < ri\[i\] && !a\[i\].cmp(&a\[ri\[i\]\]), or n
 ///
 /// # Example
 /// ```
