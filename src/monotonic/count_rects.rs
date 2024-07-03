@@ -5,10 +5,10 @@ use crate::monotonic::mono_st::mono_st;
 
 /// grid is a n-by-m boolean array
 ///
-/// Gets an (n+1)-by-(m+1) vec cnt where cnt[i][j] = the number of times an i-by-j subrectangle
+/// Gets an (n+1)-by-(m+1) vec cnt where cnt\[i\]\[j\] = the number of times an i-by-j subrectangle
 /// appears in the grid such that all i*j cells in the subrectangle are true.
 ///
-/// cnt[i][0] and cnt[0][j] will contain garbage numbers.
+/// cnt\[i\]\[0\] and cnt\[0\]\[j\] will contain garbage numbers.
 ///
 /// # Example
 /// ```
