@@ -14,17 +14,19 @@ use crate::monotonic::mono_st::mono_st;
 /// ```
 /// use programming_team_code_rust::monotonic::count_rects::count_rects;
 ///
-/// let grid = [vec![true, true, false],
-///             vec![true, true, true]];
+/// let mut cnt = count_rects(&[vec![true, true, false],
+///                             vec![true, true, true]]);
 ///
 /// // remove garbage values
-/// let mut cnt = count_rects(&grid);
 /// cnt.drain(0..1);
 /// for i in 0..cnt.len() {
 ///    cnt[i].drain(0..1);
 /// }
+///
 /// assert_eq!(cnt, [[5, 3, 1],
 ///                  [2, 1, 0]]);
+///
+/// assert!(std::panic::catch_unwind(|| count_rects(&[])).is_err());
 /// ```
 ///
 /// # Complexity
