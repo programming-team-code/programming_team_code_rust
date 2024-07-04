@@ -12,42 +12,52 @@ fn main() {
         a: [u32; n],
     }
 
-    let rmq = RMQ::new(&(0..n).collect::<Vec<_>>(), |i1, i2| {
-        if a[i1] < a[i2] {
-            i1
-        } else {
-            i2
-        }
-    });
+    let rmq = RMQ::new(
+        &(0..n).map(|i| (i, i)).collect::<Vec<_>>(),
+        |(min_i1, max_i1), (min_i2, max_i2)| {
+            let min_idx = if a[min_i1] < a[min_i2] {
+                min_i1
+            } else {
+                min_i2
+            };
+            let max_idx = if a[max_i1] > a[max_i2] {
+                max_i1
+            } else {
+                max_i2
+            };
+            (min_idx, max_idx)
+        },
+    );
 
-    let le = mono_st(&a, |x, y| x.le(y));
-    assert_eq!(le, mono_st(&a, |x, y| x.lt(y))); //TODO wait till lib checker PR merges and watch
-                                                 //this fail
-    let ri = mono_range(&le);
+    let compares = vec![
+        |x: u32, y: u32| -> bool { x.le(&y) },
+        |x: u32, y: u32| -> bool { x.lt(&y) },
+        |x: u32, y: u32| -> bool { x.ge(&y) },
+        |x: u32, y: u32| -> bool { x.gt(&y) },
+    ];
 
-    {
+    let mut le = Vec::new();
+    let mut ri = Vec::new();
+    for &cmp in &compares {
+        le.push(mono_st(&a, |&x, &y| cmp(x, y)));
+        ri.push(mono_range(le.last().unwrap()));
+    }
+    let le = le;
+    let ri = ri;
+
+    for curr_le in &le {
         let mut count_index = vec![0; n];
-        let mut do_asserts = |j: usize| {
-            count_index[j] += 1;
-            let range = le[j].wrapping_add(1)..j;
-            if !range.is_empty() {
-                assert!(a[rmq.query(range)] >= a[j]);
-            }
-            if le[j] != usize::MAX {
-                assert!(a[le[j]] < a[j]);
-            }
-        };
         for i in 0..n {
             let mut j = i.wrapping_sub(1);
-            while j != le[i] {
-                do_asserts(j);
-                j = le[j];
+            while j != curr_le[i] {
+                count_index[j] += 1;
+                j = curr_le[j];
             }
         }
         let mut j = n.wrapping_sub(1);
         while j != usize::MAX {
-            do_asserts(j);
-            j = le[j];
+            count_index[j] += 1;
+            j = curr_le[j];
         }
         assert_eq!(count_index, vec![1; n]);
     }
@@ -58,19 +68,20 @@ fn main() {
             r: usize,
         }
 
-        let idx_min = rmq.query(l..r);
+        let (min_idx, max_idx) = rmq.query(l..r);
 
-        assert_eq!(
-            a[rmq.query(le[idx_min].wrapping_add(1)..ri[idx_min])],
-            a[idx_min]
-        );
-        if le[idx_min] != usize::MAX {
-            assert!(a[le[idx_min]] < a[idx_min]);
-        }
-        if ri[idx_min] < n {
-            assert!(a[ri[idx_min]] < a[idx_min]);
+        for i in 0..4 {
+            let idx = if i < 2 { min_idx } else { max_idx };
+            let rmq_res = rmq.query(le[i][idx].wrapping_add(1)..ri[i][idx]);
+            assert_eq!(a[if i < 2 { rmq_res.0 } else { rmq_res.1 }], a[idx]);
+            if le[i][idx] != usize::MAX {
+                assert!(compares[i](a[le[i][idx]], a[idx]));
+            }
+            if ri[i][idx] < n {
+                assert!(!compares[i](a[idx], a[ri[i][idx]]));
+            }
         }
 
-        println!("{}", a[idx_min]);
+        println!("{}", a[min_idx]);
     }
 }
