@@ -20,7 +20,7 @@ use crate::monotonic::mono_st::mono_st;
 /// // remove garbage values
 /// let mut cnt = count_rects(&grid);
 /// cnt.drain(0..1);
-/// for i in 0..2 {
+/// for i in 0..cnt.len() {
 ///    cnt[i].drain(0..1);
 /// }
 /// assert_eq!(cnt, [[5, 3, 1],
