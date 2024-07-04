@@ -51,14 +51,14 @@ pub fn count_rects(grid: &[Vec<bool>]) -> Vec<Vec<i64>> {
     }
     for row in cnt.iter_mut().skip(1) {
         for _ in 0..2 {
-            for j in (2..=m).rev() {
-                row[j - 1] += row[j];
+            for j in (1..m).rev() {
+                row[j] += row[j + 1];
             }
         }
     }
-    for i in (2..=n).rev() {
+    for i in (1..n).rev() {
         for j in 1..=m {
-            cnt[i - 1][j] += cnt[i][j];
+            cnt[i][j] += cnt[i + 1][j];
         }
     }
     cnt
