@@ -20,6 +20,7 @@
 /// for i in 0..n {
 ///    let mut j = i.wrapping_sub(1);
 ///    while j != le[i] {
+///       let range = le[j].wrapping_add(1)..j; // for all indexes k in range: !cmp(&a[k], &a[j])
 ///       seen_index[j] += 1;
 ///       j = le[j];
 ///    }
