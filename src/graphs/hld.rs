@@ -28,10 +28,6 @@ use std::ops::Range;
 /// let mut sum = 0;
 /// hld.path(1, 2, |range, _| sum += fenwick.sum(range));
 /// assert_eq!(sum, 111);
-///
-/// let (par, to_node) = hld.virt_tree(vec![1, 3]);
-/// assert_eq!(par, [usize::MAX, 0, 0]);
-/// assert_eq!(to_node, [0, 3, 1]);
 /// ```
 pub struct HLD {
     /// parent
@@ -206,22 +202,41 @@ impl HLD {
         }
     }
 
-    /// # Virtual Tree
+    /// # Auxiliary Tree
     ///
     /// - see <https://github.com/kth-competitive-programming/kactl/blob/main/content/graph/CompressTree.h>
     ///
+    /// # Example
+    /// ```
+    /// use programming_team_code_rust::graphs::hld::HLD;
+    ///
+    /// let n = 5;
+    /// let mut adj = vec![vec![]; n];
+    /// for (u, v) in [(0,1), (1,2), (2,3), (2,4)] {
+    ///    adj[u].push(v);
+    ///    adj[v].push(u);
+    /// }
+    ///
+    /// let hld = HLD::new(&mut adj, false);
+    ///
+    /// let (par, to_node) = hld.aux_tree(vec![0, 3, 4]);
+    /// // 0, 1, .., par.len()-1 is a topological/dfs order of aux tree
+    /// assert_eq!(par, [usize::MAX, 0, 1, 1]);
+    /// assert_eq!(to_node, [0, 2, 3, 4]);
+    /// ```
+    ///
     /// # Complexity
-    /// - k = subset.len()
+    /// - k = nodes.len()
     /// - Time: O((k log k) + (k log n))
     /// - Space: O(k)
-    pub fn virt_tree(&self, mut subset: Vec<usize>) -> (Vec<usize>, Vec<usize>) {
-        subset.sort_by(|&a, &b| self.tin[a].cmp(&self.tin[b]));
-        let siz = subset.len();
+    pub fn aux_tree(&self, mut nodes: Vec<usize>) -> (Vec<usize>, Vec<usize>) {
+        nodes.sort_by(|&a, &b| self.tin[a].cmp(&self.tin[b]));
+        let siz = nodes.len();
         for i in 1..siz {
-            subset.push(self.lca(subset[i - 1], subset[i]));
+            nodes.push(self.lca(nodes[i - 1], nodes[i]));
         }
-        subset.sort_by(|&a, &b| self.tin[a].cmp(&self.tin[b]));
-        subset.dedup();
-        (mono_st(&subset, |&x, &y| self.in_sub(x, y)), subset)
+        nodes.sort_by(|&a, &b| self.tin[a].cmp(&self.tin[b]));
+        nodes.dedup();
+        (mono_st(&nodes, |&x, &y| self.in_sub(x, y)), nodes)
     }
 }
