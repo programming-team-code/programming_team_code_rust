@@ -33,6 +33,7 @@ fn main() {
         }
         dfs(0, None, &adj_weighted, &mut dist);
     }
+    let dist = dist;
 
     let hld = HLD::new(&mut adj, true);
 
