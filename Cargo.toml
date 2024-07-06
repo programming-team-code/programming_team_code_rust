@@ -207,3 +207,7 @@ path = "examples/helpers/lis_pop.rs"
 [[example]]
 name = "mono_st"
 path = "examples/monotonic/mono_st.rs"
+
+[[example]]
+name = "hld_aux_tree"
+path = "examples/graphs/hld_aux_tree.rs"
