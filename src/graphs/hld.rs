@@ -1,6 +1,7 @@
 //! # Heavy Light Decomposition
 
 use crate::graphs::dfs_order::{get_dfs_postorder, get_dfs_preorder};
+use crate::monotonic::mono_st::mono_st;
 use std::ops::Range;
 
 /// # Example
@@ -27,6 +28,10 @@ use std::ops::Range;
 /// let mut sum = 0;
 /// hld.path(1, 2, |range, _| sum += fenwick.sum(range));
 /// assert_eq!(sum, 111);
+///
+/// let (par, to_node) = hld.virt_tree(vec![1, 3]);
+/// assert_eq!(par, [usize::MAX, 0, 0]);
+/// assert_eq!(to_node, [0, 3, 1]);
 /// ```
 pub struct HLD {
     /// parent
@@ -199,5 +204,24 @@ impl HLD {
         } else {
             None
         }
+    }
+
+    /// # Virtual Tree
+    ///
+    /// - see <https://github.com/kth-competitive-programming/kactl/blob/main/content/graph/CompressTree.h>
+    ///
+    /// # Complexity
+    /// - k = subset.len()
+    /// - Time: O((k log k) + (k log n))
+    /// - Space: O(k)
+    pub fn virt_tree(&self, mut subset: Vec<usize>) -> (Vec<usize>, Vec<usize>) {
+        subset.sort_by(|&a, &b| self.tin[a].cmp(&self.tin[b]));
+        let siz = subset.len();
+        for i in 1..siz {
+            subset.push(self.lca(subset[i - 1], subset[i]));
+        }
+        subset.sort_by(|&a, &b| self.tin[a].cmp(&self.tin[b]));
+        subset.dedup();
+        (mono_st(&subset, |&x, &y| self.in_sub(x, y)), subset)
     }
 }
