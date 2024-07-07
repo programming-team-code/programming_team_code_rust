@@ -230,13 +230,13 @@ impl HLD {
     /// - Time: O((k log k) + (k log n))
     /// - Space: O(k)
     pub fn aux_tree(&self, mut nodes: Vec<usize>) -> (Vec<usize>, Vec<usize>) {
-        nodes.sort_by(|&a, &b| self.tin[a].cmp(&self.tin[b]));
+        nodes.sort_by(|&u, &v| self.tin[u].cmp(&self.tin[v]));
         let siz = nodes.len();
         for i in 1..siz {
             nodes.push(self.lca(nodes[i - 1], nodes[i]));
         }
-        nodes.sort_by(|&a, &b| self.tin[a].cmp(&self.tin[b]));
+        nodes.sort_by(|&u, &v| self.tin[u].cmp(&self.tin[v]));
         nodes.dedup();
-        (mono_st(&nodes, |&x, &y| self.in_sub(x, y)), nodes)
+        (mono_st(&nodes, |&u, &v| self.in_sub(u, v)), nodes)
     }
 }
