@@ -1,9 +1,11 @@
 //! # Binary Trie which can be used as a multiset of integers
 
+pub type T = u32;
+
 #[derive(Default)]
 struct Node {
     next: [Option<usize>; 2],
-    sub_sz: isize,
+    sub_sz: i32,
 }
 
 /// # Example
@@ -44,10 +46,10 @@ impl BinaryTrie {
     /// # Complexity
     /// - Time: O(log(max_num))
     /// - Space: O(log(max_num))
-    pub fn update(&mut self, num: usize, delta: isize) {
+    pub fn update(&mut self, num: T, delta: i32) {
         let mut v = 0;
-        for i in (0..usize::BITS).rev() {
-            let bit = (num >> i) & 1;
+        for i in (0..T::BITS).rev() {
+            let bit = ((num >> i) & 1) as usize;
             if self.t[v].next[bit].is_none() {
                 self.t[v].next[bit] = Some(self.t.len());
                 self.t.push(Node::default());
@@ -63,10 +65,10 @@ impl BinaryTrie {
     /// # Complexity
     /// - Time: O(log(max_num))
     /// - Space: O(1)
-    pub fn count(&self, num: usize) -> isize {
+    pub fn count(&self, num: T) -> i32 {
         let mut v = 0;
-        for i in (0..usize::BITS).rev() {
-            let bit = (num >> i) & 1;
+        for i in (0..T::BITS).rev() {
+            let bit = ((num >> i) & 1) as usize;
             if self.t[v].next[bit].is_none() {
                 return 0;
             }
@@ -80,12 +82,12 @@ impl BinaryTrie {
     /// # Complexity
     /// - Time: O(log(max_num))
     /// - Space: O(1)
-    pub fn min_xor(&self, num: usize) -> usize {
+    pub fn min_xor(&self, num: T) -> T {
         assert!(self.t.len() > 1);
         let mut v = 0;
         let mut ans = 0;
-        for i in (0..usize::BITS).rev() {
-            let bit = (num >> i) & 1;
+        for i in (0..T::BITS).rev() {
+            let bit = ((num >> i) & 1) as usize;
             if self.t[v].next[bit].is_some() && self.t[self.t[v].next[bit].unwrap()].sub_sz > 0 {
                 v = self.t[v].next[bit].unwrap();
             } else {
