@@ -1,5 +1,6 @@
 //! # Binary Trie which can be used as a multiset of integers
 
+/// u32 or u64
 pub type T = u32;
 
 #[derive(Default)]
