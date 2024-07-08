@@ -30,9 +30,9 @@ use crate::monotonic::mono_st::mono_st;
 /// ```
 ///
 /// # Complexity
-/// - Time: O(n * m)
-/// - Space: O(n * m)
-pub fn count_rects(grid: &[Vec<bool>]) -> Vec<Vec<i64>> {
+/// - Time: O(nm)
+/// - Space: O(nm)
+pub fn count_rects(grid: &[Vec<bool>]) -> Vec<Vec<i32>> {
     let (n, m) = (grid.len(), grid[0].len());
     let mut cnt = vec![vec![0; m + 1]; n + 1];
     let mut h = vec![0; m];
