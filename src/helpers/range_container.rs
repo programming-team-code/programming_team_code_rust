@@ -11,7 +11,7 @@ pub struct RangeContainer {
 }
 
 impl RangeContainer {
-    fn remove(&mut self, range: Range<T>) -> Option<T> {
+    fn remove(&mut self, range: &Range<T>) -> Option<T> {
         let mut last_end = None;
         for (key, num) in self
             .mp
@@ -26,7 +26,7 @@ impl RangeContainer {
     }
 
     pub fn insert_range(&mut self, mut range: Range<T>) {
-        if let Some(last_end) = self.remove(range.clone()) {
+        if let Some(last_end) = self.remove(&range) {
             range.end = std::cmp::max(range.end, last_end);
         }
         if let Some((_, num)) = self.mp.range_mut(..range.start).next_back() {
@@ -39,7 +39,7 @@ impl RangeContainer {
     }
 
     pub fn remove_range(&mut self, range: Range<T>) {
-        if let Some(last_end) = self.remove(range.clone()) {
+        if let Some(last_end) = self.remove(&range) {
             if range.end < last_end {
                 self.mp.insert(range.end, last_end);
             }
