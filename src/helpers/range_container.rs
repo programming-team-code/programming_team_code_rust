@@ -12,26 +12,26 @@ pub struct RangeContainer {
 
 impl RangeContainer {
     fn remove(&mut self, range: &Range<T>) -> Option<T> {
-        let mut last_end = None;
-        for (key, num) in self
+        let mut last_ri = None;
+        for (le, ri) in self
             .mp
             .range(range.start..=range.end)
-            .map(|(&key, &num)| (key, num))
+            .map(|(&le, &ri)| (le, ri))
             .collect::<Vec<_>>()
         {
-            self.mp.remove(&key);
-            last_end = Some(num);
+            self.mp.remove(&le);
+            last_ri = Some(ri);
         }
-        last_end
+        last_ri
     }
 
     pub fn insert_range(&mut self, mut range: Range<T>) {
-        if let Some(last_end) = self.remove(&range) {
-            range.end = std::cmp::max(range.end, last_end);
+        if let Some(last_ri) = self.remove(&range) {
+            range.end = std::cmp::max(range.end, last_ri);
         }
-        if let Some((_, num)) = self.mp.range_mut(..range.start).next_back() {
-            if *num >= range.start {
-                *num = std::cmp::max(*num, range.end);
+        if let Some((_, ri)) = self.mp.range_mut(..range.start).next_back() {
+            if *ri >= range.start {
+                *ri = std::cmp::max(*ri, range.end);
                 return;
             }
         }
@@ -39,15 +39,15 @@ impl RangeContainer {
     }
 
     pub fn remove_range(&mut self, range: Range<T>) {
-        if let Some(last_end) = self.remove(&range) {
-            if range.end < last_end {
-                self.mp.insert(range.end, last_end);
+        if let Some(last_ri) = self.remove(&range) {
+            if range.end < last_ri {
+                self.mp.insert(range.end, last_ri);
             }
         }
-        if let Some((_, num)) = self.mp.range_mut(..range.start).next_back() {
-            let num = std::mem::replace(num, std::cmp::min(*num, range.start));
-            if range.end < num {
-                self.mp.insert(range.end, num);
+        if let Some((_, ri)) = self.mp.range_mut(..range.start).next_back() {
+            let ri = std::mem::replace(ri, std::cmp::min(*ri, range.start));
+            if range.end < ri {
+                self.mp.insert(range.end, ri);
             }
         }
     }
