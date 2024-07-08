@@ -209,5 +209,9 @@ name = "mono_st"
 path = "examples/monotonic/mono_st.rs"
 
 [[example]]
+name = "count_rects"
+path = "examples/monotonic/count_rects.rs"
+
+[[example]]
 name = "cartesian_tree"
 path = "examples/monotonic/cartesian_tree.rs"
