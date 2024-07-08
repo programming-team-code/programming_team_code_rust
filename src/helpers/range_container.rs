@@ -16,7 +16,7 @@ impl RangeContainer {
         for (key, num) in self
             .mp
             .range(range.start..=range.end)
-            .map(|(key, num)| (*key, *num))
+            .map(|(&key, &num)| (key, num))
             .collect::<Vec<_>>()
         {
             self.mp.remove(&key);
