@@ -53,9 +53,9 @@ impl RangeContainer {
     }
 
     pub fn get_range(&self, idx: T) -> Option<Range<T>> {
-        if let Some((key, num)) = self.mp.range(..=idx).next_back() {
-            if idx < *num {
-                return Some(*key..*num);
+        if let Some((&key, &num)) = self.mp.range(..=idx).next_back() {
+            if idx < num {
+                return Some(key..num);
             }
         }
         None
