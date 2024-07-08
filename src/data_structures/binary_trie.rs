@@ -69,10 +69,11 @@ impl BinaryTrie {
         let mut v = 0;
         for i in (0..T::BITS).rev() {
             let bit = ((num >> i) & 1) as usize;
-            if self.t[v].next[bit].is_none() {
+            if let Some(u) = self.t[v].next[bit] {
+                v = u;
+            } else {
                 return 0;
             }
-            v = self.t[v].next[bit].unwrap();
         }
         self.t[v].sub_sz
     }
@@ -83,7 +84,7 @@ impl BinaryTrie {
     /// - Time: O(log(max_num))
     /// - Space: O(1)
     pub fn min_xor(&self, num: T) -> T {
-        assert!(self.t.len() > 1);
+        assert!(self.t[0].sub_sz > 0);
         let mut v = 0;
         let mut ans = 0;
         for i in (0..T::BITS).rev() {
