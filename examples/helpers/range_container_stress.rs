@@ -31,6 +31,14 @@ fn main() {
                     }
                 }
             }
+            let mut to_end = vec![None; max_n + 1];
+            for i in (0..max_n).rev() {
+                if vis[i] && !vis[i + 1] {
+                    to_end[i] = Some(i + 1);
+                } else if vis[i] {
+                    to_end[i] = to_end[i + 1];
+                }
+            }
             let mut naive_mp = BTreeMap::<i32, i32>::new();
             let mut start = None;
             for i in 0..max_n + 1 {
@@ -38,7 +46,12 @@ fn main() {
                     if start.is_none() {
                         start = Some(i);
                     }
+                    assert_eq!(
+                        rc.get_range(i as i32).unwrap(),
+                        start.unwrap() as i32..to_end[i].unwrap() as i32
+                    );
                 } else {
+                    assert_eq!(rc.get_range(i as i32), None);
                     if let Some(curr_start) = start {
                         naive_mp.insert(curr_start as i32, i as i32);
                     }
