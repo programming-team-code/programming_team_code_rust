@@ -201,8 +201,8 @@ name = "lis_yosupo"
 path = "examples/helpers/lis_yosupo.rs"
 
 [[example]]
-name = "lis_pop"
-path = "examples/helpers/lis_pop.rs"
+name = "lis_stress"
+path = "examples/helpers/lis_stress.rs"
 
 [[example]]
 name = "range_container_aizu"
