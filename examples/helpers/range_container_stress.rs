@@ -20,14 +20,14 @@ fn main() {
             match rng.gen_range(0..2) {
                 0 => {
                     rc.insert_range(le as i32..ri as i32);
-                    for i in le..ri {
-                        vis[i] = true;
+                    for elem in vis.iter_mut().take(ri).skip(le) {
+                        *elem = true;
                     }
                 }
                 _ => {
                     rc.remove_range(le as i32..ri as i32);
-                    for i in le..ri {
-                        vis[i] = false;
+                    for elem in vis.iter_mut().take(ri).skip(le) {
+                        *elem = false;
                     }
                 }
             }
