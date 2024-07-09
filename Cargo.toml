@@ -209,6 +209,10 @@ name = "range_container_aizu"
 path = "examples/helpers/range_container_aizu.rs"
 
 [[example]]
+name = "range_container_stress"
+path = "examples/helpers/range_container_stress.rs"
+
+[[example]]
 name = "mono_st"
 path = "examples/monotonic/mono_st.rs"
 
