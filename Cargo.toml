@@ -205,8 +205,8 @@ name = "lis_pop"
 path = "examples/helpers/lis_pop.rs"
 
 [[example]]
-name = "range_container"
-path = "examples/helpers/range_container.rs"
+name = "range_container_aizu"
+path = "examples/helpers/range_container_aizu.rs"
 
 [[example]]
 name = "mono_st"
