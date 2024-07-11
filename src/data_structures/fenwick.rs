@@ -9,6 +9,9 @@
 /// fenwick.add(2, 2);
 /// fenwick.add(3, 1);
 /// assert_eq!(fenwick.sum(1..3), 5);
+/// assert_eq!(fenwick.kth(5), 3);
+/// let mut fenwick = Fenwick::new(0);
+/// assert!(std::panic::catch_unwind(|| fenwick.kth(1)).is_err());
 /// ```
 pub struct Fenwick<T> {
     ary: Vec<T>,
