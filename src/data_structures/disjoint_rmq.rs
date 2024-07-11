@@ -1,5 +1,20 @@
 //! # Disjoint Range Minimum Query
 
+/// # Example
+/// ```
+/// use programming_team_code_rust::data_structures::disjoint_rmq::DisjointRMQ;
+///
+/// let a = [1, 3, 1, 4, 5];
+/// let rmq = DisjointRMQ::new(&a.iter().map(|&x| (x, 1)).collect::<Vec<_>>(), |&x, &y| {
+///    if x.0 == y.0 {
+///       (x.0, x.1 + y.1)
+///    } else {
+///       std::cmp::min(x, y)
+///    }
+/// });
+/// assert_eq!(rmq.query(0..5), (1, 2));
+/// assert_eq!(rmq.query(2..4), (1, 1));
+/// ```
 pub struct DisjointRMQ<T, F> {
     t: Vec<Vec<T>>,
     op: F,
