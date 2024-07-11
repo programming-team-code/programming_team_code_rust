@@ -68,7 +68,7 @@ pub struct SufAry {
     pub sa_inv: Vec<usize>,
     /// longest common prefix array
     pub lcp: Vec<usize>,
-    rmq: RMQ<usize, fn(usize, usize) -> usize>,
+    rmq: RMQ<usize, fn(&usize, &usize) -> usize>,
 }
 
 impl SufAry {
@@ -91,7 +91,7 @@ impl SufAry {
             n: sa.len(),
             s: s.to_vec(),
             sa_inv,
-            rmq: RMQ::new(&lcp, std::cmp::min),
+            rmq: RMQ::new(&lcp, |&x, &y| std::cmp::min(x, y)),
             lcp,
             sa,
         }
