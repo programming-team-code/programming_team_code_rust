@@ -215,3 +215,7 @@ path = "examples/monotonic/count_rects.rs"
 [[example]]
 name = "cartesian_tree"
 path = "examples/monotonic/cartesian_tree.rs"
+
+[[example]]
+name = "fenwick_kth"
+path = "examples/data_structures/fenwick_kth.rs"

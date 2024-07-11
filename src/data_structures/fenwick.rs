@@ -14,7 +14,7 @@ pub struct Fenwick<T> {
     ary: Vec<T>,
 }
 
-impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
+impl<T: Clone + Default + std::ops::AddAssign<T> + std::cmp::PartialOrd> Fenwick<T> {
     /// Creates a new Fenwick Tree with size n
     ///
     /// # Complexity
@@ -74,5 +74,27 @@ impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
         T: std::ops::Sub<Output = T>,
     {
         self.accum(range.end) - self.accum(range.start)
+    }
+
+    /// Gets minimum pos such that self.sum(0..pos) >= sum; or n+1
+    ///
+    /// # Complexity
+    /// - Time: O(log n)
+    /// - Space: O(1)
+    pub fn kth(&self, mut sum: T) -> usize
+    where
+        T: std::ops::SubAssign<T>,
+    {
+        if sum <= T::default() {
+            return 0;
+        }
+        let mut pos = 0;
+        for pw in (0..=self.ary.len().ilog2()).map(|i| 1 << i).rev() {
+            if pos + pw <= self.ary.len() && self.ary[pos + pw - 1] < sum {
+                pos += pw;
+                sum -= self.ary[pos - 1].clone();
+            }
+        }
+        pos + 1
     }
 }
