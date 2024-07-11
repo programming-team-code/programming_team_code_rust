@@ -23,10 +23,8 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DisjointRMQ<T, F> {
                 for i in (le..mi - 1).rev() {
                     row[i] = op(&row[i], &row[i + 1]);
                 }
-                if mi < ri {
-                    for i in mi + 1..ri {
-                        row[i] = op(&row[i - 1], &row[i]);
-                    }
+                for i in mi + 1..ri {
+                    row[i] = op(&row[i - 1], &row[i]);
                 }
                 le += 2 * len;
             }
