@@ -53,8 +53,8 @@ impl<T: Clone> SegTree<T> {
     /// # Complexity
     /// - Time: O(log n)
     /// - Space: O(1)
-    pub fn set(&mut self, idx: usize, val: T) {
-        let mut i = idx + self.n;
+    pub fn set(&mut self, mut i: usize, val: T) {
+        i += self.n;
         self.tree[i] = val;
         while i >= 2 {
             i /= 2;
