@@ -1,37 +1,47 @@
 //! # Deque with op
 
-pub struct RMQ<T, F> {
-    t: Vec<Vec<T>>,
+pub struct Deque<T, F> {
+    le: Vec<(T, T)>,
+    ri: Vec<(T, T)>,
     op: F,
 }
 
-impl<T: Copy, F: Fn(T, T) -> T> RMQ<T, F> {
-    /// Create a new RMQ instance
-    ///
-    /// # Complexity (n = a.len())
-    /// - Time: O(n log n)
-    /// - Space: O(n log n)
-    pub fn new(a: &[T], op: F) -> Self {
-        let mut t = vec![a.to_owned(); 1];
-        let mut i = 0;
-        while (2 << i) <= a.len() {
-            t.push(
-                (0..t[i].len() - (1 << i))
-                    .map(|j| op(t[i][j], t[i][j + (1 << i)]))
-                    .collect(),
-            );
-            i += 1;
+impl<T: Clone, F: Fn(&T, &T) -> T> Deque<T, F> {
+    pub fn new(op: F) -> Self {
+        Self {
+            le: Vec::new(),
+            ri: Vec::new(),
+            op,
         }
-        Self { t, op }
     }
 
-    /// Query the range [range.start, range.end)
-    ///
-    /// # Complexity
-    /// - Time: O(1)
-    /// - Space: O(1)
-    pub fn query(&self, range: std::ops::Range<usize>) -> T {
-        let lg = range.len().ilog2() as usize;
-        (self.op)(self.t[lg][range.start], self.t[lg][range.end - (1 << lg)])
+    pub fn len(&self) -> usize {
+        self.le.len() + self.ri.len()
+    }
+
+    pub fn query(&self) -> Option<T> {
+        if self.len() == 0 {
+            None
+        } else if self.le.is_empty() {
+            Some(self.ri.last().unwrap().1.clone())
+        } else if self.ri.is_empty() {
+            Some(self.le.last().unwrap().1.clone())
+        } else {
+            Some((self.op)(
+                &self.le.last().unwrap().1,
+                &self.ri.last().unwrap().1,
+            ))
+        }
+    }
+
+    pub fn push_front(&mut self, elem: T) {
+        self.le.push((
+            elem.clone(),
+            if let Some(last) = self.le.last() {
+                (self.op)(&elem, &last.1)
+            } else {
+                elem
+            },
+        ));
     }
 }
