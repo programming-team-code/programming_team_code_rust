@@ -2,11 +2,13 @@
 
 use proconio::input;
 use programming_team_code_rust::data_structures::deque::Deque;
+use rand::{thread_rng, Rng};
 use std::collections::VecDeque;
 
 const MOD: u64 = 998_244_353;
 
 fn main() {
+    let mut rng = thread_rng();
     input! {
         q: usize,
     }
@@ -53,6 +55,15 @@ fn main() {
                 } else {
                     println!("{}", x);
                 }
+            }
+        }
+        assert_eq!(deq.len(), std_deq.len());
+        assert_eq!(deq.front(), std_deq.front());
+        assert_eq!(deq.back(), std_deq.back());
+        if !std_deq.is_empty() {
+            for _ in 0..3 {
+                let i = rng.gen_range(0..deq.len());
+                assert_eq!(deq[i], std_deq[i]);
             }
         }
     }

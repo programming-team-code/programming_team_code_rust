@@ -113,3 +113,15 @@ impl<T: Clone, F: Fn(&T, &T) -> T> Deque<T, F> {
         }
     }
 }
+
+//TODO: document that it will panic with index out of bounds
+impl<T, F> std::ops::Index<usize> for Deque<T, F> {
+    type Output = T;
+    fn index(&self, i: usize) -> &Self::Output {
+        if i < self.le.len() {
+            &self.le[self.le.len() - i - 1].0
+        } else {
+            &self.ri[i - self.le.len()].0
+        }
+    }
+}
