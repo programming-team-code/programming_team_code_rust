@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/deque_operate_all_composite
 
 use proconio::input;
-use programming_team_code_rust::data_structures::deque::Deque;
+use programming_team_code_rust::data_structures::deq_agg::DeqAgg;
 use rand::{thread_rng, Rng};
 use std::collections::VecDeque;
 
@@ -15,7 +15,7 @@ fn main() {
 
     let mut std_deq = VecDeque::new();
     let mut deq =
-        Deque::new(|&i: &(u64, u64), &j: &(u64, u64)| (i.0 * j.0 % MOD, (j.0 * i.1 + j.1) % MOD));
+        DeqAgg::new(|&i: &(u64, u64), &j: &(u64, u64)| (i.0 * j.0 % MOD, (j.0 * i.1 + j.1) % MOD));
 
     for _ in 0..q {
         input! {

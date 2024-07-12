@@ -217,5 +217,5 @@ name = "cartesian_tree"
 path = "examples/monotonic/cartesian_tree.rs"
 
 [[example]]
-name = "deque"
-path = "examples/data_structures/deque.rs"
+name = "deq_agg"
+path = "examples/data_structures/deq_agg.rs"

@@ -1,16 +1,16 @@
-//! # Deque with op
+//! # Deque with Aggregate
 
-pub struct Deque<T, F> {
+pub struct DeqAgg<T, F> {
     le: Vec<(T, T)>,
     ri: Vec<(T, T)>,
     op: F,
 }
 
-impl<T: Clone, F: Fn(&T, &T) -> T> Deque<T, F> {
+impl<T: Clone, F: Fn(&T, &T) -> T> DeqAgg<T, F> {
     pub fn new(op: F) -> Self {
         Self {
-            le: Vec::new(),
-            ri: Vec::new(),
+            le: vec![],
+            ri: vec![],
             op,
         }
     }
@@ -115,7 +115,7 @@ impl<T: Clone, F: Fn(&T, &T) -> T> Deque<T, F> {
 }
 
 //TODO: document that it will panic with index out of bounds
-impl<T, F> std::ops::Index<usize> for Deque<T, F> {
+impl<T, F> std::ops::Index<usize> for DeqAgg<T, F> {
     type Output = T;
     fn index(&self, i: usize) -> &Self::Output {
         if i < self.le.len() {
