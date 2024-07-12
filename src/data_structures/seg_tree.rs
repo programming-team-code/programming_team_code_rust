@@ -18,7 +18,7 @@ pub struct SegTree<T, F> {
     tree: Vec<T>,
 }
 
-impl<T: Clone, F: FnMut(&T, &T) -> T> SegTree<T, F> {
+impl<T: Clone, F: Fn(&T, &T) -> T> SegTree<T, F> {
     /// Creates a new segment tree with n elements
     ///
     /// # Complexity
@@ -38,7 +38,7 @@ impl<T: Clone, F: FnMut(&T, &T) -> T> SegTree<T, F> {
     /// # Complexity
     /// - Time: O(n)
     /// - Space: O(n)
-    pub fn build_on_array(a: &[T], mut op: F, unit: T) -> Self {
+    pub fn build_on_array(a: &[T], op: F, unit: T) -> Self {
         let n = a.len();
         let mut tree = vec![unit.clone(); n];
         tree.extend(a.to_vec());
@@ -67,7 +67,7 @@ impl<T: Clone, F: FnMut(&T, &T) -> T> SegTree<T, F> {
     /// # Complexity
     /// - Time: O(log n)
     /// - Space: O(1)
-    pub fn query(&mut self, range: std::ops::Range<usize>) -> T {
+    pub fn query(&self, range: std::ops::Range<usize>) -> T {
         let (mut vl, mut vr, mut le, mut ri) = (
             self.unit.clone(),
             self.unit.clone(),
