@@ -1,5 +1,13 @@
 //! # Deque with Aggregate
 
+/// - see <https://github.com/suisen-cp/cp-library-cpp/blob/main/library/datastructure/deque_aggregation.hpp>
+///
+/// simulate a deque with 2 stacks:
+/// `le`, `ri` are stacks of { number, sum }
+///     accumulate
+///    <-----------  -------> fold numbers from inside
+///   (     le     ][  ri    )
+///
 /// # Example
 /// ```
 /// use programming_team_code_rust::data_structures::deq_agg::DeqAgg;
