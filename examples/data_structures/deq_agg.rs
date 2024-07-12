@@ -58,6 +58,7 @@ fn main() {
             }
         }
         assert_eq!(deq.len(), std_deq.len());
+        assert_eq!(deq.is_empty(), std_deq.is_empty());
         assert_eq!(deq.front(), std_deq.front());
         assert_eq!(deq.back(), std_deq.back());
         if !std_deq.is_empty() {

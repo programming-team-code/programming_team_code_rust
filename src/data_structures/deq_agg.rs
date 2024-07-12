@@ -1,5 +1,21 @@
 //! # Deque with Aggregate
 
+/// # Example
+/// ```
+/// use programming_team_code_rust::data_structures::deq_agg::DeqAgg;
+///
+/// let mut deq = DeqAgg::new(|&x, &y| x + y);
+/// deq.push_front(5);
+/// deq.push_front(3);
+/// deq.push_back(1);
+/// assert_eq!(deq[1], 5);
+/// assert!(std::panic::catch_unwind(|| deq[3]).is_err());
+/// assert_eq!(deq.query(), Some(9));
+/// assert_eq!(deq.front(), Some(&3));
+/// assert_eq!(deq.pop_front(), Some(3));
+/// assert_eq!(deq.back(), Some(&1));
+/// assert_eq!(deq.pop_back(), Some(1));
+/// ```
 pub struct DeqAgg<T, F> {
     le: Vec<(T, T)>,
     ri: Vec<(T, T)>,
@@ -7,6 +23,11 @@ pub struct DeqAgg<T, F> {
 }
 
 impl<T: Clone, F: Fn(&T, &T) -> T> DeqAgg<T, F> {
+    /// Creates new instance of DeqAgg
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn new(op: F) -> Self {
         Self {
             le: vec![],
@@ -15,12 +36,27 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DeqAgg<T, F> {
         }
     }
 
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn len(&self) -> usize {
         self.le.len() + self.ri.len()
     }
 
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
+    pub fn is_empty(&self) -> bool {
+        self.le.is_empty() && self.ri.is_empty()
+    }
+
+    /// Gets deq\[0\] op deq\[1\] op ... op deq.back(); or None if empty
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn query(&self) -> Option<T> {
-        if self.len() == 0 {
+        if self.is_empty() {
             None
         } else if self.le.is_empty() {
             Some(self.ri.last().unwrap().1.clone())
@@ -34,6 +70,11 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DeqAgg<T, F> {
         }
     }
 
+    /// Gets deq\[0\]; or None if empty
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn front(&self) -> Option<&T> {
         if let Some(last) = self.le.last() {
             Some(&last.0)
@@ -44,6 +85,11 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DeqAgg<T, F> {
         }
     }
 
+    /// Gets deq\[deq.len() - 1\]; or None if empty
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn back(&self) -> Option<&T> {
         if let Some(last) = self.ri.last() {
             Some(&last.0)
@@ -54,6 +100,9 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DeqAgg<T, F> {
         }
     }
 
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn push_front(&mut self, elem: T) {
         self.le.push((
             elem.clone(),
@@ -65,6 +114,9 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DeqAgg<T, F> {
         ));
     }
 
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn push_back(&mut self, elem: T) {
         self.ri.push((
             elem.clone(),
@@ -76,6 +128,11 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DeqAgg<T, F> {
         ));
     }
 
+    /// Removes front, and returns it; or None if empty
+    ///
+    /// # Complexity
+    /// - Time: O(1) ammortized
+    /// - Space: O(1) ammortized
     pub fn pop_front(&mut self) -> Option<T> {
         if self.le.is_empty() {
             let mut ary = vec![];
@@ -85,6 +142,11 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DeqAgg<T, F> {
         self.le.pop().map(|elem| elem.0)
     }
 
+    /// Removes back, and returns it; or None if empty
+    ///
+    /// # Complexity
+    /// - Time: O(1) ammortized
+    /// - Space: O(1) ammortized
     pub fn pop_back(&mut self) -> Option<T> {
         if self.ri.is_empty() {
             let mut ary = vec![];
@@ -114,7 +176,9 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DeqAgg<T, F> {
     }
 }
 
-//TODO: document that it will panic with index out of bounds
+/// # Complexity
+/// - Time: O(1)
+/// - Space: O(1)
 impl<T, F> std::ops::Index<usize> for DeqAgg<T, F> {
     type Output = T;
     fn index(&self, i: usize) -> &Self::Output {
