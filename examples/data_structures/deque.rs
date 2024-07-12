@@ -28,10 +28,32 @@ fn main() {
                 deq.push_front((a, b));
                 std_deq.push_front((a, b));
             }
-            1 => {}
-            2 => {}
-            3 => {}
-            _ => {}
+            1 => {
+                input! {
+                    a: u64,
+                    b: u64,
+                }
+                deq.push_back((a, b));
+                std_deq.push_back((a, b));
+            }
+            2 => {
+                deq.pop_front();
+                std_deq.pop_front();
+            }
+            3 => {
+                deq.pop_back();
+                std_deq.pop_back();
+            }
+            _ => {
+                input! {
+                    x: u64,
+                }
+                if let Some((a, b)) = deq.query() {
+                    println!("{}", (a * x + b) % MOD);
+                } else {
+                    println!("{}", x);
+                }
+            }
         }
     }
 }
