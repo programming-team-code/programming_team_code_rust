@@ -12,13 +12,13 @@
 /// ```
 /// use programming_team_code_rust::data_structures::deq_agg::DeqAgg;
 ///
-/// let mut deq = DeqAgg::new(|&x, &y| x + y);
+/// let mut deq = DeqAgg::new(|&x, &y| std::cmp::max(x, y));
 /// deq.push_front(5);
 /// deq.push_front(3);
 /// deq.push_back(1);
 /// assert_eq!(deq[1], 5);
 /// assert!(std::panic::catch_unwind(|| deq[3]).is_err());
-/// assert_eq!(deq.query(), Some(9));
+/// assert_eq!(deq.query(), Some(5));
 /// assert_eq!(deq.front(), Some(&3));
 /// assert_eq!(deq.pop_front(), Some(3));
 /// assert_eq!(deq.back(), Some(&1));
@@ -169,17 +169,19 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DeqAgg<T, F> {
         self.ri = ary.split_off(le_len);
         self.le = ary;
         self.le.reverse();
-        if !self.le.is_empty() {
-            self.le[0].1 = self.le[0].0.clone();
-            for i in 1..self.le.len() {
-                self.le[i].1 = (self.op)(&self.le[i].0, &self.le[i - 1].1);
-            }
+        for i in 0..self.le.len() {
+            self.le[i].1 = if i == 0 {
+                self.le[0].0.clone()
+            } else {
+                (self.op)(&self.le[i].0, &self.le[i - 1].1)
+            };
         }
-        if !self.ri.is_empty() {
-            self.ri[0].1 = self.ri[0].0.clone();
-            for i in 1..self.ri.len() {
-                self.ri[i].1 = (self.op)(&self.ri[i - 1].1, &self.ri[i].0);
-            }
+        for i in 0..self.ri.len() {
+            self.ri[i].1 = if i == 0 {
+                self.ri[0].0.clone()
+            } else {
+                (self.op)(&self.ri[i - 1].1, &self.ri[i].0)
+            };
         }
     }
 }
