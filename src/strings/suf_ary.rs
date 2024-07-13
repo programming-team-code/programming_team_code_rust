@@ -108,7 +108,7 @@ impl SufAry {
         }
         let (mut le, mut ri) = (self.sa_inv[i1], self.sa_inv[i2]);
         if le > ri {
-            std::mem::swap(&mut le, &mut ri);
+            (le, ri) = (ri, le);
         }
         self.rmq.query(le..ri)
     }
