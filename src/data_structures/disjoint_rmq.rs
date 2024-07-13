@@ -15,7 +15,7 @@
 /// });
 /// assert_eq!(rmq.query(0..5), (1, 2));
 /// assert_eq!(rmq.query(3..5), (4, 1));
-/// assert!(std::panic::catch_unwind(|| rmq.query(0..0)).is_err());
+/// assert!(std::panic::catch_unwind(|| rmq.query(1..1)).is_err());
 /// ```
 pub struct DisjointRMQ<T, F> {
     t: Vec<Vec<T>>,
@@ -57,6 +57,7 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DisjointRMQ<T, F> {
     /// - Time: O(1)
     /// - Space: O(1)
     pub fn query(&self, range: std::ops::Range<usize>) -> T {
+        assert!(!range.is_empty());
         if range.len() == 1 {
             self.t[0][range.start].clone()
         } else {
