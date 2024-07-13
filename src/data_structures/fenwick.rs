@@ -79,7 +79,9 @@ impl<T: Clone + Default + std::ops::AddAssign<T> + std::cmp::PartialOrd> Fenwick
         self.accum(range.end) - self.accum(range.start)
     }
 
-    /// Gets minimum pos such that self.sum(0..pos) >= sum; or n+1
+    /// Gets maximum pos such that sum of [0, pos) < sum
+    ///
+    /// Requires fenwick.sum(i..i + 1) >= 0 and sum > 0
     ///
     /// # Complexity
     /// - Time: O(log n)
@@ -88,16 +90,16 @@ impl<T: Clone + Default + std::ops::AddAssign<T> + std::cmp::PartialOrd> Fenwick
     where
         T: std::ops::SubAssign<T>,
     {
-        if sum <= T::default() {
-            return 0;
-        }
+        assert!(sum > T::default());
         let mut pos = 0;
-        for pw in (0..=self.ary.len().ilog2()).map(|i| 1 << i).rev() {
+        let mut pw = self.ary.len().next_power_of_two();
+        while pw > 0 {
             if pos + pw <= self.ary.len() && self.ary[pos + pw - 1] < sum {
                 pos += pw;
                 sum -= self.ary[pos - 1].clone();
             }
+            pw /= 2;
         }
-        pos + 1
+        pos
     }
 }

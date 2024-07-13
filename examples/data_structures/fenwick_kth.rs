@@ -34,7 +34,7 @@ fn main() {
             }
             3 => {
                 let cnt = fenwick.sum(0..k);
-                let res = fenwick.kth(cnt + 1) - 1;
+                let res = fenwick.kth(cnt + 1);
                 if res == n {
                     println!("-1");
                 } else {
@@ -43,7 +43,11 @@ fn main() {
             }
             _ => {
                 let cnt_le = fenwick.sum(0..k + 1);
-                println!("{}", fenwick.kth(cnt_le) as i32 - 1);
+                if cnt_le == 0 {
+                    println!("-1");
+                } else {
+                    println!("{}", fenwick.kth(cnt_le));
+                }
             }
         }
     }
