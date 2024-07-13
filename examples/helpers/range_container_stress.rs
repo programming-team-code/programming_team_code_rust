@@ -14,7 +14,7 @@ fn main() {
             let mut le = rng.gen_range(0..max_n);
             let mut ri = rng.gen_range(0..max_n);
             if le > ri {
-                std::mem::swap(&mut le, &mut ri);
+                (le, ri) = (ri, le);
             }
             ri += 1;
             match rng.gen_range(0..2) {
