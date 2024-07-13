@@ -22,6 +22,7 @@ fn main() {
     for _ in 0..100 {
         let mut lis = Lis::default();
         let mut a = Vec::new();
+        assert_eq!(lis.get_lis(), vec![]);
         for _ in 0..1000 {
             match rand::random::<u8>() % 3 {
                 0 => {
