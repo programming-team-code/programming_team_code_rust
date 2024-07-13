@@ -35,8 +35,8 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DisjointRMQ<T, F> {
             let mut le = 0;
             let mut row = a.to_vec();
             while le < a.len() {
-                let mi = a.len().min(le + len);
-                let ri = a.len().min(le + 2 * len);
+                let mi = (le + len).min(a.len());
+                let ri = (le + 2 * len).min(a.len());
                 for i in (le..mi - 1).rev() {
                     row[i] = op(&row[i], &row[i + 1]);
                 }
