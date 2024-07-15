@@ -33,7 +33,8 @@ pub struct HLD {
     pub p: Vec<Option<usize>>,
     /// time in
     pub tin: Vec<usize>,
-    d: Vec<usize>,
+    /// depth
+    pub d: Vec<usize>,
     ord: Vec<usize>,
     siz: Vec<usize>,
     head: Vec<usize>,

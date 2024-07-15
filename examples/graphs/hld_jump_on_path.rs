@@ -28,6 +28,9 @@ fn main() {
             k: usize,
         }
 
+        assert_eq!(hld.kth_par(u, hld.d[u]), Some(0));
+        assert_eq!(hld.kth_par(u, hld.d[u] + 1), None);
+
         match hld.kth_on_path(u, v, k) {
             Some(w) => {
                 assert!(k <= hld.dist(u, v));
