@@ -3,7 +3,7 @@
 use crate::data_structures::rmq::RMQ;
 use crate::graphs::dfs_order::get_dfs_preorder;
 
-type UPair = (usize, usize);
+type Pair = (usize, usize);
 
 /// # Example
 /// ```
@@ -29,7 +29,7 @@ pub struct LCA {
     p: Vec<Option<usize>>,
     d: Vec<usize>,
     siz: Vec<usize>,
-    rmq: RMQ<UPair, fn(&UPair, &UPair) -> UPair>,
+    rmq: RMQ<Pair, fn(&Pair, &Pair) -> Pair>,
 }
 
 impl LCA {
