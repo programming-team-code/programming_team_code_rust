@@ -11,6 +11,8 @@ fn main() {
 
     let mut lis = Lis::default();
 
+    assert_eq!(lis.get_lis(), vec![]);
+
     for &elem in &a {
         lis.push(elem);
     }
