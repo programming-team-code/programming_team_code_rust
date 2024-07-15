@@ -57,9 +57,6 @@ impl LCA {
                 siz[par] += siz[u];
             }
         }
-        for i in 0..n {
-            println!("{} {}", i, siz[i]);
-        }
         LCA {
             tin,
             p,
@@ -120,10 +117,8 @@ impl LCA {
     pub fn next_on_path(&self, u: usize, v: usize) -> usize {
         assert!(u != v);
         if self.in_sub(u, v) {
-            //println!("hi1");
             self.rmq.query(self.tin[u] + 1..self.tin[v] + 1).1
         } else {
-            //println!("hi2");
             self.p[u].unwrap()
         }
     }

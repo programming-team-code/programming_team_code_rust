@@ -59,6 +59,7 @@ fn main() {
     print!("{} ", u);
     while u != v {
         u = lca.next_on_path(u, v);
-        print!("{} ", u);
+        print!(" {}", u);
     }
+    println!();
 }
