@@ -109,7 +109,7 @@ impl LCA {
         (self.tin[u]..self.tin[u] + self.siz[u]).contains(&self.tin[v])
     }
 
-    /// Gets [u, p[u], .., lca(u,v), .., p[v], v][1]
+    /// Gets \[u, p\[u\], .., lca(u,v), .., p\[v\], v\]\[1\]
     ///
     /// # Complexity
     /// - Time: O(1)
