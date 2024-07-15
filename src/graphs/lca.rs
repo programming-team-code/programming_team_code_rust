@@ -19,6 +19,10 @@ type UPair = (usize, usize);
 /// let lca = LCA::new(&adj);
 /// assert_eq!(lca.lca(1, 3), 0);
 /// assert_eq!(lca.lca(2, 3), 2);
+/// assert_eq!(lca.dist(1, 3), 3);
+/// assert_eq!(lca.in_sub(2, 3), true);
+/// assert_eq!(lca.next_on_path(0, 3), 2);
+/// assert!(std::panic::catch_unwind(|| lca.next_on_path(1, 1)).is_err());
 /// ```
 pub struct LCA {
     tin: Vec<usize>,
