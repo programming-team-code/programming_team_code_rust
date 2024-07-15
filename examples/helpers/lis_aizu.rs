@@ -13,9 +13,14 @@ fn main() {
 
     assert_eq!(lis.get_lis(), vec![]);
 
-    for elem in a {
+    for &elem in &a {
         lis.push(elem);
     }
 
-    println!("{}", lis.dp.len());
+    let idxs = lis.get_lis();
+    for i in 1..idxs.len() {
+        assert!(a[idxs[i - 1]] < a[idxs[i]]);
+    }
+
+    println!("{}", idxs.len());
 }
