@@ -3,7 +3,7 @@
 use crate::data_structures::rmq::RMQ;
 use crate::graphs::dfs_order::get_dfs_preorder;
 
-type OpType = fn(&(usize, usize), &(usize, usize)) -> (usize, usize);
+type UPair = (usize, usize);
 
 /// # Example
 /// ```
@@ -23,7 +23,9 @@ type OpType = fn(&(usize, usize), &(usize, usize)) -> (usize, usize);
 pub struct LCA {
     tin: Vec<usize>,
     p: Vec<Option<usize>>,
-    rmq: RMQ<(usize, usize), OpType>,
+    d: Vec<usize>,
+    siz: Vec<usize>,
+    rmq: RMQ<UPair, fn(&UPair, &UPair) -> UPair>,
 }
 
 impl LCA {
@@ -49,13 +51,30 @@ impl LCA {
                 }
             }
         }
+        let mut siz = vec![1; n];
+        for &u in order.iter().rev() {
+            if let Some(par) = p[u] {
+                siz[par] += siz[u];
+            }
+        }
+        for i in 0..n {
+            println!("{} {}", i, siz[i]);
+        }
         LCA {
             tin,
             p,
             rmq: RMQ::new(
                 &order.iter().map(|&u| (d[u], u)).collect::<Vec<_>>(),
-                |&x, &y| std::cmp::min(x, y),
+                |&x, &y| {
+                    if x.0 == y.0 {
+                        std::cmp::max(x, y)
+                    } else {
+                        std::cmp::min(x, y)
+                    }
+                },
             ),
+            d,
+            siz,
         }
     }
 
@@ -73,5 +92,39 @@ impl LCA {
             std::mem::swap(&mut le, &mut ri);
         }
         self.p[self.rmq.query(le + 1..ri + 1).1].unwrap()
+    }
+
+    /// Gets number of edges on path from u to v
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
+    pub fn dist(&self, u: usize, v: usize) -> usize {
+        self.d[u] + self.d[v] - 2 * self.d[self.lca(u, v)]
+    }
+
+    /// Returns true iff v is in u's subtree
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
+    pub fn in_sub(&self, u: usize, v: usize) -> bool {
+        (self.tin[u]..self.tin[u] + self.siz[u]).contains(&self.tin[v])
+    }
+
+    /// Gets [u, p[u], .., lca(u,v), .., p[v], v][1]
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
+    pub fn next_on_path(&self, u: usize, v: usize) -> usize {
+        assert!(u != v);
+        if self.in_sub(u, v) {
+            //println!("hi1");
+            self.rmq.query(self.tin[u] + 1..self.tin[v] + 1).1
+        } else {
+            //println!("hi2");
+            self.p[u].unwrap()
+        }
     }
 }
