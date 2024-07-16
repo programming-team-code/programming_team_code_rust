@@ -3,7 +3,7 @@
 use crate::data_structures::rmq::RMQ;
 use crate::graphs::dfs_order::get_dfs_preorder;
 
-type OpType = fn(&(usize, usize), &(usize, usize)) -> (usize, usize);
+type Pair = (usize, usize);
 
 /// # Example
 /// ```
@@ -19,11 +19,17 @@ type OpType = fn(&(usize, usize), &(usize, usize)) -> (usize, usize);
 /// let lca = LCA::new(&adj);
 /// assert_eq!(lca.lca(1, 3), 0);
 /// assert_eq!(lca.lca(2, 3), 2);
+/// assert_eq!(lca.dist(1, 3), 3);
+/// assert_eq!(lca.in_sub(2, 3), true);
+/// assert_eq!(lca.next_on_path(0, 3), 2);
+/// assert!(std::panic::catch_unwind(|| lca.next_on_path(1, 1)).is_err());
 /// ```
 pub struct LCA {
     tin: Vec<usize>,
     p: Vec<Option<usize>>,
-    rmq: RMQ<(usize, usize), OpType>,
+    d: Vec<usize>,
+    siz: Vec<usize>,
+    rmq: RMQ<Pair, fn(&Pair, &Pair) -> Pair>,
 }
 
 impl LCA {
@@ -49,13 +55,21 @@ impl LCA {
                 }
             }
         }
+        let mut siz = vec![1; n];
+        for &u in order.iter().rev() {
+            if let Some(par) = p[u] {
+                siz[par] += siz[u];
+            }
+        }
         LCA {
-            tin,
             p,
             rmq: RMQ::new(
                 &order.iter().map(|&u| (d[u], u)).collect::<Vec<_>>(),
-                |&x, &y| std::cmp::min(x, y),
+                |&x, &y| if x.0 < y.0 { x } else { y },
             ),
+            d,
+            tin,
+            siz,
         }
     }
 
@@ -73,5 +87,37 @@ impl LCA {
             std::mem::swap(&mut le, &mut ri);
         }
         self.p[self.rmq.query(le + 1..ri + 1).1].unwrap()
+    }
+
+    /// Gets number of edges on path from u to v
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
+    pub fn dist(&self, u: usize, v: usize) -> usize {
+        self.d[u] + self.d[v] - 2 * self.d[self.lca(u, v)]
+    }
+
+    /// Returns true iff v is in u's subtree
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
+    pub fn in_sub(&self, u: usize, v: usize) -> bool {
+        (self.tin[u]..self.tin[u] + self.siz[u]).contains(&self.tin[v])
+    }
+
+    /// Gets \[u, p\[u\], .., lca(u,v), .., p\[v\], v\]\[1\]
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
+    pub fn next_on_path(&self, u: usize, v: usize) -> usize {
+        assert!(u != v);
+        if self.in_sub(u, v) {
+            self.rmq.query(self.tin[u] + 1..self.tin[v] + 1).1
+        } else {
+            self.p[u].unwrap()
+        }
     }
 }
