@@ -5,12 +5,12 @@
 /// use programming_team_code_rust::data_structures::rmq::RMQ;
 ///
 /// let a = [1, 3, 2, 4, 5];
-/// let rmq = RMQ::new(&a, std::cmp::min);
+/// let rmq = RMQ::new(&a, |&x, &y| std::cmp::min(x, y));
 /// assert_eq!(rmq.query(0..5), 1);
 /// assert_eq!(rmq.query(1..4), 2);
 ///
 /// let outside_var = 5;
-/// let rmq = RMQ::new(&a, |x, y| if x + outside_var < y + outside_var { x } else { y });
+/// let rmq = RMQ::new(&a, |&x, &y| if x + outside_var < y + outside_var { x } else { y });
 /// assert_eq!(rmq.query(0..5), 1);
 /// assert_eq!(rmq.query(1..4), 2);
 /// ```
