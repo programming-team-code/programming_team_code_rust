@@ -21,7 +21,7 @@ fn main() {
         })
         .collect::<Vec<(u64, u64)>>();
 
-    let mut seg_tree = SegTree::<(u64, u64)>::build_on_array(
+    let mut seg_tree = SegTree::build_on_array(
         &a,
         |x, y| (x.0 * y.0 % MOD, (y.0 * x.1 + y.1) % MOD),
         (1, 0),

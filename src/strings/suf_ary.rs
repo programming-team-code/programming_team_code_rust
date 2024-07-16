@@ -33,7 +33,7 @@ use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 /// //   ||
 /// // 2 nana   5
 ///
-/// let suf_ary1 = SufAry::new(&s.chars().map(|c| c as usize).collect::<Vec<usize>>(), 255);
+/// let suf_ary1 = SufAry::new(&s.chars().map(|c| c as usize).collect::<Vec<_>>(), 255);
 /// let n = suf_ary1.sa.len();
 /// assert_eq!(suf_ary1.sa, [5, 3, 1, 0, 4, 2]);
 /// assert_eq!(suf_ary1.sa_inv, [3, 2, 5, 1, 4, 0]);
@@ -52,7 +52,7 @@ use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 /// assert_eq!(suf_ary1.cmp_substrs(1..4, 3..6), Ordering::Equal);
 /// assert!(std::panic::catch_unwind(|| suf_ary1.cmp_substrs(3..4, n..n)).is_err());
 ///
-/// assert_eq!(suf_ary1.find_str(&"ana".chars().map(|c| c as usize).collect::<Vec<usize>>()), 1..3);
+/// assert_eq!(suf_ary1.find_str(&"ana".chars().map(|c| c as usize).collect::<Vec<_>>()), 1..3);
 /// assert_eq!(suf_ary1.find_str(&[]), 0..n);
 ///
 /// assert_eq!(suf_ary1.find_substr(1..4), 1..3);
@@ -68,7 +68,7 @@ pub struct SufAry {
     pub sa_inv: Vec<usize>,
     /// longest common prefix array
     pub lcp: Vec<usize>,
-    rmq: RMQ<usize, fn(usize, usize) -> usize>,
+    rmq: RMQ<usize, fn(&usize, &usize) -> usize>,
 }
 
 impl SufAry {
@@ -79,7 +79,7 @@ impl SufAry {
     /// - Space: O(n)
     pub fn new(s: &[usize], max_val: usize) -> Self {
         let sa = suffix_array_manual(
-            &s.iter().map(|&x| x as i32).collect::<Vec<i32>>(),
+            &s.iter().map(|&x| x as i32).collect::<Vec<_>>(),
             max_val as i32,
         );
         let lcp = lcp_array_arbitrary(s, &sa);
@@ -91,7 +91,7 @@ impl SufAry {
             n: sa.len(),
             s: s.to_vec(),
             sa_inv,
-            rmq: RMQ::new(&lcp, std::cmp::min),
+            rmq: RMQ::new(&lcp, |&x, &y| std::cmp::min(x, y)),
             lcp,
             sa,
         }

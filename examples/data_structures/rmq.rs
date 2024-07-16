@@ -10,7 +10,7 @@ fn main() {
         a: [usize; n],
     }
 
-    let rmq = RMQ::new(&a, std::cmp::min);
+    let rmq = RMQ::new(&a, |&x, &y| std::cmp::min(x, y));
     for _ in 0..q {
         input! {
             le: usize,

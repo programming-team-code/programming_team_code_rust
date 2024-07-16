@@ -26,7 +26,7 @@ fn main() {
     }
 
     let suf_ary = SufAry::new(&s, 255);
-    let rmq = RMQ::new(&suf_ary.sa, std::cmp::min);
+    let rmq = RMQ::new(&suf_ary.sa, |&x, &y| std::cmp::min(x, y));
 
     for i in 0..num_queries_find_substr {
         let idx = rmq.query(suf_ary.find_substr(length[i]..length[i + 1]));

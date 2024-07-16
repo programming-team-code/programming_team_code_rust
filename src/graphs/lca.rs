@@ -3,7 +3,7 @@
 use crate::data_structures::rmq::RMQ;
 use crate::graphs::dfs_order::get_dfs_preorder;
 
-type OpType = fn((usize, usize), (usize, usize)) -> (usize, usize);
+type OpType = fn(&(usize, usize), &(usize, usize)) -> (usize, usize);
 
 /// # Example
 /// ```
@@ -53,11 +53,8 @@ impl LCA {
             tin,
             p,
             rmq: RMQ::new(
-                &order
-                    .iter()
-                    .map(|&u| (d[u], u))
-                    .collect::<Vec<(usize, usize)>>(),
-                std::cmp::min,
+                &order.iter().map(|&u| (d[u], u)).collect::<Vec<_>>(),
+                |&x, &y| std::cmp::min(x, y),
             ),
         }
     }

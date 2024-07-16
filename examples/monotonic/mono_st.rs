@@ -14,7 +14,7 @@ fn main() {
 
     let rmq = RMQ::new(
         &(0..n).map(|i| (i, i)).collect::<Vec<_>>(),
-        |(min_i1, max_i1), (min_i2, max_i2)| {
+        |&(min_i1, max_i1), &(min_i2, max_i2)| {
             let min_idx = if a[min_i1] < a[min_i2] {
                 min_i1
             } else {
