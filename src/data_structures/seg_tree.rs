@@ -4,27 +4,27 @@
 /// ```
 /// use programming_team_code_rust::data_structures::seg_tree::SegTree;
 ///
-/// let mut st = SegTree::<usize>::new(3, |&x, &y| x + y, 0);
+/// let mut st = SegTree::new(3, |&x, &y| x + y, 0);
 /// st.set(1, 2);
 /// st.set(2, 3);
 /// assert_eq!(st.query(0..3), 5);
 /// ```
-pub struct SegTree<T> {
+pub struct SegTree<T, F> {
     n: usize,
     /// associative operation
-    pub op: fn(&T, &T) -> T,
+    pub op: F,
     /// identity element
     pub unit: T,
     tree: Vec<T>,
 }
 
-impl<T: Clone> SegTree<T> {
+impl<T: Clone, F: Fn(&T, &T) -> T> SegTree<T, F> {
     /// Creates a new segment tree with n elements
     ///
     /// # Complexity
     /// - Time: O(n)
     /// - Space: O(n)
-    pub fn new(n: usize, op: fn(&T, &T) -> T, unit: T) -> Self {
+    pub fn new(n: usize, op: F, unit: T) -> Self {
         Self {
             n,
             op,
@@ -38,7 +38,7 @@ impl<T: Clone> SegTree<T> {
     /// # Complexity
     /// - Time: O(n)
     /// - Space: O(n)
-    pub fn build_on_array(a: &[T], op: fn(&T, &T) -> T, unit: T) -> Self {
+    pub fn build_on_array(a: &[T], op: F, unit: T) -> Self {
         let n = a.len();
         let mut tree = vec![unit.clone(); n];
         tree.extend(a.to_vec());
