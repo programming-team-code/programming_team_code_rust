@@ -6,7 +6,7 @@ const FIRST_CHAR: usize = 'A' as usize;
 #[derive(Default)]
 struct Node {
     next: [Option<usize>; ALPHABET_SIZE],
-    cnt_words: usize,
+    cnt_words: i32,
 }
 
 /// # Example
@@ -60,7 +60,7 @@ impl Trie {
     /// # Complexity
     /// - Time: O(|s|)
     /// - Space: O(1)
-    pub fn find(&self, s: &[char]) -> usize {
+    pub fn find(&self, s: &[char]) -> i32 {
         let mut v = 0;
         for &ch in s {
             let idx = ch as usize - FIRST_CHAR;

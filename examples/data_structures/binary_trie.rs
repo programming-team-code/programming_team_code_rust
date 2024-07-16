@@ -12,7 +12,7 @@ fn main() {
     for _ in 0..q {
         input! {
             t: u8,
-            x: usize,
+            x: u32,
         }
 
         match t {
