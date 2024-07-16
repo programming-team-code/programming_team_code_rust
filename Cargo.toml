@@ -215,3 +215,7 @@ path = "examples/monotonic/count_rects.rs"
 [[example]]
 name = "cartesian_tree"
 path = "examples/monotonic/cartesian_tree.rs"
+
+[[example]]
+name = "lca_rmq_next_on_path"
+path = "examples/graphs/lca_rmq_next_on_path.rs"
