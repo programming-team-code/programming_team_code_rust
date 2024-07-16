@@ -217,6 +217,10 @@ name = "cartesian_tree"
 path = "examples/monotonic/cartesian_tree.rs"
 
 [[example]]
+name = "fenwick_kth"
+path = "examples/data_structures/fenwick_kth.rs"
+
+[[example]]
 name = "disjoint_rmq_non_commutative"
 path = "examples/data_structures/disjoint_rmq_non_commutative.rs"
 
