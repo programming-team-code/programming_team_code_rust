@@ -45,7 +45,6 @@ use ac_library::string::{lcp_array_arbitrary, suffix_array_manual};
 /// assert_eq!(suf_ary.sa_inv, [3, 2, 5, 1, 4, 0]);
 /// assert_eq!(suf_ary.lcp, [1, 3, 0, 0, 2]);
 ///
-///
 /// assert_eq!(suf_ary.len_lcp(1, 3), 3);
 /// assert!(std::panic::catch_unwind(|| suf_ary.len_lcp(1, n)).is_err());
 ///
@@ -71,7 +70,7 @@ pub struct SufAry {
     pub sa_inv: Vec<usize>,
     /// longest common prefix array
     pub lcp: Vec<usize>,
-    rmq: RMQ<usize, fn(usize, usize) -> usize>,
+    rmq: RMQ<usize, fn(&usize, &usize) -> usize>,
 }
 
 impl SufAry {
@@ -82,7 +81,7 @@ impl SufAry {
     /// - Space: O(n)
     pub fn new(s: &[usize], max_val: usize) -> Self {
         let sa = suffix_array_manual(
-            &s.iter().map(|&x| x as i32).collect::<Vec<i32>>(),
+            &s.iter().map(|&x| x as i32).collect::<Vec<_>>(),
             max_val as i32,
         );
         let lcp = lcp_array_arbitrary(s, &sa);
@@ -94,7 +93,7 @@ impl SufAry {
             n: sa.len(),
             s: s.to_vec(),
             sa_inv,
-            rmq: RMQ::new(&lcp, std::cmp::min),
+            rmq: RMQ::new(&lcp, |&x, &y| std::cmp::min(x, y)),
             lcp,
             sa,
         }
