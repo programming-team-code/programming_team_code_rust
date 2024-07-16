@@ -82,7 +82,7 @@ impl RangeContainer {
     /// Gets range containing idx
     ///
     /// # Complexity
-    /// - Time: O(log n) ammortized
+    /// - Time: O(log n)
     /// - Space: O(1)
     pub fn get_range(&self, idx: T) -> Option<Range<T>> {
         if let Some((&le, &ri)) = self.mp.range(..=idx).next_back() {
