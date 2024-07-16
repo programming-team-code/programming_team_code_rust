@@ -19,7 +19,7 @@
 /// - Space: O(n)
 pub fn compress<T: Ord>(a: &[T]) -> (Vec<usize>, usize) {
     let n = a.len();
-    let mut idx = (0..n).collect::<Vec<usize>>();
+    let mut idx = (0..n).collect::<Vec<_>>();
     idx.sort_by_key(|&i| &a[i]);
     let mut compressed = vec![0; n];
     let mut max_val = 0;
