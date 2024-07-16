@@ -3,7 +3,7 @@
 use crate::data_structures::rmq::RMQ;
 use crate::graphs::dfs_order::get_dfs_preorder;
 
-type Tuple = (usize, usize, usize);
+type Pair = (usize, usize);
 
 /// # Example
 /// ```
@@ -29,7 +29,7 @@ pub struct LCA {
     p: Vec<Option<usize>>,
     d: Vec<usize>,
     siz: Vec<usize>,
-    rmq: RMQ<Tuple, fn(&Tuple, &Tuple) -> Tuple>,
+    rmq: RMQ<Pair, fn(&Pair, &Pair) -> Pair>,
 }
 
 impl LCA {
@@ -64,11 +64,8 @@ impl LCA {
         LCA {
             p,
             rmq: RMQ::new(
-                &order
-                    .iter()
-                    .map(|&u| (d[u], n - tin[u], u))
-                    .collect::<Vec<_>>(),
-                |&x, &y| std::cmp::min(x, y),
+                &order.iter().map(|&u| (d[u], u)).collect::<Vec<_>>(),
+                |&x, &y| if x.0 < y.0 { x } else { y },
             ),
             d,
             tin,
@@ -89,7 +86,7 @@ impl LCA {
         if le > ri {
             std::mem::swap(&mut le, &mut ri);
         }
-        self.p[self.rmq.query(le + 1..ri + 1).2].unwrap()
+        self.p[self.rmq.query(le + 1..ri + 1).1].unwrap()
     }
 
     /// Gets number of edges on path from u to v
@@ -118,7 +115,7 @@ impl LCA {
     pub fn next_on_path(&self, u: usize, v: usize) -> usize {
         assert!(u != v);
         if self.in_sub(u, v) {
-            self.rmq.query(self.tin[u] + 1..self.tin[v] + 1).2
+            self.rmq.query(self.tin[u] + 1..self.tin[v] + 1).1
         } else {
             self.p[u].unwrap()
         }
