@@ -217,5 +217,9 @@ name = "cartesian_tree"
 path = "examples/monotonic/cartesian_tree.rs"
 
 [[example]]
+name = "disjoint_rmq_non_commutative"
+path = "examples/data_structures/disjoint_rmq_non_commutative.rs"
+
+[[example]]
 name = "lca_rmq_next_on_path"
 path = "examples/graphs/lca_rmq_next_on_path.rs"
