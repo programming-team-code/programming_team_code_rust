@@ -16,7 +16,7 @@ pub struct Fenwick<T> {
     ary: Vec<T>,
 }
 
-impl<T: Clone + Default + std::ops::AddAssign<T> + std::cmp::PartialOrd> Fenwick<T> {
+impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
     /// Creates a new Fenwick Tree with size n
     ///
     /// # Complexity
@@ -87,7 +87,7 @@ impl<T: Clone + Default + std::ops::AddAssign<T> + std::cmp::PartialOrd> Fenwick
     /// - Space: O(1)
     pub fn kth(&self, mut sum: T) -> usize
     where
-        T: std::ops::SubAssign<T>,
+        T: std::ops::SubAssign<T> + std::cmp::PartialOrd,
     {
         assert!(sum > T::default());
         let mut pos = 0;
