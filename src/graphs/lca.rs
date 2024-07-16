@@ -4,7 +4,6 @@ use crate::data_structures::rmq::RMQ;
 use crate::graphs::dfs_order::get_dfs_preorder;
 
 type Pair = (usize, usize);
-type OpType = fn(&(usize, usize), &(usize, usize)) -> (usize, usize);
 
 /// # Example
 /// ```
