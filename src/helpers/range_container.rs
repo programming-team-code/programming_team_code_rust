@@ -3,9 +3,6 @@
 use std::collections::BTreeMap;
 use std::ops::Range;
 
-/// type of endpoints of ranges
-pub type T = i32;
-
 /// # Example
 /// ```
 /// use programming_team_code_rust::helpers::range_container::RangeContainer;
@@ -21,13 +18,13 @@ pub type T = i32;
 /// assert_eq!(rc.get_range(2), Some(1..3));
 /// ```
 #[derive(Default)]
-pub struct RangeContainer {
+pub struct RangeContainer<T> {
     /// an entry le -> ri represents a range [le, ri)
     /// invariant: previous_ri < current_le
     pub mp: BTreeMap<T, T>,
 }
 
-impl RangeContainer {
+impl<T: Copy + Ord> RangeContainer<T> {
     fn remove(&mut self, range: &Range<T>) -> Option<T> {
         let mut last_ri = None;
         for (le, ri) in self
