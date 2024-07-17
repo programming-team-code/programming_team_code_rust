@@ -5,7 +5,7 @@ use std::ops::Range;
 
 /// # Example
 /// ```
-/// use programming_team_code_rust::helpers::range_container::RangeContainer;
+/// use programming_team_code_rust::data_structures::range_container::RangeContainer;
 ///
 /// let mut rc = RangeContainer::default();
 /// rc.insert_range(-2..2);
