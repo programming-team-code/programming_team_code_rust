@@ -43,10 +43,10 @@ pub fn count_rects(grid: &[Vec<bool>]) -> Vec<Vec<i32>> {
         let le = mono_st(&h, |x, y| x.lt(y));
         let ri = mono_range(&le);
         for j in 0..m {
-            let (cnt_l, cnt_r) = (j - le[j].wrapping_add(1), ri[j] - j - 1);
-            cnt[h[j]][cnt_l + cnt_r + 1] += 1;
-            cnt[h[j]][cnt_l] -= 1;
-            cnt[h[j]][cnt_r] -= 1;
+            let (cnt_l, cnt_r) = (j.wrapping_sub(le[j]), ri[j] - j);
+            cnt[h[j]][cnt_l + cnt_r - 1] += 1;
+            cnt[h[j]][cnt_l - 1] -= 1;
+            cnt[h[j]][cnt_r - 1] -= 1;
         }
     }
     for row in cnt.iter_mut().skip(1) {
