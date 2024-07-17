@@ -1,6 +1,7 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/lesson/2/ITP1/all/ITP1_1_A
 
 use programming_team_code_rust::helpers::lis::Lis;
+use rand::{thread_rng, Rng};
 
 fn lis_quadratic(a: &[i32]) -> usize {
     let n = a.len();
@@ -19,13 +20,14 @@ fn lis_quadratic(a: &[i32]) -> usize {
 }
 
 fn main() {
+    let mut rng = thread_rng();
     for _ in 0..100 {
         let mut lis = Lis::default();
         let mut a = Vec::new();
         for _ in 0..1000 {
-            match rand::random::<u8>() % 3 {
+            match rng.gen_range(0..3) {
                 0 => {
-                    let new_num = rand::random::<i32>();
+                    let new_num = rng.r#gen();
                     lis.push(new_num);
                     a.push(new_num);
                 }
