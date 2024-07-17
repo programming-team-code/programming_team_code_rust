@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/lesson/2/ITP1/all/ITP1_1_A
 
-use programming_team_code_rust::helpers::range_container::RangeContainer;
+use programming_team_code_rust::data_structures::range_container::RangeContainer;
 use rand::{thread_rng, Rng};
 use std::collections::BTreeMap;
 
