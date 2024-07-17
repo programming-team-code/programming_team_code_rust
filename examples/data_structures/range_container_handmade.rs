@@ -11,12 +11,11 @@ fn main() {
         let mut vis = vec![false; max_n + 1];
         let mut rc = RangeContainer::default();
         for _ in 0..100 {
-            let mut le = rng.gen_range(0..max_n);
-            let mut ri = rng.gen_range(0..max_n);
+            let mut le = rng.gen_range(0..=max_n);
+            let mut ri = rng.gen_range(0..=max_n);
             if le > ri {
                 (le, ri) = (ri, le);
             }
-            ri += 1;
             match rng.gen_range(0..2) {
                 0 => {
                     rc.insert_range(le as i32..ri as i32);
