@@ -45,7 +45,7 @@ impl<T: Copy + Ord> RangeContainer<T> {
     /// - Time: O(log n) ammortized
     /// - Space: O(1) ammortized
     pub fn insert_range(&mut self, mut range: Range<T>) {
-        assert!(range.is_empty());
+        assert!(!range.is_empty());
         if let Some(last_ri) = self.remove(&range) {
             range.end = std::cmp::max(range.end, last_ri);
         }
@@ -64,7 +64,7 @@ impl<T: Copy + Ord> RangeContainer<T> {
     /// - Time: O(log n) ammortized
     /// - Space: O(1) ammortized
     pub fn remove_range(&mut self, range: Range<T>) {
-        assert!(range.is_empty());
+        assert!(!range.is_empty());
         if let Some(last_ri) = self.remove(&range) {
             if range.end < last_ri {
                 self.mp.insert(range.end, last_ri);
