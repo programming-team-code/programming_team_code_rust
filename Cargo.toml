@@ -201,8 +201,16 @@ name = "lis_yosupo"
 path = "examples/helpers/lis_yosupo.rs"
 
 [[example]]
-name = "lis_pop"
-path = "examples/helpers/lis_pop.rs"
+name = "lis_handmade"
+path = "examples/helpers/lis_handmade.rs"
+
+[[example]]
+name = "range_container_aizu"
+path = "examples/helpers/range_container_aizu.rs"
+
+[[example]]
+name = "range_container_handmade"
+path = "examples/helpers/range_container_handmade.rs"
 
 [[example]]
 name = "mono_st"
