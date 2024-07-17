@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_D
 
 use proconio::input;
-use programming_team_code_rust::helpers::range_container::RangeContainer;
+use programming_team_code_rust::data_structures::range_container::RangeContainer;
 
 fn main() {
     input! {
