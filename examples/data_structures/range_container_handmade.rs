@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/lesson/2/ITP1/all/ITP1_1_A
 
-use programming_team_code_rust::helpers::range_container::RangeContainer;
+use programming_team_code_rust::data_structures::range_container::RangeContainer;
 use rand::{thread_rng, Rng};
 use std::collections::BTreeMap;
 
@@ -11,12 +11,11 @@ fn main() {
         let mut vis = vec![false; max_n + 1];
         let mut rc = RangeContainer::default();
         for _ in 0..100 {
-            let mut le = rng.gen_range(0..max_n);
-            let mut ri = rng.gen_range(0..max_n);
+            let mut le = rng.gen_range(0..=max_n);
+            let mut ri = rng.gen_range(0..=max_n);
             if le > ri {
                 (le, ri) = (ri, le);
             }
-            ri += 1;
             match rng.gen_range(0..2) {
                 0 => {
                     rc.insert_range(le as i32..ri as i32);

@@ -206,11 +206,11 @@ path = "examples/helpers/lis_handmade.rs"
 
 [[example]]
 name = "range_container_aizu"
-path = "examples/helpers/range_container_aizu.rs"
+path = "examples/data_structures/range_container_aizu.rs"
 
 [[example]]
 name = "range_container_handmade"
-path = "examples/helpers/range_container_handmade.rs"
+path = "examples/data_structures/range_container_handmade.rs"
 
 [[example]]
 name = "mono_st"
