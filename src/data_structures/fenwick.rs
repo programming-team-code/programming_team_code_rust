@@ -9,6 +9,8 @@
 /// fenwick.add(2, 2);
 /// fenwick.add(3, 1);
 /// assert_eq!(fenwick.sum(1..3), 5);
+/// assert_eq!(fenwick.kth(5), 2);
+/// assert!(std::panic::catch_unwind(|| fenwick.kth(0)).is_err());
 /// ```
 pub struct Fenwick<T> {
     ary: Vec<T>,
@@ -74,5 +76,29 @@ impl<T: Clone + Default + std::ops::AddAssign<T>> Fenwick<T> {
         T: std::ops::Sub<Output = T>,
     {
         self.accum(range.end) - self.accum(range.start)
+    }
+
+    /// Gets maximum pos such that sum of [0, pos) < sum
+    ///
+    /// Requires fenwick.sum(i..i + 1) >= 0 and sum > 0
+    ///
+    /// # Complexity
+    /// - Time: O(log n)
+    /// - Space: O(1)
+    pub fn kth(&self, mut sum: T) -> usize
+    where
+        T: std::ops::SubAssign<T> + std::cmp::PartialOrd,
+    {
+        assert!(sum > T::default());
+        let mut pos = 0;
+        let mut pw = self.ary.len().next_power_of_two();
+        while pw > 0 {
+            if pos + pw <= self.ary.len() && self.ary[pos + pw - 1] < sum {
+                pos += pw;
+                sum -= self.ary[pos - 1].clone();
+            }
+            pw /= 2;
+        }
+        pos
     }
 }
