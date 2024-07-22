@@ -71,20 +71,16 @@ impl<T: Clone, F: Fn(&T, &T) -> bool> LinearRMQ<T, F> {
         let j = self.t[le].1
             & self.t[ri].1
             & 0_usize.wrapping_sub(1 << ((self.t[le].0 ^ self.t[ri].0) | 1).ilog2());
-        {
-            let mut k = self.t[le].1 ^ j;
-            if k != 0 {
+        let lift = |u: usize, mut k: usize| -> usize {
+            if k == 0 {
+                u
+            } else {
                 k = 1 << k.ilog2();
-                le = self.head[self.t[le].0 & 0_usize.wrapping_sub(k) | k];
+                self.head[self.t[u].0 & 0_usize.wrapping_sub(k) | k]
             }
-        }
-        {
-            let mut k = self.t[ri].1 ^ j;
-            if k != 0 {
-                k = 1 << k.ilog2();
-                ri = self.head[self.t[ri].0 & 0_usize.wrapping_sub(k) | k];
-            }
-        }
+        };
+        le = lift(le, self.t[le].1 ^ j);
+        ri = lift(ri, self.t[ri].1 ^ j);
         if (self.cmp)(&self.a[le], &self.a[ri]) {
             le
         } else {
