@@ -1,5 +1,17 @@
 //! # Linear Range Minimum Query
 
+/// # Example
+/// ```
+/// use programming_team_code_rust::data_structures::linear_rmq::LinearRMQ;
+///
+/// let a = [1, 0, 2, 0, 3];
+/// let rmq = LinearRMQ::new(&a, |&x, &y| x.lt(&y)); // lt -> right-most min
+///                                                  // le -> left-most min
+///                                                  // gt -> right-most max
+///                                                  // ge -> left-most max
+/// assert_eq!(rmq.query_idx(0..5), 3);
+/// assert_eq!(*rmq.query(1..5), 0);
+/// ```
 pub struct LinearRMQ<T, F> {
     a: Vec<T>,
     cmp: F,
@@ -8,6 +20,11 @@ pub struct LinearRMQ<T, F> {
 }
 
 impl<T: Clone, F: Fn(&T, &T) -> bool> LinearRMQ<T, F> {
+    /// Create a new LinearRMQ instance
+    ///
+    /// # Complexity (n = a.len())
+    /// - Time: O(n)
+    /// - Space: O(n)
     pub fn new(a: &[T], cmp: F) -> Self {
         let mut head = vec![0; a.len() + 1];
         let mut t = vec![(0, 0); a.len()];
@@ -43,6 +60,11 @@ impl<T: Clone, F: Fn(&T, &T) -> bool> LinearRMQ<T, F> {
         }
     }
 
+    /// Gets the index of min/max of range
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn query_idx(&self, range: std::ops::Range<usize>) -> usize {
         assert!(!range.is_empty());
         let (mut le, mut ri) = (range.start, range.end - 1);
@@ -70,6 +92,11 @@ impl<T: Clone, F: Fn(&T, &T) -> bool> LinearRMQ<T, F> {
         }
     }
 
+    /// Gets the min/max of range
+    ///
+    /// # Complexity
+    /// - Time: O(1)
+    /// - Space: O(1)
     pub fn query(&self, range: std::ops::Range<usize>) -> &T {
         &self.a[self.query_idx(range)]
     }
