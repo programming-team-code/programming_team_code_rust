@@ -1,6 +1,7 @@
 //! # Heavy Light Decomposition
 
 use crate::graphs::dfs_order::{get_dfs_postorder, get_dfs_preorder};
+use crate::monotonic::mono_st::mono_st;
 use std::ops::Range;
 
 /// # Example
@@ -200,5 +201,43 @@ impl HLD {
         } else {
             None
         }
+    }
+
+    /// # Auxiliary Tree
+    ///
+    /// - see <https://github.com/kth-competitive-programming/kactl/blob/main/content/graph/CompressTree.h>
+    ///
+    /// # Example
+    /// ```
+    /// use programming_team_code_rust::graphs::hld::HLD;
+    ///
+    /// let n = 5;
+    /// let mut adj = vec![vec![]; n];
+    /// for (u, v) in [(0,1), (1,2), (2,3), (2,4)] {
+    ///    adj[u].push(v);
+    ///    adj[v].push(u);
+    /// }
+    ///
+    /// let hld = HLD::new(&mut adj, false);
+    ///
+    /// let (par, to_node) = hld.aux_tree(vec![0, 3, 4]);
+    /// // 0, 1, .., par.len()-1 is a topological/dfs order of aux tree
+    /// assert_eq!(par, [usize::MAX, 0, 1, 1]);
+    /// assert_eq!(to_node, [0, 2, 3, 4]);
+    /// ```
+    ///
+    /// # Complexity
+    /// - k = nodes.len()
+    /// - Time: O((k log k) + (k log n))
+    /// - Space: O(k)
+    pub fn aux_tree(&self, mut nodes: Vec<usize>) -> (Vec<usize>, Vec<usize>) {
+        nodes.sort_by(|&u, &v| self.tin[u].cmp(&self.tin[v]));
+        let siz = nodes.len();
+        for i in 1..siz {
+            nodes.push(self.lca(nodes[i - 1], nodes[i]));
+        }
+        nodes.sort_by(|&u, &v| self.tin[u].cmp(&self.tin[v]));
+        nodes.dedup();
+        (mono_st(&nodes, |&u, &v| self.in_sub(u, v)), nodes)
     }
 }
