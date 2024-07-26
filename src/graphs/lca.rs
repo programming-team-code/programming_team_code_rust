@@ -84,7 +84,7 @@ impl LCA {
         }
         let (mut le, mut ri) = (self.tin[u], self.tin[v]);
         if le > ri {
-            std::mem::swap(&mut le, &mut ri);
+            (le, ri) = (ri, le);
         }
         self.p[self.rmq.query(le + 1..ri + 1).1].unwrap()
     }
