@@ -125,12 +125,8 @@ name = "hld_path_composite_yosupo"
 path = "examples/graphs/hld_path_composite_yosupo.rs"
 
 [[example]]
-name = "hld_jump_on_tree_nodes"
-path = "examples/graphs/hld_jump_on_tree_nodes.rs"
-
-[[example]]
-name = "hld_jump_on_tree_edges"
-path = "examples/graphs/hld_jump_on_tree_edges.rs"
+name = "hld_jump_on_path"
+path = "examples/graphs/hld_jump_on_path.rs"
 
 [[example]]
 name = "hopcroft_karp_yosupo"
@@ -201,8 +197,16 @@ name = "lis_yosupo"
 path = "examples/helpers/lis_yosupo.rs"
 
 [[example]]
-name = "lis_pop"
-path = "examples/helpers/lis_pop.rs"
+name = "lis_handmade"
+path = "examples/helpers/lis_handmade.rs"
+
+[[example]]
+name = "range_container_aizu"
+path = "examples/data_structures/range_container_aizu.rs"
+
+[[example]]
+name = "range_container_handmade"
+path = "examples/data_structures/range_container_handmade.rs"
 
 [[example]]
 name = "mono_st"
@@ -231,3 +235,7 @@ path = "examples/data_structures/disjoint_rmq_non_commutative.rs"
 [[example]]
 name = "lca_rmq_next_on_path"
 path = "examples/graphs/lca_rmq_next_on_path.rs"
+
+[[example]]
+name = "linear_rmq"
+path = "examples/data_structures/linear_rmq.rs"
