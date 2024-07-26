@@ -33,6 +33,8 @@ pub struct HLD {
     pub p: Vec<Option<usize>>,
     /// time in
     pub tin: Vec<usize>,
+    /// depth
+    pub d: Vec<usize>,
     ord: Vec<usize>,
     siz: Vec<usize>,
     head: Vec<usize>,
@@ -66,16 +68,19 @@ impl HLD {
         }
         let mut tin = vec![0; n];
         let mut head = vec![0; n];
+        let mut d = vec![0; n];
         let ord = get_dfs_preorder(adj);
         for (i, &u) in ord.iter().enumerate() {
             tin[u] = i;
             for &v in &adj[u] {
+                d[v] = 1 + d[u];
                 head[v] = if v == adj[u][0] { head[u] } else { v };
             }
         }
         HLD {
             p,
             siz,
+            d,
             ord,
             tin,
             head,
@@ -92,7 +97,7 @@ impl HLD {
         let mut u_anc = false;
         loop {
             if self.tin[u] > self.tin[v] {
-                std::mem::swap(&mut u, &mut v);
+                (u, v) = (v, u);
                 u_anc = !u_anc;
             }
             if self.head[u] == self.head[v] {
@@ -124,7 +129,7 @@ impl HLD {
     pub fn lca(&self, mut u: usize, mut v: usize) -> usize {
         loop {
             if self.tin[u] > self.tin[v] {
-                std::mem::swap(&mut u, &mut v);
+                (u, v) = (v, u);
             }
             if self.head[u] == self.head[v] {
                 return u;
@@ -133,16 +138,13 @@ impl HLD {
         }
     }
 
-    /// If !vals_edges, then gets number of nodes on path from u to v
-    /// If vals_edges, then gets number of edges on path from u to v
+    /// Gets number of edges on path from u to v
     ///
     /// # Complexity
     /// - Time: O(log n)
     /// - Space: O(1)
     pub fn dist(&self, u: usize, v: usize) -> usize {
-        let mut dst = 0;
-        self.path(u, v, |range, _| dst += range.len());
-        dst
+        self.d[u] + self.d[v] - 2 * self.d[self.lca(u, v)]
     }
 
     /// Returns true iff v is in u's subtree
@@ -151,7 +153,7 @@ impl HLD {
     /// - Time: O(1)
     /// - Space: O(1)
     pub fn in_sub(&self, u: usize, v: usize) -> bool {
-        u == v || self.sub_tree(u).contains(&self.tin[v])
+        (self.tin[u]..self.tin[u] + self.siz[u]).contains(&self.tin[v])
     }
 
     /// Returns true iff w is on the path from u to v
@@ -188,14 +190,13 @@ impl HLD {
     /// - Time: O(log n)
     /// - Space: O(1)
     pub fn kth_on_path(&self, u: usize, v: usize, k: usize) -> Option<usize> {
-        let mut dst_side = [0; 2];
-        self.path(u, v, |range, u_anc| dst_side[u_anc as usize] += range.len());
-        if k < dst_side[1] {
-            return self.kth_par(u, k);
-        }
-        let dst = dst_side[0] + dst_side[1] - !self.vals_edges as usize;
-        if k <= dst {
-            self.kth_par(v, dst - k)
+        let lca_d = self.d[self.lca(u, v)];
+        let u_lca = self.d[u] - lca_d;
+        let v_lca = self.d[v] - lca_d;
+        if k <= u_lca {
+            self.kth_par(u, k)
+        } else if k <= u_lca + v_lca {
+            self.kth_par(v, u_lca + v_lca - k)
         } else {
             None
         }
