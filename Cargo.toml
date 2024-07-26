@@ -213,6 +213,10 @@ name = "mono_st"
 path = "examples/monotonic/mono_st.rs"
 
 [[example]]
+name = "hld_aux_tree"
+path = "examples/graphs/hld_aux_tree.rs"
+
+[[example]]
 name = "count_rects"
 path = "examples/monotonic/count_rects.rs"
 
