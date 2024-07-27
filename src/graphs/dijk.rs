@@ -9,14 +9,8 @@
 ///    adj[u].push((v, w));
 /// }
 ///
-/// let (dist, par) = dijk(&adj, 0);
+/// let dist = dijk(&adj, 0);
 /// assert_eq!(dist, [0, 10, 110, u64::MAX]);
-/// assert_eq!(par, [None, Some(0), Some(1), None]);
-///
-/// let mut u = 2; // loop over shortest path in reverse
-/// while let Some(prev) = par[u] {
-///    u = prev;
-/// }
 /// ```
 ///
 /// # Complexity
