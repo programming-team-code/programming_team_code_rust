@@ -51,11 +51,8 @@ impl LazySegTree {
     /// - Space: O(n)
     pub fn build_on_array(a: &[u64]) -> Self {
         let n = a.len();
-        let mut pw2 = 1;
-        while pw2 < n {
-            pw2 *= 2;
-        }
         let mut tree = vec![0; 2 * n];
+        let pw2 = n.next_power_of_two();
         for i in 0..n {
             tree[(i + pw2) % n + n] = a[i];
         }
