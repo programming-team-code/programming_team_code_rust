@@ -47,24 +47,24 @@ impl LCA {
         let mut p = vec![None; n];
         let mut d = vec![0; n];
         let order = get_dfs_preorder(adj);
-        for (i, &u) in order.iter().enumerate() {
-            tin[u] = i;
-            for &v in &adj[u] {
-                if Some(v) != p[u] {
-                    (p[v], d[v]) = (Some(u), d[u] + 1);
+        for (i, &v) in order.iter().enumerate() {
+            tin[v] = i;
+            for &u in &adj[v] {
+                if Some(u) != p[v] {
+                    (p[u], d[u]) = (Some(v), d[v] + 1);
                 }
             }
         }
         let mut siz = vec![1; n];
-        for &u in order.iter().rev() {
-            if let Some(par) = p[u] {
-                siz[par] += siz[u];
+        for &v in order.iter().rev() {
+            if let Some(par) = p[v] {
+                siz[par] += siz[v];
             }
         }
         LCA {
             p,
             rmq: RMQ::new(
-                &order.iter().map(|&u| (d[u], u)).collect::<Vec<_>>(),
+                &order.iter().map(|&v| (d[v], v)).collect::<Vec<_>>(),
                 |&x, &y| if x.0 < y.0 { x } else { y },
             ),
             d,

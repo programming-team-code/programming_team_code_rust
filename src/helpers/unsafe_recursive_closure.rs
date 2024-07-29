@@ -24,10 +24,10 @@
 ///    adj[i].push(i / 2);
 /// }
 /// assert_eq!(2 * (n - 1), adj.iter().map(|elem| elem.len()).sum());
-/// let mut dfs = unsafe_recursive_closure!(|dfs, u: usize, p: Option<usize>| {
-///    adj[u].retain(|&v| Some(v) != p);
-///    for &v in &adj[u] {
-///       dfs(v, Some(u));
+/// let mut dfs = unsafe_recursive_closure!(|dfs, v: usize, p: Option<usize>| {
+///    adj[v].retain(|&v| Some(v) != p);
+///    for &u in &adj[v] {
+///       dfs(u, Some(v));
 ///    }
 /// });
 /// dfs(0, None);

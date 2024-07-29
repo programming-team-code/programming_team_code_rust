@@ -14,20 +14,20 @@ struct Node {
 /// use programming_team_code_rust::data_structures::binary_trie::BinaryTrie;
 ///
 /// let mut trie = BinaryTrie::default();
-/// assert!(std::panic::catch_unwind(|| trie.min_xor(4)).is_err());
+/// assert!(std::panic::catch_unwind(|| trie.walk(4)).is_err());
 /// trie.update(1, 1);
-/// assert!(std::panic::catch_unwind(|| trie.min_xor(4)).is_ok());
+/// assert!(std::panic::catch_unwind(|| trie.walk(4)).is_ok());
 /// trie.update(2, 1);
 /// trie.update(3, 1);
 /// trie.update(2, -1);
 /// assert_eq!(trie.count(2), 0);
 /// assert_eq!(trie.count(3), 1);
 /// assert_eq!(trie.count(4), 0);
-/// assert_eq!(trie.min_xor(0), 1);
-/// assert_eq!(trie.min_xor(1), 0);
-/// assert_eq!(trie.min_xor(2), 1);
-/// assert_eq!(trie.min_xor(3), 0);
-/// assert_eq!(trie.min_xor(4), 5);
+/// assert_eq!(trie.walk(0), 1);
+/// assert_eq!(trie.walk(1), 0);
+/// assert_eq!(trie.walk(2), 1);
+/// assert_eq!(trie.walk(3), 0);
+/// assert_eq!(trie.walk(4), 5);
 /// ```
 pub struct BinaryTrie {
     t: Vec<Node>,
@@ -84,7 +84,7 @@ impl BinaryTrie {
     /// # Complexity
     /// - Time: O(log(max_num))
     /// - Space: O(1)
-    pub fn min_xor(&self, num: T) -> T {
+    pub fn walk(&self, num: T) -> T {
         assert!(self.t[0].sub_sz > 0);
         let mut v = 0;
         let mut ans = 0;

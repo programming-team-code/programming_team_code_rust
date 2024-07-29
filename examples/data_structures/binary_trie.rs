@@ -26,7 +26,7 @@ fn main() {
                     trie.update(x, -1);
                 }
             }
-            _ => println!("{}", trie.min_xor(x)),
+            _ => println!("{}", trie.walk(x)),
         }
     }
 }

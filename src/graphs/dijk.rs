@@ -24,13 +24,13 @@ pub fn dijk(adj: &[Vec<(usize, u64)>], s: usize) -> Vec<u64> {
     let mut dist = vec![u64::MAX; n];
     let mut q = std::collections::BinaryHeap::new();
     q.push(Reverse((0, s)));
-    while let Some(Reverse((d, u))) = q.pop() {
-        if dist[u] <= d {
+    while let Some(Reverse((d, v))) = q.pop() {
+        if dist[v] <= d {
             continue;
         }
-        dist[u] = d;
-        for &(v, w) in &adj[u] {
-            q.push(Reverse((dist[u] + w, v)));
+        dist[v] = d;
+        for &(u, w) in &adj[v] {
+            q.push(Reverse((dist[v] + w, u)));
         }
     }
     dist

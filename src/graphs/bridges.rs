@@ -1,7 +1,7 @@
 //! # Bridge Edges
 
 /// # Guarantees
-/// - 0 <= two_edge_ccid\[u\] < num_2_edge_ccs
+/// - 0 <= two_edge_ccid\[v\] < num_2_edge_ccs
 ///
 /// # Example
 /// ```
@@ -41,21 +41,21 @@ pub fn get_bridges(adj: &[Vec<(usize, usize)>], m: usize) -> (usize, Vec<bool>, 
         two_edge_ccid: vec![0; n],
         st: Vec::with_capacity(n),
     };
-    fn dfs(e: &mut Env, u: usize, p_id: Option<usize>, adj: &[Vec<(usize, usize)>]) -> usize {
-        e.tin[u] = e.timer;
+    fn dfs(e: &mut Env, v: usize, p_id: Option<usize>, adj: &[Vec<(usize, usize)>]) -> usize {
+        e.tin[v] = e.timer;
         let (mut low, st_sz) = (e.timer, e.st.len());
         e.timer += 1;
-        e.st.push(u);
-        for &(v, e_id) in &adj[u] {
+        e.st.push(v);
+        for &(u, e_id) in &adj[v] {
             if Some(e_id) == p_id {
                 continue;
             }
-            if e.tin[v] == 0 {
-                low = low.min(dfs(e, v, Some(e_id), adj));
+            if e.tin[u] == 0 {
+                low = low.min(dfs(e, u, Some(e_id), adj));
             }
-            low = low.min(e.tin[v]);
+            low = low.min(e.tin[u]);
         }
-        if e.tin[u] == low {
+        if e.tin[v] == low {
             if let Some(p) = p_id {
                 e.is_bridge[p] = true;
             }
