@@ -55,15 +55,15 @@ impl HLD {
         let n = adj.len();
         let mut p = vec![None; n];
         let mut siz = vec![0; n];
-        for &u in get_dfs_postorder(adj).iter() {
-            adj[u].retain(|&v| siz[v] > 0);
-            siz[u] = 1;
-            for i in 0..adj[u].len() {
-                let v = adj[u][i];
-                p[v] = Some(u);
-                siz[u] += siz[v];
-                if siz[v] > siz[adj[u][0]] {
-                    adj[u].swap(0, i);
+        for &v in get_dfs_postorder(adj).iter() {
+            adj[v].retain(|&u| siz[u] > 0);
+            siz[v] = 1;
+            for i in 0..adj[v].len() {
+                let u = adj[v][i];
+                p[u] = Some(v);
+                siz[v] += siz[u];
+                if siz[u] > siz[adj[v][0]] {
+                    adj[v].swap(0, i);
                 }
             }
         }
@@ -71,11 +71,11 @@ impl HLD {
         let mut head = vec![0; n];
         let mut d = vec![0; n];
         let ord = get_dfs_preorder(adj);
-        for (i, &u) in ord.iter().enumerate() {
-            tin[u] = i;
-            for &v in &adj[u] {
-                d[v] = 1 + d[u];
-                head[v] = if v == adj[u][0] { head[u] } else { v };
+        for (i, &v) in ord.iter().enumerate() {
+            tin[v] = i;
+            for &u in &adj[v] {
+                d[u] = 1 + d[v];
+                head[u] = if u == adj[v][0] { head[v] } else { u };
             }
         }
         HLD {
@@ -113,13 +113,13 @@ impl HLD {
         );
     }
 
-    /// Gets range representing the subtree of u
+    /// Gets range representing the subtree of v
     ///
     /// # Complexity
     /// - Time: O(1)
     /// - Space: O(1)
-    pub fn sub_tree(&self, u: usize) -> Range<usize> {
-        self.tin[u] + self.vals_edges as usize..self.tin[u] + self.siz[u]
+    pub fn sub_tree(&self, v: usize) -> Range<usize> {
+        self.tin[v] + self.vals_edges as usize..self.tin[v] + self.siz[v]
     }
 
     /// Gets the lowest common ancestor of u and v
@@ -171,14 +171,14 @@ impl HLD {
     /// # Complexity
     /// - Time: O(log n)
     /// - Space: O(1)
-    pub fn kth_par(&self, mut u: usize, mut k: usize) -> Option<usize> {
+    pub fn kth_par(&self, mut v: usize, mut k: usize) -> Option<usize> {
         loop {
-            let len_path = self.tin[u] - self.tin[self.head[u]];
+            let len_path = self.tin[v] - self.tin[self.head[v]];
             if k <= len_path {
-                return Some(self.ord[self.tin[u] - k]);
+                return Some(self.ord[self.tin[v] - k]);
             }
-            match self.p[self.head[u]] {
-                Some(v) => u = v,
+            match self.p[self.head[v]] {
+                Some(u) => v = u,
                 None => return None,
             }
             k -= len_path + 1;

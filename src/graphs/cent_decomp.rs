@@ -1,40 +1,40 @@
 //! # Centroid Decomposition
 
-fn calc_sz(adj: &[Vec<usize>], u: usize, p: usize, sub_sz: &mut [usize]) {
-    sub_sz[u] = 1;
-    for &v in adj[u].iter() {
-        if v != p {
-            calc_sz(adj, v, u, sub_sz);
-            sub_sz[u] += sub_sz[v];
+fn calc_sz(adj: &[Vec<usize>], v: usize, p: usize, sub_sz: &mut [usize]) {
+    sub_sz[v] = 1;
+    for &u in adj[v].iter() {
+        if u != p {
+            calc_sz(adj, u, v, sub_sz);
+            sub_sz[v] += sub_sz[u];
         }
     }
 }
 
 fn dfs(
     adj: &mut [Vec<usize>],
-    mut u: usize,
+    mut v: usize,
     sub_sz: &mut [usize],
     call_dfs: &mut dyn CentDecompDfs,
 ) {
-    calc_sz(adj, u, u, sub_sz);
-    let sz_root = sub_sz[u];
-    let mut p = u;
+    calc_sz(adj, v, v, sub_sz);
+    let sz_root = sub_sz[v];
+    let mut p = v;
     loop {
-        let big_ch = adj[u]
+        let big_ch = adj[v]
             .iter()
-            .filter(|&&v| v != p)
-            .find(|&&v| sub_sz[v] * 2 > sz_root);
-        if let Some(&v) = big_ch {
-            p = u;
-            u = v;
+            .filter(|&&u| u != p)
+            .find(|&&u| sub_sz[u] * 2 > sz_root);
+        if let Some(&u) = big_ch {
+            p = v;
+            v = u;
         } else {
             break;
         }
     }
-    call_dfs.dfs(adj, u);
-    for v in adj[u].clone() {
-        adj[v].retain(|&x| x != u);
-        dfs(adj, v, sub_sz, call_dfs);
+    call_dfs.dfs(adj, v);
+    for u in adj[v].clone() {
+        adj[u].retain(|&x| x != v);
+        dfs(adj, u, sub_sz, call_dfs);
     }
 }
 

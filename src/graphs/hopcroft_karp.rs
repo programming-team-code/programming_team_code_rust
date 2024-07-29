@@ -74,13 +74,13 @@ impl HopcroftKarp {
             for v in &mut e.mvc_r {
                 *v = false;
             }
-            while let Some(u) = q.pop_front() {
-                e.mvc_l[u] = false;
-                for &v in &adj[u] {
-                    e.mvc_r[v] = true;
-                    if let Some(w) = e.r_to_l[v] {
-                        if dist[w] > 1 + dist[u] {
-                            dist[w] = 1 + dist[u];
+            while let Some(v) = q.pop_front() {
+                e.mvc_l[v] = false;
+                for &u in &adj[v] {
+                    e.mvc_r[u] = true;
+                    if let Some(w) = e.r_to_l[u] {
+                        if dist[w] > 1 + dist[v] {
+                            dist[w] = 1 + dist[v];
                             q.push_back(w);
                         }
                     } else {
@@ -91,17 +91,17 @@ impl HopcroftKarp {
             if !found {
                 return e;
             }
-            fn dfs(u: usize, adj: &[Vec<usize>], dist: &mut [usize], e: &mut HopcroftKarp) -> bool {
-                for &v in &adj[u] {
-                    let w = e.r_to_l[v];
+            fn dfs(v: usize, adj: &[Vec<usize>], dist: &mut [usize], e: &mut HopcroftKarp) -> bool {
+                for &u in &adj[v] {
+                    let w = e.r_to_l[u];
                     if w.is_none()
-                        || dist[u] + 1 == dist[w.unwrap()] && dfs(w.unwrap(), adj, dist, e)
+                        || dist[v] + 1 == dist[w.unwrap()] && dfs(w.unwrap(), adj, dist, e)
                     {
-                        (e.l_to_r[u], e.r_to_l[v]) = (Some(v), Some(u));
+                        (e.l_to_r[v], e.r_to_l[u]) = (Some(u), Some(v));
                         return true;
                     }
                 }
-                dist[u] = usize::MAX;
+                dist[v] = usize::MAX;
                 false
             }
             e.matching_siz += (0..lsz)
