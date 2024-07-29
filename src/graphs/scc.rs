@@ -4,7 +4,7 @@ use crate::graphs::dfs_order::get_dfs_postorder;
 
 /// # Guarantees
 /// - 0..num_sccs is a topological order of the SCCs
-/// - 0 <= scc_id\[u\] < num_sccs
+/// - 0 <= scc_id\[v\] < num_sccs
 /// - for each edge u -> v: scc_id\[u\] <= scc_id\[v\]
 ///
 /// # Example
@@ -29,19 +29,19 @@ pub fn get_sccs(adj: &[Vec<usize>]) -> (usize, Vec<usize>) {
     let n = adj.len();
     let rv_adj = {
         let mut rv_adj = vec![vec![]; n];
-        for (u, vs) in adj.iter().enumerate() {
-            for &v in vs {
-                rv_adj[v].push(u);
+        for (v, vs) in adj.iter().enumerate() {
+            for &u in vs {
+                rv_adj[u].push(v);
             }
         }
         rv_adj
     };
-    fn dfs(u: usize, adj: &[Vec<usize>], seen: &mut [bool], scc_id: &mut [usize], num_sccs: usize) {
-        scc_id[u] = num_sccs;
-        seen[u] = true;
-        for &v in &adj[u] {
-            if !seen[v] {
-                dfs(v, adj, seen, scc_id, num_sccs);
+    fn dfs(v: usize, adj: &[Vec<usize>], seen: &mut [bool], scc_id: &mut [usize], num_sccs: usize) {
+        scc_id[v] = num_sccs;
+        seen[v] = true;
+        for &u in &adj[v] {
+            if !seen[u] {
+                dfs(u, adj, seen, scc_id, num_sccs);
             }
         }
     }

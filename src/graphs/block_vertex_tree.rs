@@ -23,16 +23,16 @@
 /// // indexes 0..n are nodes
 /// // indexes n..n + num_bccs are bccs
 ///
-/// for u in 0..n {
-///    // loop over each unique bcc containing a node u
-///    for bccid in bvt[u].iter().map(|v| v - n) {
+/// for v in 0..n {
+///    // loop over each unique bcc containing a node v
+///    for bccid in bvt[v].iter().map(|u| u - n) {
 ///       assert!(0 <= bccid && bccid < num_bccs);
 ///    }
 /// }
 /// for bccid in 0..num_bccs {
 ///     // loop over each unique node inside a bcc
-///    for &u in bvt[bccid + n].iter() {
-///       assert!(0 <= u && u < n);
+///    for &v in bvt[bccid + n].iter() {
+///       assert!(0 <= v && v < n);
 ///    }
 /// }
 /// ```

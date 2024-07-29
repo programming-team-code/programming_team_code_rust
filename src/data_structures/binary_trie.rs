@@ -84,7 +84,7 @@ impl BinaryTrie {
     /// # Complexity
     /// - Time: O(log(max_num))
     /// - Space: O(1)
-    pub fn min_xor(&self, num: T) -> T {
+    pub fn walk(&self, num: T) -> T {
         assert!(self.t[0].sub_sz > 0);
         let mut v = 0;
         let mut ans = 0;

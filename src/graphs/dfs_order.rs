@@ -1,21 +1,21 @@
-fn dfs_preorder(u: usize, adj: &[Vec<usize>], seen: &mut [bool], order: &mut Vec<usize>) {
-    order.push(u);
-    seen[u] = true;
-    for &v in &adj[u] {
-        if !seen[v] {
-            dfs_preorder(v, adj, seen, order);
+fn dfs_preorder(v: usize, adj: &[Vec<usize>], seen: &mut [bool], order: &mut Vec<usize>) {
+    order.push(v);
+    seen[v] = true;
+    for &u in &adj[v] {
+        if !seen[u] {
+            dfs_preorder(u, adj, seen, order);
         }
     }
 }
 
-fn dfs_postorder(u: usize, adj: &[Vec<usize>], seen: &mut [bool], order: &mut Vec<usize>) {
-    seen[u] = true;
-    for &v in &adj[u] {
-        if !seen[v] {
-            dfs_postorder(v, adj, seen, order);
+fn dfs_postorder(v: usize, adj: &[Vec<usize>], seen: &mut [bool], order: &mut Vec<usize>) {
+    seen[v] = true;
+    for &u in &adj[v] {
+        if !seen[u] {
+            dfs_postorder(u, adj, seen, order);
         }
     }
-    order.push(u);
+    order.push(v);
 }
 
 fn get_dfs_order<F>(adj: &[Vec<usize>], dfs_order: F) -> Vec<usize>
