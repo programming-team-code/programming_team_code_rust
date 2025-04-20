@@ -24,7 +24,7 @@ fn main() {
 
     let mut all_bridges: Vec<(usize, usize)> = vec![];
 
-    for (i, (mut u, mut v)) in edges.iter_mut().enumerate() {
+    for (i, &mut (mut u, mut v)) in edges.iter_mut().enumerate() {
         if is_bridge[i] {
             if u > v {
                 std::mem::swap(&mut u, &mut v);

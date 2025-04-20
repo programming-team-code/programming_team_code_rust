@@ -30,7 +30,7 @@ fn main() {
     let all_cut_nodes = is_cut
         .iter()
         .enumerate()
-        .filter(|(_, &value)| value)
+        .filter(|&(_, &value)| value)
         .map(|(index, _)| index)
         .collect::<Vec<usize>>();
 
