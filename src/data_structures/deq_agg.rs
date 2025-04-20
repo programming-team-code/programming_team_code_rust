@@ -145,7 +145,7 @@ impl<T: Clone, F: Fn(&T, &T) -> T> DeqAgg<T, F> {
         if self.le.is_empty() {
             let mut ary = vec![];
             std::mem::swap(&mut ary, &mut self.ri);
-            self.rebuild((ary.len() + 1) / 2, ary);
+            self.rebuild(ary.len().div_ceil(2), ary);
         }
         self.le.pop().map(|elem| elem.0)
     }
