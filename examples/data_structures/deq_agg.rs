@@ -2,7 +2,7 @@
 
 use proconio::input;
 use programming_team_code_rust::data_structures::deq_agg::DeqAgg;
-use rand::{thread_rng, Rng};
+use rand::{Rng, thread_rng};
 use std::collections::VecDeque;
 
 const MOD: u64 = 998_244_353;

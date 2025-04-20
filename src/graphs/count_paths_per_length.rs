@@ -1,5 +1,5 @@
 //! # Count the number of paths of each length in a tree
-use crate::graphs::cent_decomp::{cent_decomp, CentDecompDfs};
+use crate::graphs::cent_decomp::{CentDecompDfs, cent_decomp};
 use crate::numbers::fft::fft_multiply;
 
 fn conv(a: &[u64], b: &[u64]) -> Vec<u64> {

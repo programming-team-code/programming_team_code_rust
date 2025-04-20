@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/lesson/2/ITP1/all/ITP1_1_A
 
 use programming_team_code_rust::helpers::lis::Lis;
-use rand::{thread_rng, Rng};
+use rand::{Rng, thread_rng};
 
 fn lis_quadratic(a: &[i32]) -> usize {
     let n = a.len();
