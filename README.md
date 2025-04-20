@@ -13,3 +13,7 @@
 - https://github.com/EbTech/rust-algorithms
 - https://github.com/qitoy/rust-library
 - https://github.com/stuart0035/procon-lib-rs
+
+## Our List of Recommended Practice Problems
+
+[gitgud.cc](https://www.gitgud.cc/)
